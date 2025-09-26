@@ -1,0 +1,48 @@
+src/
+ ├── app/                     # Global app-level config
+ │    └── store.ts            # Redux store setup
+ │
+ ├── assets/                  # Static assets
+ │    ├── images/
+ │    ├── icons/
+ │    └── fonts/
+ │
+ ├── components/              # Reusable components
+ │    ├── Button.tsx
+ │    ├── Navbar.tsx
+ │    └── Modal/
+ │        ├── Modal.tsx
+ │        └── Modal.styles.ts
+ │
+ ├── features/                # Redux slices / feature-specific logic
+ │    ├── auth/
+ │    │    ├── authSlice.ts
+ │    │    └── authAPI.ts
+ │    ├── user/
+ │    │    ├── userSlice.ts
+ │    │    └── userAPI.ts
+ │
+ ├── hooks/                   # Custom React hooks
+ │    ├── useAuth.ts
+ │    └── useFetch.ts
+ │
+ ├── pages/                   # Pages / routes
+ │    ├── Home.tsx
+ │    ├── Login.tsx
+ │    ├── Dashboard.tsx
+ │    └── NotFound.tsx
+ │
+ ├── routes/                  # Route setup (React Router)
+ │    └── AppRoutes.tsx
+ │
+ ├── services/                # API / axios setup
+ │    └── api.ts
+ │
+ ├── styles/                  # Global CSS / Tailwind overrides
+ │    └── index.css
+ │
+ ├── utils/                   # Utility functions
+ │    └── formatDate.ts
+ │
+ ├── App.tsx                  # Root component
+ └── main.tsx                  # Entry point
