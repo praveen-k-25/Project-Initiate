@@ -1,7 +1,7 @@
 import {useEffect, type FC} from "react";
 import type {registerComponentProps} from "../TS/auth";
 import {useForm} from "react-hook-form";
-import {register_Schema} from "../features/auth_validation";
+import {register_Schema} from "../validation/auth_validation";
 import {yupResolver} from "@hookform/resolvers/yup";
 import password_eye from "../assets/svgs/password_eye.svg";
 import password_eye_close from "../assets/svgs/password_eye_close.svg";

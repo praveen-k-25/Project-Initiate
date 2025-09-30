@@ -26,16 +26,15 @@ const Auth = () => {
         <section className="hidden md:block"></section>
         <section className={`w-full overflow-auto bg-white `}>
           <div
-            className={`w-full flex h-full duration-600 ease-in-out ${
-              accessPage === "SignIn" &&
-              "transition-transform -translate-x-full"
+            className={`w-full flex h-full duration-600 ease-in-out transition-transform ${
+              accessPage === "SignIn" ? "-translate-x-full" : "translate-x-0"
             }`}
           >
             {/* Sign In or Login */}
             <section
               className={`bg-white flex flex-col min-w-full h-full transition-opacity ${
                 accessPage === "SignIn"
-                  ? "opacity-0 duration-300"
+                  ? "opacity-0 duration-300 "
                   : "opacity-100 duration-600"
               }`}
             >
@@ -68,7 +67,7 @@ const Auth = () => {
             </section>
             {/* Sign Up or Register */}
             <section
-              className={`bg-white flex flex-col min-w-full h-full transition-opacity ${
+              className={`bg-white flex flex-col min-w-full px-3 h-full transition-opacity ${
                 accessPage === "SignUp"
                   ? "opacity-0 duration-300"
                   : "opacity-100 duration-600"

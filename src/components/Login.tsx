@@ -1,6 +1,6 @@
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useForm} from "react-hook-form";
-import {login_Schema} from "../features/auth_validation";
+import {login_Schema} from "../validation/auth_validation";
 import {useEffect, type FC} from "react";
 import type {loginComponentProps} from "../TS/auth";
 import password_eye from "../assets/svgs/password_eye.svg";
