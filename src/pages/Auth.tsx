@@ -19,23 +19,21 @@ const Auth = () => {
     <div className="relative w-screen h-screen">
       <img
         src={loginBackgruoundImage}
-        alt=""
+        alt="Metron Login Image"
         className="w-full h-full overflow-hidden"
       />
       <div className="absolute inset-0 bg-transparent grid md:grid-cols-2">
         <section className="hidden md:block"></section>
-        <section className={`w-full overflow-auto bg-white `}>
+        <section className={`overflow-auto bg-white `}>
           <div
-            className={`w-full flex h-full duration-600 ease-in-out transition-transform ${
-              accessPage === "SignIn" ? "-translate-x-full" : "translate-x-0"
-            }`}
+            className={`relative overflow-hidden w-full h-full`}
           >
             {/* Sign In or Login */}
             <section
-              className={`bg-white flex flex-col min-w-full h-full transition-opacity ${
+              className={`bg-white flex flex-col w-full h-full absolute inset-0 transition-all ${
                 accessPage === "SignIn"
-                  ? "opacity-0 duration-300 "
-                  : "opacity-100 duration-600"
+                  ? "opacity-0 duration-500 -translate-x-full"
+                  : "opacity-100 duration-600 z-10 "
               }`}
             >
               <article className="w-full flex gap-2 justify-center items-center p-3 select-none">
@@ -59,7 +57,7 @@ const Auth = () => {
                 Dont't have an account?{" "}
                 <span
                   onClick={() => setAccessPage("SignIn")}
-                  className="text-black cursor-pointer"
+                  className="text-black font-bold underline cursor-pointer"
                 >
                   Sign Up
                 </span>
@@ -67,10 +65,10 @@ const Auth = () => {
             </section>
             {/* Sign Up or Register */}
             <section
-              className={`bg-white flex flex-col min-w-full px-3 h-full transition-opacity ${
+              className={`bg-white flex flex-col w-full px-3 h-full absolute inset-0 transition-all ${
                 accessPage === "SignUp"
-                  ? "opacity-0 duration-300"
-                  : "opacity-100 duration-600"
+                  ? "opacity-0 duration-500 translate-x-full"
+                  : "opacity-100 duration-600 z-10"
               }`}
             >
               <article className="w-full flex gap-2 justify-center items-center p-3">
@@ -88,13 +86,14 @@ const Auth = () => {
                   changeRegisterPasswordView={changeRegisterPasswordView}
                   registerPasswordView={registerPasswordView}
                   accessPage={accessPage}
+                  setAccessPage={setAccessPage}
                 />
               </article>
-              <article className="text-gray-600 font-semibold text-sm text-center p-4">
-                Back To{" "}
+              <article className="text-gray-600 text-sm text-center p-4">
+                Back to{" "}
                 <span
                   onClick={() => setAccessPage("SignUp")}
-                  className="text-black  cursor-pointer"
+                  className="text-black font-bold underline cursor-pointer"
                 >
                   Sign In
                 </span>

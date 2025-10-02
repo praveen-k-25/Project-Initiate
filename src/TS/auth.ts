@@ -1,3 +1,5 @@
+import type { Dispatch, SetStateAction } from "react";
+
 export interface login {
   email: string;
   password: string;
@@ -10,11 +12,17 @@ export interface loginComponentProps {
 }
 
 export interface register extends login {
-  name: string;
+  username: string;
+  confirmPassword: string;
 }
 
 export interface registerComponentProps {
   changeRegisterPasswordView: () => void;
   registerPasswordView: boolean;
   accessPage: string;
+  setAccessPage: Dispatch<SetStateAction<string>>;
+}
+
+export interface recievedLogin {
+  username: string;
 }

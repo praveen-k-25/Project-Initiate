@@ -1,9 +1,13 @@
-
-import {Navigate, Outlet} from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, Outlet } from "react-router-dom";
+import type { rootState } from "../store/store";
 
 const ProtectedRoutes = () => {
-  const auth = true;
-  if (auth) return <Navigate to={"/"} replace />;
+  const auth = useSelector((state: rootState) => state.auth);
+  //const dispatch = useDispatch<appDispatch>();
+  console.log(auth.auth);
+  if (!auth.auth) return <Navigate to={"/"} replace />;
+  
   return <Outlet />;
 };
 

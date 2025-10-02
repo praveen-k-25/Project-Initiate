@@ -1,17 +1,22 @@
-import {useEffect, type FC} from "react";
-import type {registerComponentProps} from "../TS/auth";
-import {useForm} from "react-hook-form";
-import {register_Schema} from "../validation/auth_validation";
-import {yupResolver} from "@hookform/resolvers/yup";
+import { useEffect, useState, type FC } from "react";
+import type { register, registerComponentProps } from "../ts/auth";
+import { useForm } from "react-hook-form";
+import { register_Schema } from "../validation/auth_validation";
+import { yupResolver } from "@hookform/resolvers/yup";
 import password_eye from "../assets/svgs/password_eye.svg";
 import password_eye_close from "../assets/svgs/password_eye_close.svg";
+import { registerUser } from "../handler/api_handler";
+import toast from "react-hot-toast";
+import whiteLoader from "../assets/gifs/black-spinner.gif";
 
 const Register: FC<registerComponentProps> = (props) => {
-  const {changeRegisterPasswordView, registerPasswordView, accessPage} = props;
+  const { changeRegisterPasswordView, registerPasswordView, accessPage,setAccessPage } =
+    props;
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     clearErrors,
   } = useForm({
     resolver: yupResolver(register_Schema),
@@ -21,8 +26,18 @@ const Register: FC<registerComponentProps> = (props) => {
     clearErrors();
   }, [accessPage]);
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: register) => {
+    try {
+      setLoading(true);
+      await registerUser(data);
+      toast.success("Registration Completed");
+      setAccessPage("SignUp")
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Email already exist");
+    }finally{
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,7 +74,7 @@ const Register: FC<registerComponentProps> = (props) => {
       {/* Email */}
       <section className="flex flex-col gap-3">
         <label
-          htmlFor="login_email"
+          htmlFor="register_email"
           className="font-semibold text-sm select-none"
         >
           Email
@@ -68,7 +83,7 @@ const Register: FC<registerComponentProps> = (props) => {
           <input
             {...register("email")}
             type="text"
-            id="login_email"
+            id="register_email"
             className={`outline-none p-3 text-sm rounded-lg bg-blue-50 ${
               errors.email
                 ? "border-2 border-red-500"
@@ -117,14 +132,14 @@ const Register: FC<registerComponentProps> = (props) => {
         {/*Confirm Password */}
         <div className="flex flex-col gap-3">
           <label
-            htmlFor="login_password"
+            htmlFor="register_password"
             className="font-semibold text-sm select-none"
           >
             Confirm Password
           </label>
           <section className="flex flex-col gap-1">
             <div
-              className={`flex rounded-lg bg-blue-50 ${
+              className={`w-full flex rounded-lg bg-blue-50 ${
                 errors.password
                   ? "border-2 border-red-500 shadow-[0_0_1px_0_#D61717]"
                   : "focus:shadow-[0_0_2px_0_#234]"
@@ -133,12 +148,12 @@ const Register: FC<registerComponentProps> = (props) => {
               <input
                 {...register("confirmPassword")}
                 type={`${registerPasswordView ? "text" : "password"}`}
-                id="login_password"
-                className="outline-none p-3 text-sm flex-1"
+                id="register_confirmPpassword"
+                className="outline-none p-3 text-sm w-[80%]"
               />
               <section
                 onClick={changeRegisterPasswordView}
-                className="border-0 flex justify-center items-center w-[30px] mr-2"
+                className="border-0 flex flex-1 justify-center items-center w-[20%]"
               >
                 {registerPasswordView ? (
                   <img src={password_eye} alt="" className="w-4" />
@@ -148,9 +163,9 @@ const Register: FC<registerComponentProps> = (props) => {
               </section>
             </div>
 
-            {errors.password && (
+            {errors.confirmPassword && (
               <p className="text-xs font-semibold text-red-500">
-                {errors.password.message}
+                {errors.confirmPassword.message}
               </p>
             )}
           </section>
@@ -159,9 +174,13 @@ const Register: FC<registerComponentProps> = (props) => {
       {/* Submit Button */}
       <button
         type="submit"
-        className=" mt-2 text-white text-sm bg-black p-3 rounded-lg cursor-pointer select-none"
+        className=" mt-2 text-white text-sm flex justify-center bg-black p-3 rounded-lg cursor-pointer select-none"
       >
-        Sign Up
+        {loading ? (
+          <img src={whiteLoader} alt="loading..." className="w-5" />
+        ) : (
+          "Sign Up"
+        )}
       </button>
     </form>
   );
