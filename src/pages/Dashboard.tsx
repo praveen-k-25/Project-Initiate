@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { usertracker } from "../features/mqtt";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  useEffect(() => {
+    usertracker();
+  }, []);
+  return <div className=""></div>;
+};
 
-export default Dashboard
+export default Dashboard;

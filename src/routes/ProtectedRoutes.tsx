@@ -4,10 +4,9 @@ import type { rootState } from "../store/store";
 
 const ProtectedRoutes = () => {
   const auth = useSelector((state: rootState) => state.auth);
-  //const dispatch = useDispatch<appDispatch>();
-  console.log(auth.auth);
-  if (!auth.auth) return <Navigate to={"/"} replace />;
   
+  if (!auth.auth) return <Navigate to={"/"} replace />;
+
   return <Outlet />;
 };
 
