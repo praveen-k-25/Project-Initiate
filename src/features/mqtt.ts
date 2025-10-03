@@ -16,6 +16,7 @@ export function usertracker() {
           speed: pos.coords.speed || 0,
           timestamp: Date.now(),
         };
+        pos.coords.speed && console.log(pos.coords.speed * 3.6);
 
         client.publish("user/location", JSON.stringify(payload));
       });

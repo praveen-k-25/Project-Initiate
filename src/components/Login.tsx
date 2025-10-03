@@ -1,21 +1,21 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import { login_Schema } from "../validation/auth_validation";
 import { useEffect, useState, type FC } from "react";
-import type { login, loginComponentProps } from "../ts/auth";
-import password_eye from "../assets/svgs/password_eye.svg";
-import password_eye_close from "../assets/svgs/password_eye_close.svg";
-import { loginUser } from "../handler/api_handler";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import type { appDispatch } from "../store/store";
-import { setAuth, setUser } from "../store/auth_slice";
 import { useNavigate } from "react-router-dom";
 import whiteLoader from "../assets/gifs/black-spinner.gif";
+import password_eye from "../assets/svgs/password_eye.svg";
+import password_eye_close from "../assets/svgs/password_eye_close.svg";
 import { usertracker } from "../features/mqtt";
+import { loginUser } from "../handler/api_handler";
+import { setAuth, setUser } from "../store/auth_slice";
+import type { appDispatch } from "../store/store";
+import type { login, loginComponentProps } from "../ts/auth";
+import { login_Schema } from "../validation/auth_validation";
 
 const Login: FC<loginComponentProps> = (props) => {
-  const { changePasswordView, passwordView, accessPage } = props;
+  const {changePasswordView, passwordView, accessPage} = props;
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useDispatch<appDispatch>();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Login: FC<loginComponentProps> = (props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: {errors},
     clearErrors,
   } = useForm({
     resolver: yupResolver(login_Schema),
@@ -37,14 +37,14 @@ const Login: FC<loginComponentProps> = (props) => {
     try {
       setLoading(true);
       const response = await loginUser(data);
-      toast.success("Logged In Successfully");
-      dispatch(setAuth(true));
-      dispatch(setUser(response.username));
-      navigate("/dashboard", { replace: true });
+      toast.success("Logged In");
+      dispatch(setAuth(response.success));
+      dispatch(setUser(response.data));
+      navigate("/dashboard", {replace: true});
       usertracker();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      toast.error("User not found");
+      toast.error("User not found"); 
       dispatch(setAuth(false));
     } finally {
       setLoading(false);

@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from "react";
+import type {Dispatch, SetStateAction} from "react";
 
 export interface login {
   email: string;
@@ -24,5 +24,11 @@ export interface registerComponentProps {
 }
 
 export interface recievedLogin {
-  username: string;
+  success: boolean;
+  message: string;
+  data: {
+    username: string;
+    email: string;
+    id: string;
+  };
 }

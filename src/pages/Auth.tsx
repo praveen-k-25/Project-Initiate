@@ -20,13 +20,13 @@ const Auth = () => {
       <img
         src={loginBackgruoundImage}
         alt="Metron Login Image"
-        className="w-full h-full overflow-hidden"
+        className="w-full h-full overflow-x-hidden"
       />
       <div className="absolute inset-0 bg-transparent grid md:grid-cols-2">
         <section className="hidden md:block"></section>
         <section className={`overflow-auto bg-white `}>
           <div
-            className={`relative overflow-hidden w-full h-full`}
+            className={`relative overflow-x-hidden w-full h-full`}
           >
             {/* Sign In or Login */}
             <section
