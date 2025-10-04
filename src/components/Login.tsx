@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import whiteLoader from "../assets/gifs/black-spinner.gif";
 import password_eye from "../assets/svgs/password_eye.svg";
 import password_eye_close from "../assets/svgs/password_eye_close.svg";
-import { usertracker } from "../features/mqtt";
 import { loginUser } from "../handler/api_handler";
 import { setAuth, setUser } from "../store/auth_slice";
 import type { appDispatch } from "../store/store";
@@ -41,7 +40,6 @@ const Login: FC<loginComponentProps> = (props) => {
       dispatch(setAuth(response.success));
       dispatch(setUser(response.data));
       navigate("/dashboard", {replace: true});
-      usertracker();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("User not found"); 

@@ -8,6 +8,7 @@ import {Toaster} from "react-hot-toast";
 import Layout from "./pages/Layout";
 
 export default function App() {
+  console.log(window.matchMedia("(prefers-colr-scheme: dark)"));
   return (
     <>
       <Routes>

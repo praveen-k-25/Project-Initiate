@@ -1,35 +1,33 @@
 import mqtt from "mqtt";
 
-export function usertracker() {
+export default function usertracker(user: any) {
   const client = mqtt.connect(import.meta.env.VITE_MQTT, {
-    reconnectPeriod: 3000, // auto-reconnect every 3s
+    clientId: `react_frontend_${Math.random().toString(16).slice(3)}`,
+    clean: true,
+    //reconnectPeriod: 5000, // auto reconnect every 5s
   });
 
-  client.on("connect", () => {
-    console.log("✅ Mqtt frontend Connected");
+  client.on("connect", () => console.log("✅ MQTT Connected"));
+  client.on("close", () => console.log("❌ MQTT Disconnected"));
+  client.on("error", (err) => console.log("❌ MQTT Error", err));
 
-    const interval = setInterval(() => {
+  const interval = setInterval(() => {
+    if (client.connected) {
       navigator.geolocation.getCurrentPosition((pos) => {
         const payload = {
+          user: user.id,
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
-          speed: pos.coords.speed || 0,
+          speed: pos.coords.speed || -1,
           timestamp: Date.now(),
         };
-        pos.coords.speed && console.log(pos.coords.speed * 3.6);
-
         client.publish("user/location", JSON.stringify(payload));
       });
-    }, 5000); // every 5 seconds
+    }
+  }, 5000);
 
-    // Stop interval when client disconnects
-    client.on("close", () => {
-      clearInterval(interval);
-      console.log("❌ MQTT Disconnected, stopped sending location");
-    });
-  });
-
-  client.on("error", (err) => {
-    console.error("❌ MQTT Error:", err);
-  });
+  return () => {
+    clearInterval(interval);
+    client.end(true);
+  };
 }

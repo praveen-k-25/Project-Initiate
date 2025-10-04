@@ -3,17 +3,29 @@ import loginBackgruoundImage from "../assets/images/birds-eye.jpg";
 import companyLogo from "../assets/svgs/logo.svg";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import useTheme from "../hooks/useTheme";
 
 const Auth = () => {
   const [accessPage, setAccessPage] = useState("SignUp");
   const [loginPasswordView, setLoginPasswordView] = useState(false);
   const [registerPasswordView, setRegisterPasswordView] = useState(false);
+  const [theme, setTheme] = useTheme();
 
   const changeLoginPasswordView = () =>
     setLoginPasswordView(!loginPasswordView);
 
   const changeRegisterPasswordView = () =>
     setRegisterPasswordView(!registerPasswordView);
+
+  const handleTheme = () => {
+    if (theme === "dark") {
+      setTheme("light");
+      console.log("changed to light");
+    } else {
+      setTheme("dark");
+      console.log("changed to dark");
+    }
+  };
 
   return (
     <div className="relative w-screen h-screen">
@@ -24,20 +36,18 @@ const Auth = () => {
       />
       <div className="absolute inset-0 bg-transparent grid md:grid-cols-2">
         <section className="hidden md:block"></section>
-        <section className={`overflow-auto bg-white `}>
-          <div
-            className={`relative overflow-x-hidden w-full h-full`}
-          >
+        <section className={`overflow-auto bg-white`}>
+          <div className={`relative overflow-x-hidden w-full h-full`}>
             {/* Sign In or Login */}
             <section
-              className={`bg-white flex flex-col w-full h-full absolute inset-0 transition-all ${
+              className={`bg-white dark:bg-amber-300 flex flex-col w-full h-full absolute inset-0 transition-all ${
                 accessPage === "SignIn"
                   ? "opacity-0 duration-500 -translate-x-full"
                   : "opacity-100 duration-600 z-10 "
               }`}
             >
               <article className="w-full flex gap-2 justify-center items-center p-3 select-none">
-                <img src={companyLogo} alt="" className="w-7" />
+                <img onClick={handleTheme} src={companyLogo} alt="" className="w-7" />
                 <span className="font-bold text-lg">Metron</span>
               </article>
               <article className="flex-1 flex flex-col justify-center items-center gap-2">
