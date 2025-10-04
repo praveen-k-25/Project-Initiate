@@ -1,5 +1,5 @@
 import { useEffect, useState, type FC } from "react";
-import type { register, registerComponentProps } from "../ts/auth";
+import type { register, registerComponentProps } from "../typesTs/auth";
 import { useForm } from "react-hook-form";
 import { register_Schema } from "../validation/auth_validation";
 import { yupResolver } from "@hookform/resolvers/yup";

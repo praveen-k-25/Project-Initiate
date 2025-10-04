@@ -1,5 +1,5 @@
 import axios, {type AxiosRequestConfig} from "axios";
-import type {login, recievedLogin, register} from "../ts/auth";
+import type {login, recievedLogin, register} from "../typesTs/auth";
 
 /* interface axiosRequestProps {
   url: string;

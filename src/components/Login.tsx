@@ -10,7 +10,7 @@ import password_eye_close from "../assets/svgs/password_eye_close.svg";
 import { loginUser } from "../handler/api_handler";
 import { setAuth, setUser } from "../store/auth_slice";
 import type { appDispatch } from "../store/store";
-import type { login, loginComponentProps } from "../ts/auth";
+import type { login, loginComponentProps } from "../typesTs/auth";
 import { login_Schema } from "../validation/auth_validation";
 
 const Login: FC<loginComponentProps> = (props) => {
