@@ -1,12 +1,12 @@
 import axios, {type AxiosRequestConfig} from "axios";
 import type {login, recievedLogin, register} from "../ts/auth";
 
-interface axiosRequestProps {
+/* interface axiosRequestProps {
   url: string;
   method: AxiosRequestConfig["method"];
   data?: object | null;
   formData?: boolean;
-}
+} */
 
 async function axiosRequestHandler<T>(
   url: string,
