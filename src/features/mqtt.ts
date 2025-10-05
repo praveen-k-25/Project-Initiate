@@ -7,27 +7,39 @@ export default function usertracker(user: any) {
     //reconnectPeriod: 5000, // auto reconnect every 5s
   });
 
-  client.on("connect", () => console.log("✅ MQTT Connected"));
+  client.on("connect", () => {
+    console.log("✅ MQTT Connected");
+
+    setInterval(() => {
+      // Start tracking once connected
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            const payload = {
+              user: user.id,
+              lat: pos.coords.latitude,
+              lng: pos.coords.longitude,
+              speed: pos.coords.speed || -1,
+              timestamp: Date.now(),
+            };
+
+            console.log("📡 Publishing location", payload);
+            client.publish("user/location", JSON.stringify(payload));
+          },
+          (err) => console.error("❌ Geolocation error:", err)
+        );
+      } else {
+        console.error("❌ Geolocation not supported in this browser.");
+      }
+    }, 3000);
+  });
+
   client.on("close", () => console.log("❌ MQTT Disconnected"));
-  client.on("error", (err) => console.log("❌ MQTT Error", err));
+  client.on("error", (err) => console.error("❌ MQTT Error:", err));
 
-  const interval = setInterval(() => {
-    if (client.connected) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        const payload = {
-          user: user.id,
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          speed: pos.coords.speed || -1,
-          timestamp: Date.now(),
-        };
-        client.publish("user/location", JSON.stringify(payload));
-      });
-    }
-  }, 5000);
-
+  // Cleanup function
   return () => {
-    clearInterval(interval);
     client.end(true);
+    console.log("🛑 MQTT connection closed");
   };
 }
