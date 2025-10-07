@@ -1,6 +1,7 @@
+import "./styles/index.css";       // Tailwind base
+import "./styles/geist-font.css"; // Fonts + global font-family
 import {StrictMode} from "react";
 import {createRoot} from "react-dom/client";
-import "./styles/index.css";
 import App from "./App.tsx";
 import {BrowserRouter} from "react-router-dom";
 import {persistor, store} from "./store/store.ts";

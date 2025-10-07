@@ -35,7 +35,7 @@ async function axiosRequestHandler<T>(
     });
     return response.data as T;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || "Something went wrong");
+    throw error || {message: "Something went wrong"};
   }
 }
 

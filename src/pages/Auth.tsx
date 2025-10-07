@@ -1,6 +1,7 @@
-import {useState} from "react";
+import { useState } from "react";
 import loginBackgruoundImage from "../assets/images/birds-eye.jpg";
 import companyLogo from "../assets/svgs/logo.svg";
+import companyLogoDark from "../assets/svgs/logo-dark.svg";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import useTheme from "../hooks/useTheme";
@@ -40,21 +41,25 @@ const Auth = () => {
           <div className={`relative overflow-x-hidden w-full h-full`}>
             {/* Sign In or Login */}
             <section
-              className={`bg-white dark:bg-amber-300 flex flex-col w-full h-full absolute inset-0 transition-all ${
-                accessPage === "SignIn"
-                  ? "opacity-0 duration-500 -translate-x-full"
-                  : "opacity-100 duration-600 z-10 "
-              }`}
+              className={`bg-white dark:bg-amber-300 flex flex-col w-full h-full absolute inset-0 transition-all ${accessPage === "SignIn"
+                ? "opacity-0 duration-500 -translate-x-full"
+                : "opacity-100 duration-600 z-10 "
+                }`}
             >
               <article className="w-full flex gap-2 justify-center items-center p-3 select-none">
-                <img onClick={handleTheme} src={companyLogo} alt="" className="w-7" />
-                <span className="font-bold text-lg">Metron</span>
+                <>
+                  {theme === "light" ?
+                    <img onClick={handleTheme} src={companyLogo} alt="" className={`w-7`} /> :
+                    <img onClick={handleTheme} src={companyLogoDark} alt="" className={`w-7`} />}
+                </>
+
+                <span className="font-semibold text-lg">Metron</span>
               </article>
               <article className="flex-1 flex flex-col justify-center items-center gap-2">
-                <h2 className="capitalize font-serif font-bold text-2xl select-none">
-                  Welcome Back
+                <h2 className="text-2xl select-none">
+                  Welcome
                 </h2>
-                <p className="text-sm text-center font-medium text-gray-700 mx-3 select-none">
+                <p className="text-sm text-center text-gray-700 mx-3 select-none">
                   Enter your email and password to access your account
                 </p>
                 <Login
@@ -67,7 +72,7 @@ const Auth = () => {
                 Dont't have an account?{" "}
                 <span
                   onClick={() => setAccessPage("SignIn")}
-                  className="text-black font-bold underline cursor-pointer"
+                  className="text-black font-semibold underline cursor-pointer"
                 >
                   Sign Up
                 </span>
@@ -75,19 +80,18 @@ const Auth = () => {
             </section>
             {/* Sign Up or Register */}
             <section
-              className={`bg-white flex flex-col w-full px-3 h-full absolute inset-0 transition-all ${
-                accessPage === "SignUp"
-                  ? "opacity-0 duration-500 translate-x-full"
-                  : "opacity-100 duration-600 z-10"
-              }`}
+              className={`bg-white flex flex-col w-full px-3 h-full absolute inset-0 transition-all ${accessPage === "SignUp"
+                ? "opacity-0 duration-500 translate-x-full"
+                : "opacity-100 duration-600 z-10"
+                }`}
             >
               <article className="w-full flex gap-2 justify-center items-center p-3">
                 <img src={companyLogo} alt="" className="w-7" />
-                <span className="font-bold text-lg">Metron</span>
+                <span className="font-semibold text-lg">Metron</span>
               </article>
               <article className="flex-1 flex flex-col justify-center items-center gap-2 px-1">
-                <h2 className="capitalize font-serif font-bold text-2xl">
-                  Welcome Back
+                <h2 className="text-2xl">
+                  Create an account
                 </h2>
                 <p className="text-sm text-center font-medium text-gray-700">
                   Enter your email and password to access your account
@@ -103,7 +107,7 @@ const Auth = () => {
                 Back to{" "}
                 <span
                   onClick={() => setAccessPage("SignUp")}
-                  className="text-black font-bold underline cursor-pointer"
+                  className="text-black font-semibold underline cursor-pointer"
                 >
                   Sign In
                 </span>

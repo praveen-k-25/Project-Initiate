@@ -26,6 +26,8 @@ export interface registerComponentProps {
 export interface recievedLogin {
   success: boolean;
   message: string;
+  status?: number;
+  cause?: string | null;
   data: {
     username: string;
     email: string;
