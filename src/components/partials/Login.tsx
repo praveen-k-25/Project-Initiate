@@ -5,10 +5,6 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import whiteLoader from "../../assets/gifs/white-spinner.webp";
-import password_eye from "../../assets/svgs/password_eye.svg";
-import password_eye_close from "../../assets/svgs/password_eye_close.svg";
-import password_eye_close_dark from "../../assets/svgs/password_eye_close_dark.svg";
-import password_eye_dark from "../../assets/svgs/password_eye_dark.svg";
 import { login_Schema } from "../../validation/auth_validation";
 import type { login, loginComponentProps } from "../../typesTs/auth";
 import type { appDispatch } from "../../store/store";
@@ -19,7 +15,7 @@ import PasswordInput from "../ui/PasswordInput";
 import Checkbox from "../ui/Checkbox";
 
 const Login: FC<loginComponentProps> = (props) => {
-  const { changePasswordView, passwordView, accessPage, theme } = props;
+  const { accessPage } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const dispatch = useDispatch<appDispatch>();
@@ -72,33 +68,10 @@ const Login: FC<loginComponentProps> = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="min-w-[300px] mt-8 flex flex-col gap-3 "
+      className="min-w-[300px] mt-8 flex flex-col gap-2"
     >
       {/* Username or Email */}
-      {/* <div className="flex flex-col gap-3">
-        <label
-          htmlFor="login_email"
-          className="font-medium text-sm select-none text-[var(--text)]"
-        >
-          Email
-        </label>
-        <div className="flex flex-col gap-1">
-          <input
-            {...register("email")}
-            type="text"
-            id="login_email"
-            className={`outline-none p-3 text-sm border text-[var(--text)] border-[var(--border)] rounded-lg bg-[var(--button)] transition-shadow duration-100 ${errors.email
-              ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
-              : "focus:shadow-[0_0_2px_2px_var(--input)]"
-              }`}
-          />
-          {errors.email && (
-            <p className="text-xs ml-1 font-medium text-[var(--destructive)]">
-              {errors?.email?.message}
-            </p>
-          )}
-        </div>
-      </div> */}
+
       <TextInput
         label="Email"
         type="email"
@@ -106,8 +79,8 @@ const Login: FC<loginComponentProps> = (props) => {
         id="login_email"
         register={register}
         errors={errors}
-        errorMessage="Invalid Email"
-        componentClassName="flex flex-col gap-3"
+        errorMessage={(errors?.email?.message as string) || "invalid email"}
+        componentClassName="flex flex-col gap-1"
         labelClassName="font-medium text-sm select-none text-[var(--text)]"
         inputClassName={`outline-none p-3 text-sm border text-[var(--text)] border-[var(--border)] rounded-lg bg-[var(--button)] transition-shadow duration-100 ${
           errors.email
@@ -116,15 +89,21 @@ const Login: FC<loginComponentProps> = (props) => {
         }`}
         errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
       />
+
+      {/* Password */}
+
       <PasswordInput
         label="Password"
         type="password"
         name="password"
         id="login_password"
+        passwordView={true}
         register={register}
         errors={errors}
-        errorMessage="Invalid Password"
-        componentClassName="flex flex-col gap-3"
+        errorMessage={
+          (errors?.password?.message as string) || "invalid password"
+        }
+        componentClassName="flex flex-col gap-1"
         labelClassName="font-medium text-sm select-none text-[var(--text)]"
         inputWrapperClassName={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
           errors?.password
@@ -136,77 +115,8 @@ const Login: FC<loginComponentProps> = (props) => {
         errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
       />
 
-      {/* Password */}
-      {/* <div className="flex flex-col gap-3">
-        <label
-          htmlFor="login_password"
-          className="font-medium text-sm text-[var(--text)] select-none"
-        >
-          Password
-        </label>
-        <section className="flex flex-col gap-1">
-          <div
-            className={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
-              errors.password
-                ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
-                : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
-            }`}
-          >
-            <input
-              {...register("password")}
-              type={`${passwordView ? "text" : "password"}`}
-              id="login_password"
-              className="outline-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]"
-            />
-            <section
-              onClick={changePasswordView}
-              className="p-2 px-4 border-0 flex justify-center items-center bg-[var(--button)]"
-            >
-              {passwordView ? (
-                <>
-                  {theme === "light" ? (
-                    <img
-                      src={password_eye}
-                      alt=""
-                      className="w-4 text-[var(--text)]"
-                    />
-                  ) : (
-                    <img
-                      src={password_eye_dark}
-                      alt=""
-                      className="w-4 text-[var(--text)]"
-                    />
-                  )}
-                </>
-              ) : (
-                <>
-                  {theme === "light" ? (
-                    <img
-                      src={password_eye_close}
-                      alt=""
-                      className="w-4 text-[var(--text)]"
-                    />
-                  ) : (
-                    <img
-                      src={password_eye_close_dark}
-                      alt=""
-                      className="w-4 text-[var(--text)]"
-                    />
-                  )}
-                </>
-              )}
-            </section>
-          </div>
-
-          {errors.password && (
-            <p className="text-xs font-medium text-[var(--destructive)] ">
-              {errors.password.message}
-            </p>
-          )}
-        </section>
-      </div> */}
       {/* Remember Me */}
-      <section className="flex justify-between">
+      <section className="flex justify-between mt-3">
         <div
           onClick={() => {
             setRememberMe(!rememberMe);

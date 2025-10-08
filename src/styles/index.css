@@ -1,27 +1,6 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --radius: 0.65rem; /* border radius */
-  --destructive: oklch(0.577 0.245 27.325);
-  --primary: oklch(0.488 0.243 264.376);
-  --input: #e5e5e5;
-  --background: #fff;
-
-  --text: #0a0a0a;
-  --sub-text: #71717b;
-  --border: oklch(84.212% 0.0001 271.152); /* border color */
-
-  --dark-background: #0a0a0a;
-  --dark-primary-background: #171717;
-  --dark-button: #404040;
-  --dark-button-primary: #404040;
-  --dark-border: oklch(34.07% 0.00004 271.152);
-
-  --dark-text: #e5e5e5;
-  --dark-sub-text: #71717b;
-}
-
 ::-webkit-scrollbar {
   width: 4px;
   transition: width 0.3s ease;
@@ -60,10 +39,6 @@
   background: #e0e0e0;
 }
 
-/* input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
-} */
-
 :root {
   --radius: 0.65rem; /* border radius */
   --destructive: oklch(0.577 0.245 27.325);
@@ -90,7 +65,7 @@
   --text: #e5e5e5;
   --sub-text: #71717b;
   --border: #383838;
-} 
+}
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -99,7 +74,6 @@ textarea:-webkit-autofill,
 select:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px var(--background) inset !important;
   -webkit-text-fill-color: var(--text-color) !important;
-  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* 🌙 Dark mode autofill override */

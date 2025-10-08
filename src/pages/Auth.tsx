@@ -8,15 +8,7 @@ import useTheme from "../hooks/useTheme";
 
 const Auth = () => {
   const [accessPage, setAccessPage] = useState("SignUp");
-  const [loginPasswordView, setLoginPasswordView] = useState(false);
-  const [registerPasswordView, setRegisterPasswordView] = useState(false);
   const [theme, setTheme] = useTheme();
-
-  const changeLoginPasswordView = () =>
-    setLoginPasswordView(!loginPasswordView);
-
-  const changeRegisterPasswordView = () =>
-    setRegisterPasswordView(!registerPasswordView);
 
   const handleTheme = () => {
     if (theme === "dark") {
@@ -80,12 +72,7 @@ const Auth = () => {
                   <p className="text-sm text-center text-[var(--sub-text)] mx-3 select-none ">
                     Enter your email and password to access your account
                   </p>
-                  <Login
-                    changePasswordView={changeLoginPasswordView}
-                    passwordView={loginPasswordView}
-                    accessPage={accessPage}
-                    theme={theme}
-                  />
+                  <Login accessPage={accessPage} />
                 </div>
               </article>
               <article className="text-[var(--sub-text)] font-medium text-sm text-center p-4 select-none">
@@ -137,11 +124,8 @@ const Auth = () => {
                     Enter your email and password to access your account
                   </p>
                   <Register
-                    changeRegisterPasswordView={changeRegisterPasswordView}
-                    registerPasswordView={registerPasswordView}
                     accessPage={accessPage}
                     setAccessPage={setAccessPage}
-                    theme={theme}
                   />
                 </div>
               </article>

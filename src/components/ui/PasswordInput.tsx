@@ -10,6 +10,7 @@ interface PasswordInputProps {
   type: string;
   name: string;
   id: string;
+  passwordView?: boolean;
   register: any;
   errors: any;
   errorMessage?: string;
@@ -26,6 +27,7 @@ const PasswordInput = ({
   type,
   name,
   id,
+  passwordView = false,
   register,
   errors,
   errorMessage,
@@ -53,47 +55,49 @@ const PasswordInput = ({
           <input
             {...register(name)}
             id={id}
-            type={type}
+            type={showPassword ? "text" : type}
             className={inputClassName}
           />
-          <section
-            onClick={togglePasswordVisibility}
-            className={visibleIconClassName}
-          >
-            {showPassword ? (
-              <>
-                {theme === "light" ? (
-                  <img
-                    src={password_eye}
-                    alt=""
-                    className="w-4 text-[var(--text)]"
-                  />
-                ) : (
-                  <img
-                    src={password_eye_dark}
-                    alt=""
-                    className="w-4 text-[var(--text)]"
-                  />
-                )}
-              </>
-            ) : (
-              <>
-                {theme === "light" ? (
-                  <img
-                    src={password_eye_close}
-                    alt=""
-                    className="w-4 text-[var(--text)]"
-                  />
-                ) : (
-                  <img
-                    src={password_eye_close_dark}
-                    alt=""
-                    className="w-4 text-[var(--text)]"
-                  />
-                )}
-              </>
-            )}
-          </section>
+          {passwordView && (
+            <section
+              onClick={togglePasswordVisibility}
+              className={visibleIconClassName}
+            >
+              {showPassword ? (
+                <>
+                  {theme === "light" ? (
+                    <img
+                      src={password_eye}
+                      alt=""
+                      className="w-4 text-[var(--text)]"
+                    />
+                  ) : (
+                    <img
+                      src={password_eye_dark}
+                      alt=""
+                      className="w-4 text-[var(--text)]"
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  {theme === "light" ? (
+                    <img
+                      src={password_eye_close}
+                      alt=""
+                      className="w-4 text-[var(--text)]"
+                    />
+                  ) : (
+                    <img
+                      src={password_eye_close_dark}
+                      alt=""
+                      className="w-4 text-[var(--text)]"
+                    />
+                  )}
+                </>
+              )}
+            </section>
+          )}
         </div>
 
         <p

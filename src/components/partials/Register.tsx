@@ -10,15 +10,11 @@ import password_eye_dark from "../../assets/svgs/password_eye_dark.svg";
 import { registerUser } from "../../handler/api_handler";
 import type { register, registerComponentProps } from "../../typesTs/auth";
 import { register_Schema } from "../../validation/auth_validation";
+import TextInput from "../ui/TextInput";
+import PasswordInput from "../ui/PasswordInput";
 
 const Register: FC<registerComponentProps> = (props) => {
-  const {
-    changeRegisterPasswordView,
-    registerPasswordView,
-    accessPage,
-    setAccessPage,
-    theme,
-  } = props;
+  const { accessPage, setAccessPage } = props;
   const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
@@ -50,158 +46,98 @@ const Register: FC<registerComponentProps> = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="min-w-[300px] mt-8 flex flex-col gap-2"
+      className="min-w-[300px] mt-8 flex flex-col gap-1"
     >
       {/* Username */}
-      <section className="flex flex-col gap-3">
-        <label
-          htmlFor="register_user"
-          className="font-medium text-sm select-none text-[var(--text)] "
-        >
-          Username
-        </label>
-        <div className=" flex flex-col gap-1">
-          <input
-            {...register("username")}
-            type="text"
-            id="register_user"
-            className={`outline-none border border-[var(--border)] p-3 text-sm rounded-lg text-[var(--text)] caret-[var(--text)] bg-[var(--button)] ${
-              errors.username
-                ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
-                : "focus:shadow-[0_0_2px_2px_var(--input)]"
-            }`}
-          />
-          {errors.username && (
-            <p className="text-xs ml-1 font-medium text-[var(--destructive)]">
-              {errors.username.message}
-            </p>
-          )}
-        </div>
-      </section>
+      <TextInput
+        label="Username"
+        type="text"
+        name="username"
+        id="register_user"
+        register={register}
+        errors={errors}
+        errorMessage={
+          (errors?.username?.message as string) || "username is required"
+        }
+        componentClassName="flex flex-col gap-1"
+        labelClassName="font-medium text-sm select-none text-[var(--text)]"
+        inputClassName={`outline-none p-3 text-sm border border-[var(--border)] text-[var(--text)] caret-[var(--text)] bg-[var(--button)] rounded-lg ${
+          errors.username
+            ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
+            : "focus:shadow-[0_0_2px_2px_var(--input)]"
+        }`}
+        errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
+      />
       {/* Email */}
-      <section className="flex flex-col gap-3">
-        <label
-          htmlFor="register_email"
-          className="font-medium text-[var(--text)] text-sm select-none"
-        >
-          Email
-        </label>
-        <div className=" flex flex-col gap-1">
-          <input
-            {...register("email")}
-            type="text"
-            id="register_email"
-            className={`outline-none p-3 text-sm rounded-lg text-[var(--text)] border border-[var(--border)] caret-[var(--text)] bg-[var(--button)] ${
-              errors.email
-                ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
-                : "focus:shadow-[0_0_2px_2px_var(--input)]"
-            }`}
-          />
-          {errors.email && (
-            <p className="text-xs ml-1 font-medium text-red-500">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
-      </section>
+      <TextInput
+        label="Email"
+        type="email"
+        name="email"
+        id="register_email"
+        register={register}
+        errors={errors}
+        errorMessage={(errors?.email?.message as string) || "email is required"}
+        componentClassName="flex flex-col gap-1"
+        labelClassName="font-medium text-sm select-none text-[var(--text)]"
+        inputClassName={`outline-none p-3 text-sm border text-[var(--text)] border-[var(--border)] rounded-lg bg-[var(--button)] transition-shadow duration-100 ${
+          errors.email
+            ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
+            : "focus:shadow-[0_0_2px_2px_var(--input)]"
+        }`}
+        errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
+      />
+
       <section className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {/* Password */}
-        <div className="flex flex-col gap-3">
-          <label
-            htmlFor="register_password"
-            className="font-medium text-[var(--text)] text-sm select-none"
-          >
-            Password
-          </label>
-          <section className="flex flex-col gap-1">
-            <input
-              {...register("password")}
-              type="password"
-              id="register_password"
-              className={`outline-none p-3 text-sm flex-1 rounded-lg border border-[var(--border)] text-[var(--text)] caret-[var(--text)] bg-[var(--button)] overflow-hidden ${
-                errors.password
-                  ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
-                  : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
-              }`}
-            />
+        <PasswordInput
+          label="Password"
+          type="password"
+          name="password"
+          id="login_password"
+          passwordView={false}
+          register={register}
+          errors={errors}
+          errorMessage={
+            (errors?.password?.message as string) || "password is reaquired"
+          }
+          componentClassName="flex flex-col gap-1"
+          labelClassName="font-medium text-sm select-none text-[var(--text)]"
+          inputWrapperClassName={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
+            errors?.password
+              ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
+              : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
+          }`}
+          inputClassName={`outline-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]`}
+          visibleIconClassName="p-2 px-4 border-0 flex justify-center items-center bg-[var(--button)]"
+          errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
+        />
 
-            {errors.password && (
-              <p className="text-xs font-medium text-red-500">
-                {errors.password.message}
-              </p>
-            )}
-          </section>
-        </div>
         {/*Confirm Password */}
-        <div className="flex flex-col gap-3">
-          <label
-            htmlFor="register_password"
-            className="font-medium text-[var(--text)] text-sm select-none"
-          >
-            Confirm Password
-          </label>
-          <section className="flex flex-col gap-1">
-            <div
-              className={`w-full flex rounded-lg overflow-hidden border border-[var(--border)] text-[var(--text)] caret-[var(--text)] bg-[var(--button)] ${
-                errors.password
-                  ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
-                  : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
-              }`}
-            >
-              <input
-                {...register("confirmPassword")}
-                type={`${registerPasswordView ? "text" : "password"}`}
-                id="register_confirmPpassword"
-                className="outline-none p-3 text-sm w-[80%] "
-              />
-              <section
-                onClick={changeRegisterPasswordView}
-                className="border-0 flex flex-1 justify-center items-center w-[20%]"
-              >
-                {registerPasswordView ? (
-                  <>
-                    {theme === "light" ? (
-                      <img
-                        src={password_eye}
-                        alt=""
-                        className="w-4 text-[var(--text)]"
-                      />
-                    ) : (
-                      <img
-                        src={password_eye_dark}
-                        alt=""
-                        className="w-4 text-[var(--text)]"
-                      />
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {theme === "light" ? (
-                      <img
-                        src={password_eye_close}
-                        alt=""
-                        className="w-4 text-[var(--text)]"
-                      />
-                    ) : (
-                      <img
-                        src={password_eye_close_dark}
-                        alt=""
-                        className="w-4 text-[var(--text)]"
-                      />
-                    )}
-                  </>
-                )}
-              </section>
-            </div>
-
-            {errors.confirmPassword && (
-              <p className="text-xs font-medium text-red-500">
-                {errors.confirmPassword.message}
-              </p>
-            )}
-          </section>
-        </div>
+        <PasswordInput
+          label="Password"
+          type="password"
+          name="confirmPassword"
+          id="register_confirm_password"
+          passwordView={true}
+          register={register}
+          errors={errors}
+          errorMessage={
+            (errors?.confirmPassword?.message as string) ||
+            "password is required"
+          }
+          componentClassName="flex flex-col gap-1"
+          labelClassName="font-medium text-sm select-none text-[var(--text)]"
+          inputWrapperClassName={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
+            errors?.password
+              ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
+              : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
+          }`}
+          inputClassName={`outline-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]`}
+          visibleIconClassName="p-2 px-4 border-0 flex justify-center items-center bg-[var(--button)]"
+          errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
+        />
       </section>
+
       {/* Submit Button */}
       <button
         type="submit"
