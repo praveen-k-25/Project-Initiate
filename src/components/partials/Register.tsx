@@ -59,7 +59,7 @@ const Register: FC<registerComponentProps> = (props) => {
         errorMessage={
           (errors?.username?.message as string) || "username is required"
         }
-        componentClassName="flex flex-col gap-1"
+        componentClassName="flex flex-col gap-1 overflow-hidden"
         labelClassName="font-medium text-sm select-none text-[var(--text)]"
         inputClassName={`outline-none p-3 text-sm border border-[var(--border)] text-[var(--text)] caret-[var(--text)] bg-[var(--button)] rounded-lg ${
           errors.username
@@ -77,7 +77,7 @@ const Register: FC<registerComponentProps> = (props) => {
         register={register}
         errors={errors}
         errorMessage={(errors?.email?.message as string) || "email is required"}
-        componentClassName="flex flex-col gap-1"
+        componentClassName="flex flex-col gap-1 overflow-hidden"
         labelClassName="font-medium text-sm select-none text-[var(--text)]"
         inputClassName={`outline-none p-3 text-sm border text-[var(--text)] border-[var(--border)] rounded-lg bg-[var(--button)] transition-shadow duration-100 ${
           errors.email
@@ -100,14 +100,14 @@ const Register: FC<registerComponentProps> = (props) => {
           errorMessage={
             (errors?.password?.message as string) || "password is reaquired"
           }
-          componentClassName="flex flex-col gap-1"
+          componentClassName="flex flex-col gap-1 overflow-hidden"
           labelClassName="font-medium text-sm select-none text-[var(--text)]"
           inputWrapperClassName={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
             errors?.password
               ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
               : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
           }`}
-          inputClassName={`outline-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]`}
+          inputClassName={`outline-none border-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]`}
           visibleIconClassName="p-2 px-4 border-0 flex justify-center items-center bg-[var(--button)]"
           errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
         />
@@ -125,14 +125,14 @@ const Register: FC<registerComponentProps> = (props) => {
             (errors?.confirmPassword?.message as string) ||
             "password is required"
           }
-          componentClassName="flex flex-col gap-1"
+          componentClassName="flex flex-col gap-1 overflow-hidden"
           labelClassName="font-medium text-sm select-none text-[var(--text)]"
           inputWrapperClassName={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
             errors?.password
               ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
               : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
           }`}
-          inputClassName={`outline-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]`}
+          inputClassName={`outline-none border-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]`}
           visibleIconClassName="p-2 px-4 border-0 flex justify-center items-center bg-[var(--button)]"
           errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
         />

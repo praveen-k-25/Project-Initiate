@@ -33,9 +33,9 @@ const PasswordInput = ({
   errorMessage,
   componentClassName = "flex flex-col gap-3",
   labelClassName = "font-medium text-sm select-none text-[var(--text)]",
-  inputWrapperClassName = "",
-  inputClassName = "outline-none p-3 text-sm border text-[var(--text)] border-[var(--border)] rounded-lg bg-[var(--button)]",
-  visibleIconClassName = "p-2 px-4 border-0 flex justify-center items-center bg-[var(--button)]",
+  inputWrapperClassName = "flex rounded-lg border border-[var(--border)] overflow-hidden",
+  inputClassName = "outline-none border-none p-3 text-sm text-[var(--text)] rounded-lg bg-[var(--button)]",
+  visibleIconClassName = "p-2 px-4 border-none flex justify-center items-center bg-[var(--button)]",
   errorClassName = "text-xs ml-1 font-medium text-[var(--destructive)]",
 }: PasswordInputProps) => {
   const [theme, setTheme] = useTheme();
@@ -69,13 +69,13 @@ const PasswordInput = ({
                     <img
                       src={password_eye}
                       alt=""
-                      className="w-4 text-[var(--text)]"
+                      className="w-4 text-[var(--text)] border-none "
                     />
                   ) : (
                     <img
                       src={password_eye_dark}
                       alt=""
-                      className="w-4 text-[var(--text)]"
+                      className="w-4 text-[var(--text)] border-none"
                     />
                   )}
                 </>
@@ -85,13 +85,13 @@ const PasswordInput = ({
                     <img
                       src={password_eye_close}
                       alt=""
-                      className="w-4 text-[var(--text)]"
+                      className="w-4 text-[var(--text)] border-none"
                     />
                   ) : (
                     <img
                       src={password_eye_close_dark}
                       alt=""
-                      className="w-4 text-[var(--text)]"
+                      className="w-4 text-[var(--text)] border-none"
                     />
                   )}
                 </>

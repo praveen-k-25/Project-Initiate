@@ -60,7 +60,7 @@ const Auth = () => {
                   )}
                 </>
 
-                <span className="font-semibold text-lg dark:text-[var(--dark-text)]">
+                <span className="font-semibold text-lg text-[var(--text)]">
                   Metron
                 </span>
               </article>
@@ -111,7 +111,7 @@ const Auth = () => {
                     />
                   )}
                 </>
-                <span className="font-semibold text-lg dark:text-[var(--dark-text)]">
+                <span className="font-semibold text-lg text-[var(--text)]">
                   Metron
                 </span>
               </article>

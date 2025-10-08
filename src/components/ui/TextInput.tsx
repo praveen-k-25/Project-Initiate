@@ -32,7 +32,7 @@ const TextInput = ({
           {label}
         </label>
       )}
-      <section className="flex flex-col gap-1">
+      <section className="flex flex-col gap-1 border-none">
         <input
           {...register(name)}
           id={id}

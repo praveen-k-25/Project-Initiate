@@ -60,7 +60,7 @@
   --input: #aaa6a6;
   --background: #0a0a0a;
   --primary-background: #171717;
-  --button: #252525b6;
+  --button: #252525;
   --button-primary: #37373772;
   --text: #e5e5e5;
   --sub-text: #71717b;
@@ -72,8 +72,8 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px var(--background) inset !important;
-  -webkit-text-fill-color: var(--text-color) !important;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+  -webkit-text-fill-color: #0a0a0a !important;
 }
 
 /* 🌙 Dark mode autofill override */
@@ -82,6 +82,6 @@ select:-webkit-autofill {
 .dark input:-webkit-autofill:focus,
 .dark textarea:-webkit-autofill,
 .dark select:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px var(--button) inset !important; /* dark bg */
-  -webkit-text-fill-color: var(--text) !important; /* light text */
+  -webkit-box-shadow: 0 0 0px 1000px #252525 inset !important; /* dark bg */
+  -webkit-text-fill-color: #e5e5e5 !important; /* light text */
 }
