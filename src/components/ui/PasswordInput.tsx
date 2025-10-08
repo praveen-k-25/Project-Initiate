@@ -38,7 +38,7 @@ const PasswordInput = ({
   visibleIconClassName = "p-2 px-4 border-none flex justify-center items-center bg-[var(--button)]",
   errorClassName = "text-xs ml-1 font-medium text-[var(--destructive)]",
 }: PasswordInputProps) => {
-  const [theme, setTheme] = useTheme();
+  const [theme] = useTheme();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
