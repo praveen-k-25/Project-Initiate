@@ -9,6 +9,7 @@ export interface loginComponentProps {
   changePasswordView: () => void;
   passwordView: boolean;
   accessPage: string;
+  theme: string;
 }
 
 export interface register extends login {
@@ -21,6 +22,7 @@ export interface registerComponentProps {
   registerPasswordView: boolean;
   accessPage: string;
   setAccessPage: Dispatch<SetStateAction<string>>;
+  theme: string;
 }
 
 export interface recievedLogin {

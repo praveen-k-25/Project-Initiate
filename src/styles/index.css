@@ -3,20 +3,20 @@
 
 :root {
   --radius: 0.65rem; /* border radius */
-  --border: oklch(0.92 0.004 286.32); /* border color */
   --destructive: oklch(0.577 0.245 27.325);
   --primary: oklch(0.488 0.243 264.376);
   --input: #e5e5e5;
   --background: #fff;
-  --primary-background: oklch(0.21 0.006 285.885);
 
   --text: #0a0a0a;
   --sub-text: #71717b;
+  --border: oklch(84.212% 0.0001 271.152); /* border color */
 
   --dark-background: #0a0a0a;
   --dark-primary-background: #171717;
   --dark-button: #404040;
   --dark-button-primary: #404040;
+  --dark-border: oklch(34.07% 0.00004 271.152);
 
   --dark-text: #e5e5e5;
   --dark-sub-text: #71717b;
@@ -60,6 +60,54 @@
   background: #e0e0e0;
 }
 
-input:-webkit-autofill {
+/* input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px var(--background) inset;
+} */
+
+:root {
+  --radius: 0.65rem; /* border radius */
+  --destructive: oklch(0.577 0.245 27.325);
+  --primary: oklch(0.488 0.243 264.376);
+  --input: #e5e5e5;
+  --background: #fff;
+  --primary-background: #fff;
+  --button: #ffffff;
+  --button-primary: #d9d7d7;
+  --text: #0a0a0a;
+  --sub-text: #71717b;
+  --border: oklch(84.212% 0.0001 271.152); /* border color */
+}
+
+.dark {
+  --radius: 0.65rem; /* border radius */
+  --destructive: oklch(62.826% 0.25721 28.495);
+  --primary: oklch(0.488 0.243 264.376);
+  --input: #aaa6a6;
+  --background: #0a0a0a;
+  --primary-background: #171717;
+  --button: #252525b6;
+  --button-primary: #37373772;
+  --text: #e5e5e5;
+  --sub-text: #71717b;
+  --border: #383838;
+} 
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--background) inset !important;
+  -webkit-text-fill-color: var(--text-color) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* 🌙 Dark mode autofill override */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill,
+.dark select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--button) inset !important; /* dark bg */
+  -webkit-text-fill-color: var(--text) !important; /* light text */
 }

@@ -1,8 +1,8 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 const useTheme = (): [
   "light" | "dark",
-  React.Dispatch<React.SetStateAction<"light" | "dark">>
+  React.Dispatch<React.SetStateAction<"light" | "dark">>,
 ] => {
   const [theme, setTheme] = useState<"light" | "dark">(
     localStorage.getItem("metron-theme") === "dark" ? "dark" : "light"

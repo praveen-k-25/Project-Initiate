@@ -1,9 +1,9 @@
 import { useState } from "react";
 import loginBackgruoundImage from "../assets/images/birds-eye.jpg";
-import companyLogo from "../assets/svgs/logo.svg";
 import companyLogoDark from "../assets/svgs/logo-dark.svg";
-import Login from "../components/Login";
-import Register from "../components/Register";
+import companyLogo from "../assets/svgs/logo.svg";
+import Login from "../components/partials/Login";
+import Register from "../components/partials/Register";
 import useTheme from "../hooks/useTheme";
 
 const Auth = () => {
@@ -38,41 +38,61 @@ const Auth = () => {
       <div className="absolute inset-0 bg-transparent grid md:grid-cols-2">
         <section className="hidden md:block"></section>
         <section className={`overflow-auto bg-white`}>
-          <div className={`relative overflow-x-hidden w-full h-full`}>
+          <div
+            className={`relative overflow-x-hidden w-full h-full bg-[var(--background)]`}
+          >
             {/* Sign In or Login */}
             <section
-              className={`bg-white dark:bg-amber-300 flex flex-col w-full h-full absolute inset-0 transition-all ${accessPage === "SignIn"
-                ? "opacity-0 duration-500 -translate-x-full"
-                : "opacity-100 duration-600 z-10 "
-                }`}
+              className={`bg-transparent flex flex-col justify-between items-center w-full h-full absolute inset-0 transition-all ${
+                accessPage === "SignIn"
+                  ? " opacity-0 duration-500 -translate-x-full"
+                  : " opacity-100 duration-600 z-10 "
+              }`}
             >
               <article className="w-full flex gap-2 justify-center items-center p-3 select-none">
                 <>
-                  {theme === "light" ?
-                    <img onClick={handleTheme} src={companyLogo} alt="" className={`w-7`} /> :
-                    <img onClick={handleTheme} src={companyLogoDark} alt="" className={`w-7`} />}
+                  {theme === "light" ? (
+                    <img
+                      onClick={handleTheme}
+                      src={companyLogo}
+                      alt=""
+                      className={`w-7`}
+                    />
+                  ) : (
+                    <img
+                      onClick={handleTheme}
+                      src={companyLogoDark}
+                      alt=""
+                      className={`w-7`}
+                    />
+                  )}
                 </>
 
-                <span className="font-semibold text-lg">Metron</span>
+                <span className="font-semibold text-lg dark:text-[var(--dark-text)]">
+                  Metron
+                </span>
               </article>
-              <article className="flex-1 flex flex-col justify-center items-center gap-2">
-                <h2 className="text-2xl select-none">
-                  Welcome
-                </h2>
-                <p className="text-sm text-center text-gray-700 mx-3 select-none">
-                  Enter your email and password to access your account
-                </p>
-                <Login
-                  changePasswordView={changeLoginPasswordView}
-                  passwordView={loginPasswordView}
-                  accessPage={accessPage}
-                />
+              <article className="flex-1 flex flex-col justify-center items-center gap-2 m-2">
+                <div className="bg-[var(--primary-background)] px-5 py-6 rounded-[var(--radius)] border border-[var(--border)] flex flex-col justify-center gap-2">
+                  <h2 className="text-2xl text-center select-none text-[var(--text)]">
+                    Welcome
+                  </h2>
+                  <p className="text-sm text-center text-[var(--sub-text)] mx-3 select-none ">
+                    Enter your email and password to access your account
+                  </p>
+                  <Login
+                    changePasswordView={changeLoginPasswordView}
+                    passwordView={loginPasswordView}
+                    accessPage={accessPage}
+                    theme={theme}
+                  />
+                </div>
               </article>
-              <article className="text-gray-600 font-semibold text-sm text-center p-4 select-none">
+              <article className="text-[var(--sub-text)] font-medium text-sm text-center p-4 select-none">
                 Dont't have an account?{" "}
                 <span
                   onClick={() => setAccessPage("SignIn")}
-                  className="text-black font-semibold underline cursor-pointer"
+                  className="text-[var(--text)]  font-semibold underline cursor-pointer"
                 >
                   Sign Up
                 </span>
@@ -80,34 +100,56 @@ const Auth = () => {
             </section>
             {/* Sign Up or Register */}
             <section
-              className={`bg-white flex flex-col w-full px-3 h-full absolute inset-0 transition-all ${accessPage === "SignUp"
-                ? "opacity-0 duration-500 translate-x-full"
-                : "opacity-100 duration-600 z-10"
-                }`}
+              className={`bg-transparent flex flex-col w-full px-3 h-full absolute inset-0 transition-all ${
+                accessPage === "SignUp"
+                  ? "opacity-0 duration-500 translate-x-full"
+                  : "opacity-100 duration-600 z-10"
+              }`}
             >
-              <article className="w-full flex gap-2 justify-center items-center p-3">
-                <img src={companyLogo} alt="" className="w-7" />
-                <span className="font-semibold text-lg">Metron</span>
+              <article className="w-full flex gap-2 justify-center items-center p-3 select-none">
+                <>
+                  {theme === "light" ? (
+                    <img
+                      onClick={handleTheme}
+                      src={companyLogo}
+                      alt=""
+                      className={`w-7`}
+                    />
+                  ) : (
+                    <img
+                      onClick={handleTheme}
+                      src={companyLogoDark}
+                      alt=""
+                      className={`w-7`}
+                    />
+                  )}
+                </>
+                <span className="font-semibold text-lg dark:text-[var(--dark-text)]">
+                  Metron
+                </span>
               </article>
-              <article className="flex-1 flex flex-col justify-center items-center gap-2 px-1">
-                <h2 className="text-2xl">
-                  Create an account
-                </h2>
-                <p className="text-sm text-center font-medium text-gray-700">
-                  Enter your email and password to access your account
-                </p>
-                <Register
-                  changeRegisterPasswordView={changeRegisterPasswordView}
-                  registerPasswordView={registerPasswordView}
-                  accessPage={accessPage}
-                  setAccessPage={setAccessPage}
-                />
+              <article className="flex-1 flex flex-col justify-center items-center gap-2 px-1 m-2">
+                <div className="bg-[var(--primary-background)] px-5 py-6 rounded-[var(--radius)] border border-[var(--border)] flex flex-col justify-center gap-2">
+                  <h2 className="text-2xl text-[var(--text)] text-center">
+                    Create an account
+                  </h2>
+                  <p className="text-sm text-center font-medium text-[var(--sub-text)]">
+                    Enter your email and password to access your account
+                  </p>
+                  <Register
+                    changeRegisterPasswordView={changeRegisterPasswordView}
+                    registerPasswordView={registerPasswordView}
+                    accessPage={accessPage}
+                    setAccessPage={setAccessPage}
+                    theme={theme}
+                  />
+                </div>
               </article>
-              <article className="text-gray-600 text-sm text-center p-4">
+              <article className="text-[var(--sub-text)] font-medium text-sm text-center p-4">
                 Back to{" "}
                 <span
                   onClick={() => setAccessPage("SignUp")}
-                  className="text-black font-semibold underline cursor-pointer"
+                  className="text-[var(--text)] font-semibold underline cursor-pointer"
                 >
                   Sign In
                 </span>

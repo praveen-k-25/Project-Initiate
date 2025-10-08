@@ -19,6 +19,18 @@ const config: Config = {
         extrabold: "800",
         black: "900",
       },
+      colors:{
+        radius: "var(--radius)",
+        destructive: "var(--destructive)",
+        primary: "var(--primary)",
+        background: "var(--background)",
+        "primary-background": "var(--primary-background)",
+        button: "var(--button)",
+        "button-primary": "var(--button-primary)",
+        text: "var(--text)",
+        "sub-text": "var(--sub-text)",
+        border: "var(--border)",
+      }
     },
   },
   plugins: [],
