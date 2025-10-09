@@ -80,9 +80,9 @@ const Login: FC<loginComponentProps> = (props) => {
         register={register}
         errors={errors}
         errorMessage={(errors?.email?.message as string) || "invalid email"}
-        componentClassName="flex flex-col gap-1 overflow-hidden"
+        componentClassName="flex flex-col gap-1"
         labelClassName="font-medium text-sm select-none text-[var(--text)]"
-        inputClassName={`outline-none p-3 text-sm border text-[var(--text)] border-[var(--border)] rounded-lg bg-[var(--button)] transition-shadow duration-100 ${
+        inputClassName={`outline-none p-3 text-sm border border-[var(--border)] text-[var(--text)] caret-[var(--text)] rounded-lg bg-[var(--button)] transition-shadow duration-100 ${
           errors.email
             ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
             : "focus:shadow-[0_0_2px_2px_var(--input)]"
@@ -103,7 +103,7 @@ const Login: FC<loginComponentProps> = (props) => {
         errorMessage={
           (errors?.password?.message as string) || "invalid password"
         }
-        componentClassName="flex flex-col gap-1 overflow-hidden"
+        componentClassName="flex flex-col gap-1"
         labelClassName="font-medium text-sm select-none text-[var(--text)]"
         inputWrapperClassName={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
           errors?.password
