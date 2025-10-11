@@ -7,6 +7,7 @@ interface initialState {
     username: string;
     id: string;
   };
+  theme: string | null;
 }
 
 const initialState: initialState = {
@@ -16,6 +17,7 @@ const initialState: initialState = {
     username: "",
     id: "",
   },
+  theme: "",
 };
 
 const authSlice = createSlice({
@@ -28,11 +30,14 @@ const authSlice = createSlice({
     setUser: (state, action: PayloadAction<any>) => {
       state.user = action.payload;
     },
+    setSliceTheme: (state, action: PayloadAction<string | null>) => {
+      state.theme = action.payload;
+    },
     logout: (state) => {
       state.auth = false;
     },
   },
 });
 
-export const { setAuth, setUser, logout } = authSlice.actions;
+export const { setAuth, setUser, setSliceTheme, logout } = authSlice.actions;
 export default authSlice.reducer;

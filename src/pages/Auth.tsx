@@ -13,10 +13,8 @@ const Auth = () => {
   const handleTheme = () => {
     if (theme === "dark") {
       setTheme("light");
-      console.log("changed to light");
     } else {
       setTheme("dark");
-      console.log("changed to dark");
     }
   };
 

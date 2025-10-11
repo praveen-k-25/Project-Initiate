@@ -9,7 +9,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="w-full h-full flex justify-center items-center text-[var(--text)]">
       <h1>Dashboard</h1>
     </div>
   );

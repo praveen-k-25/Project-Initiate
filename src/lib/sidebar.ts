@@ -8,8 +8,10 @@ import settings from "../assets/svgs/settings.svg";
 import settings_dark from "../assets/svgs/settings-dark.svg";
 import tracking from "../assets/svgs/map.svg";
 import tracking_dark from "../assets/svgs/map-dark.svg";
+import logout from "../assets/svgs/logout.svg";
+import logout_dark from "../assets/svgs/logout-dark.svg";
 
-export const sidebar = [
+export const sidebarMain = [
   {
     title: "dashboard",
     path: "/dashboard",
@@ -66,6 +68,37 @@ export const sidebar = [
     activeList: ["tracking"],
   },
   {
+    title: "support",
+    path: "/support",
+    icon: reports,
+    darkIcon: reports_dark,
+    submenu: true,
+    submenuList: [
+      {
+        title: "call",
+        path: "/call",
+        submenu: false,
+        activeList: ["call"],
+      },
+      {
+        title: "mail",
+        path: "/mail",
+        submenu: false,
+        activeList: ["mail"],
+      },
+      {
+        title: "message",
+        path: "/message",
+        submenu: false,
+        activeList: ["message"],
+      },
+    ],
+    activeList: ["/call", "/mail", "/message"],
+  },
+];
+
+export const sidebarFooter = [
+  {
     title: "settings",
     path: "/settings",
     icon: settings,
@@ -73,5 +106,14 @@ export const sidebar = [
     submenu: false,
     submenuList: [],
     activeList: ["settings"],
+  },
+  {
+    title: "logout",
+    path: "/logout",
+    icon: logout,
+    darkIcon: logout_dark,
+    submenu: false,
+    submenuList: [],
+    activeList: ["logout"],
   },
 ];

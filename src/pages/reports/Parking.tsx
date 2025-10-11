@@ -1,9 +1,11 @@
-const Tracking = () => {
+import React from "react";
+
+const Parking = () => {
   return (
     <div className="w-full h-full flex justify-center items-center text-[var(--text)]">
-      Tracking
+      Parking
     </div>
   );
 };
 
-export default Tracking;
+export default Parking;

@@ -1,7 +1,9 @@
-import React from "react";
-
 const Settings = () => {
-  return <div>Settings</div>;
+  return (
+    <div className="w-full h-full flex justify-center items-center text-[var(--text)]">
+      Settings
+    </div>
+  );
 };
 
 export default Settings;

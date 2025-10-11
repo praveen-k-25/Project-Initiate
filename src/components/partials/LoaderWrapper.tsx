@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+/* import { type ReactNode } from "react";
 import { useNavigation } from "react-router-dom";
 import loader from "../../assets/svgs/loader.svg";
 
@@ -20,3 +20,4 @@ const LoaderWrapper = ({ children }: loaderProps) => {
 };
 
 export default LoaderWrapper;
+ */

@@ -8,7 +8,7 @@ import whiteLoader from "../../assets/gifs/white-spinner.webp";
 import { login_Schema } from "../../validation/auth_validation";
 import type { login, loginComponentProps } from "../../typesTs/auth";
 import type { appDispatch } from "../../store/store";
-import { setAuth, setUser } from "../../store/auth_slice";
+import { setAuth, setSliceTheme, setUser } from "../../store/auth_slice";
 import { loginUser } from "../../handler/api_handler";
 import TextInput from "../ui/TextInput";
 import PasswordInput from "../ui/PasswordInput";
@@ -42,6 +42,7 @@ const Login: FC<loginComponentProps> = (props) => {
       toast.success("Logged In");
       dispatch(setAuth(response.success));
       dispatch(setUser(response.data));
+      dispatch(setSliceTheme(localStorage?.getItem("metron-theme")));
       navigate("/dashboard", { replace: true });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {

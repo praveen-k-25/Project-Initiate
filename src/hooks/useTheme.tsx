@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import type { appDispatch } from "../store/store";
+import { setSliceTheme } from "../store/auth_slice";
 
 const useTheme = (): [
   "light" | "dark",
@@ -7,6 +10,7 @@ const useTheme = (): [
   const [theme, setTheme] = useState<"light" | "dark">(
     localStorage.getItem("metron-theme") === "dark" ? "dark" : "light"
   );
+  const dispatch = useDispatch<appDispatch>();
 
   // indicates the root element which is html tag
   const element = document.documentElement;
@@ -57,6 +61,9 @@ const useTheme = (): [
     return () => darkQuery.removeEventListener("change", changeHandler);
   }, []);
 
+  useEffect(() => {
+    dispatch(setSliceTheme(theme));
+  }, [theme]);
   return [theme, setTheme];
 };
 

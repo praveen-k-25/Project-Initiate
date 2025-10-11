@@ -23,7 +23,7 @@ export default function usertracker(user: any) {
               timestamp: Date.now(),
             };
 
-            console.log("📡 Publishing location", payload);
+            //console.log("📡 Publishing location", payload);
             client.publish("user/location", JSON.stringify(payload));
           },
           (err) => console.error("❌ Geolocation error:", err)

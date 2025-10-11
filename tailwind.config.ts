@@ -19,7 +19,7 @@ const config: Config = {
         extrabold: "800",
         black: "900",
       },
-      colors:{
+      colors: {
         radius: "var(--radius)",
         destructive: "var(--destructive)",
         primary: "var(--primary)",
@@ -27,10 +27,11 @@ const config: Config = {
         "primary-background": "var(--primary-background)",
         button: "var(--button)",
         "button-primary": "var(--button-primary)",
+        "button-sec": "var(--button-sec)",
         text: "var(--text)",
         "sub-text": "var(--sub-text)",
         border: "var(--border)",
-      }
+      },
     },
   },
   plugins: [],

@@ -51,12 +51,13 @@ icon-dark   -  #fafafa
   --primary: #1447e6;
   --input: #e5e5e5;
   --background: #fff;
-  --primary-background: #fff;
-  --button: rgb(243, 243, 243);
-  --button-primary: #f5f5f59a;
+  --primary-background: #ffffff;
+  --button: #fff;
+  --button-primary: #e4e1e18d;
+  --button-sec: #f5f5f5f0;
   --text: #0a0a0a;
   --sub-text: #71717b;
-  --border: oklch(84.212% 0.0001 271.152); /* border color */
+  --border: oklch(93.705% 0.00011 271.152); /* border color */
 }
 
 .dark {
@@ -66,12 +67,12 @@ icon-dark   -  #fafafa
   --input: #aaa6a6;
   --background: #0a0a0a;
   --primary-background: #171717;
-  --secondary-background: #171717;
-  --button: #303030;
-  --button-primary: #2626269a;
+  --button: #252525;
+  --button-primary: #3c3c3c9a;
+  --button-sec: #3c3c3c2c;
   --text: #fafafa;
   --sub-text: #71717b;
-  --border: #383838;
+  --border: #252525;
 }
 
 input:-webkit-autofill,
@@ -90,5 +91,5 @@ select:-webkit-autofill {
 .dark textarea:-webkit-autofill,
 .dark select:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px #252525 inset !important; /* dark bg */
-  -webkit-text-fill-color: #e5e5e5 !important; /* light text */
+  -webkit-text-fill-color: #fff !important; /* light text */
 }

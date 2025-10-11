@@ -3,7 +3,7 @@ import password_eye from "../../assets/svgs/password_eye.svg";
 import password_eye_close from "../../assets/svgs/password_eye_close.svg";
 import password_eye_close_dark from "../../assets/svgs/password_eye_close_dark.svg";
 import password_eye_dark from "../../assets/svgs/password_eye_dark.svg";
-import useTheme from "../../hooks/useTheme";
+import { useSelector } from "react-redux";
 
 interface PasswordInputProps {
   label?: string;
@@ -38,9 +38,8 @@ const PasswordInput = ({
   visibleIconClassName = "p-2 px-4 border-none flex justify-center items-center bg-[var(--button)]",
   errorClassName = "text-xs ml-1 font-medium text-[var(--destructive)]",
 }: PasswordInputProps) => {
-  const [theme] = useTheme();
+  const { theme } = useSelector((state: any) => state.auth);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
@@ -64,37 +63,21 @@ const PasswordInput = ({
               className={visibleIconClassName}
             >
               {showPassword ? (
-                <>
-                  {theme === "light" ? (
-                    <img
-                      src={password_eye}
-                      alt=""
-                      className="w-4 text-[var(--text)] border-none "
-                    />
-                  ) : (
-                    <img
-                      src={password_eye_dark}
-                      alt=""
-                      className="w-4 text-[var(--text)] border-none"
-                    />
-                  )}
-                </>
+                <img
+                  src={theme === "light" ? password_eye : password_eye_dark}
+                  alt=""
+                  className="w-4 text-[var(--text)] border-none "
+                />
               ) : (
-                <>
-                  {theme === "light" ? (
-                    <img
-                      src={password_eye_close}
-                      alt=""
-                      className="w-4 text-[var(--text)] border-none"
-                    />
-                  ) : (
-                    <img
-                      src={password_eye_close_dark}
-                      alt=""
-                      className="w-4 text-[var(--text)] border-none"
-                    />
-                  )}
-                </>
+                <img
+                  src={
+                    theme === "light"
+                      ? password_eye_close
+                      : password_eye_close_dark
+                  }
+                  alt=""
+                  className="w-4 text-[var(--text)] border-none"
+                />
               )}
             </section>
           )}

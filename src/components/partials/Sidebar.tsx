@@ -3,25 +3,41 @@ import companyLogoDark from "../../assets/svgs/logo-dark.svg";
 import companyLogo from "../../assets/svgs/logo.svg";
 import dropdown from "../../assets/svgs/dropdown.svg";
 import dropdown_dark from "../../assets/svgs/dropdown-dark.svg";
-import { sidebar } from "../../lib/sidebar";
-import { Navigate } from "react-router-dom";
-import { useState } from "react";
+import { sidebarFooter, sidebarMain } from "../../lib/sidebar";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Sidebar = () => {
   const [theme, setTheme] = useTheme();
-  const [pathname] = useState(window.location.pathname);
+  const [pathname, setPathname] = useState<string>(window.location.pathname);
   const [openDropdown, setOpenDropdown] = useState<string>("");
-  console.log(pathname);
+  const [historyDropdown, setHistoryDropdown] = useState<string>("");
+  const navigate = useNavigate();
 
-  const handleRoute = (path: string) => <Navigate to={path} />;
+  useEffect(() => {
+    setPathname(window.location.pathname);
+  }, [window.location.pathname]);
+  const handleRoute = (path: string) => {
+    navigate(path);
+  };
   const handleDropdown = (title: string) => {
-    title === openDropdown ? setOpenDropdown("") : setOpenDropdown(title);
+    if (title === openDropdown) {
+      setOpenDropdown("");
+    } else {
+      setHistoryDropdown(title);
+      setOpenDropdown(title);
+    }
+  };
+
+  const handleReEnterDropDown = () => {
+    setOpenDropdown(historyDropdown);
   };
 
   return (
     <div
+      onMouseEnter={handleReEnterDropDown}
       onMouseLeave={() => setOpenDropdown("")}
-      className={`h-full flex flex-col transition-[width] w-[55px] hover:w-[220px] ease-in-out duration-300 p-2 bg-[var(--primary-background)] relative border-r border-[var(--button)] `}
+      className={`h-full flex flex-col transition-[width] w-[55px] hover:w-[230px] ease-in-out duration-300 p-2 bg-[var(--primary-background)] relative border-r border-[var(--border)] `}
     >
       <div className="overflow-hidden flex flex-col gap-3 h-full">
         <header className="relative flex justify-center items-center gap-2 my-1">
@@ -45,16 +61,16 @@ const Sidebar = () => {
           </span>
         </header>
         <ul className="flex flex-col justify-center overflow-hidden ml-1 bg-[var(--primary-background)]">
-          {sidebar.map((menu, index) => {
+          {sidebarMain.map((menu, index) => {
             if (!menu.submenu) {
               return (
                 <li
                   onClick={() => handleRoute(menu.path)}
                   key={`menu-${index}`}
-                  className={`relative overflow-hidden rounded-md flex justify-start items-center gap-2 my-1 p-1 cursor-default ${
-                    window.location.pathname === menu.path
-                      ? "bg-[var(--button)]"
-                      : "bg hover:bg-[var(--button-primary)]"
+                  className={`relative overflow-hidden rounded-md flex justify-start items-center gap-2 my-1 p-1 cursor-default transition-colors duration-150 ${
+                    pathname === menu.path
+                      ? "bg-[var(--button-primary)]"
+                      : "bg hover:bg-[var(--button-sec)]"
                   }`}
                 >
                   <img
@@ -75,10 +91,10 @@ const Sidebar = () => {
                 className="flex flex-col"
               >
                 <section
-                  className={`relative overflow-hidden rounded-md flex justify-start items-center gap-2 my-1 p-1 cursor-default ${
-                    window.location.pathname === menu.path
-                      ? "bg-[var(--button)]"
-                      : "bg hover:bg-[var(--button-primary)]"
+                  className={`relative overflow-hidden rounded-md flex justify-start items-center gap-2 my-1 p-1 cursor-default transition-colors duration-150 ${
+                    menu.activeList.includes(pathname)
+                      ? "bg-[var(--button-primary)]"
+                      : "bg hover:bg-[var(--button-sec)]"
                   }`}
                 >
                   <img
@@ -106,10 +122,10 @@ const Sidebar = () => {
                       <li
                         key={`submenu-${index}`}
                         onClick={() => handleRoute(submenu.path)}
-                        className={`p-2 rounded-md my-1 cursor-default text-[var(--text)] text-sm font-normal capitalize ${
-                          window.location.pathname === menu.path
-                            ? "bg-[var(--button)]"
-                            : "bg hover:bg-[var(--button-primary)]"
+                        className={`p-2 pl-3 rounded-md my-1 cursor-default text-[var(--text)] text-sm font-normal capitalize transition-colors duration-150 ${
+                          pathname === submenu.path
+                            ? "bg-[var(--button-primary)]"
+                            : "bg hover:bg-[var(--button-sec)]"
                         }`}
                       >
                         {submenu.title}{" "}
@@ -121,7 +137,38 @@ const Sidebar = () => {
             );
           })}
         </ul>
-        <footer className="relative flex justify-center items-center gap-2 my-1"></footer>
+        <footer className="relative flex-1 flex justify-center items-end gap-2 my-1">
+          {sidebarFooter.map((footer, index) => {
+            if (footer.title === "logout") {
+              /* 
+              return <div className=""></div>;
+            } */
+              return (
+                <section
+                  key={`sidebar-footer-${index}`}
+                  className="relative overflow-hidden rounded-md flex justify-start items-center gap-2 cursor-default p-1"
+                >
+                  <div className="sticky left-0 min-w-[38px] min-h-[38px] rounded-full flex justify-center items-center border-none font-extrabold text-xl bg-green-500 text-[var(--text)] capitalize">
+                    {footer.title[0].toLowerCase()}
+                  </div>
+                  <div className=" flex flex-col justify-center gap-[2px]">
+                    <span className="font-light text-sm text-[var(--text)] z-0">
+                      praveen
+                    </span>
+                    <span className="font-xs text-xs text-[var(--sub-text)] z-0 ">
+                      testdemo@gmail.com
+                    </span>
+                  </div>
+                  <img
+                    src={theme === "light" ? footer.icon : footer.darkIcon}
+                    alt=""
+                    className=" w-9 p-[10px] rounded-md bg-[var(--button-sec)] hover:bg-[var(--button-primary)] "
+                  />
+                </section>
+              );
+            }
+          })}
+        </footer>
       </div>
     </div>
   );
