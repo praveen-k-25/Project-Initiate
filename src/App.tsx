@@ -28,6 +28,8 @@ export default function App() {
             <Route path="/parking" element={<Parking />} />
             <Route path="/playback" element={<Playback />} />
             <Route path="/inactive" element={<Inactive />} />
+            <Route path="/call" element={ <div className="w-full h-full flex justify-center items-center text-[var(--text)]" >call</div> } />
+
             <Route path="/notfound" element={<NotFound />} />
           </Route>
         </Route>

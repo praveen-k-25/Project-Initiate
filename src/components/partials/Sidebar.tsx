@@ -12,6 +12,7 @@ const Sidebar = () => {
   const [pathname, setPathname] = useState<string>(window.location.pathname);
   const [openDropdown, setOpenDropdown] = useState<string>("");
   const [historyDropdown, setHistoryDropdown] = useState<string>("");
+  const [showLogout, setShowLogout] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,13 +25,16 @@ const Sidebar = () => {
     if (title === openDropdown) {
       setOpenDropdown("");
     } else {
-      setHistoryDropdown(title);
       setOpenDropdown(title);
     }
   };
 
   const handleReEnterDropDown = () => {
     setOpenDropdown(historyDropdown);
+  };
+
+  const handleShowLogout = () => {
+    setShowLogout(!showLogout);
   };
 
   return (
@@ -65,7 +69,11 @@ const Sidebar = () => {
             if (!menu.submenu) {
               return (
                 <li
-                  onClick={() => handleRoute(menu.path)}
+                  onClick={() => {
+                    setOpenDropdown("");
+                    setHistoryDropdown("");
+                    handleRoute(menu.path);
+                  }}
                   key={`menu-${index}`}
                   className={`relative overflow-hidden rounded-md flex justify-start items-center gap-2 my-1 p-1 cursor-default transition-colors duration-150 ${
                     pathname === menu.path
@@ -121,7 +129,10 @@ const Sidebar = () => {
                     {menu.submenuList.map((submenu, index) => (
                       <li
                         key={`submenu-${index}`}
-                        onClick={() => handleRoute(submenu.path)}
+                        onClick={() => {
+                          setHistoryDropdown(menu.title);
+                          handleRoute(submenu.path);
+                        }}
                         className={`p-2 pl-3 rounded-md my-1 cursor-default text-[var(--text)] text-sm font-normal capitalize transition-colors duration-150 ${
                           pathname === submenu.path
                             ? "bg-[var(--button-primary)]"
@@ -144,27 +155,28 @@ const Sidebar = () => {
               return <div className=""></div>;
             } */
               return (
-                <section
-                  key={`sidebar-footer-${index}`}
-                  className="relative overflow-hidden rounded-md flex justify-start items-center gap-2 cursor-default p-1"
-                >
-                  <div className="sticky left-0 min-w-[38px] min-h-[38px] rounded-full flex justify-center items-center border-none font-extrabold text-xl bg-green-500 text-[var(--text)] capitalize">
-                    {footer.title[0].toLowerCase()}
-                  </div>
-                  <div className=" flex flex-col justify-center gap-[2px]">
-                    <span className="font-light text-sm text-[var(--text)] z-0">
-                      praveen
-                    </span>
-                    <span className="font-xs text-xs text-[var(--sub-text)] z-0 ">
-                      testdemo@gmail.com
-                    </span>
-                  </div>
-                  <img
-                    src={theme === "light" ? footer.icon : footer.darkIcon}
-                    alt=""
-                    className=" w-9 p-[10px] rounded-md bg-[var(--button-sec)] hover:bg-[var(--button-primary)] "
-                  />
-                </section>
+                  <section
+                    key={`sidebar-footer-${index}`}
+                    className="relative overflow-hidden rounded-md flex justify-start items-center gap-2 cursor-default p-1"
+                  >
+                    <div className="sticky left-0 min-w-[34px] min-h-[34px] rounded-full flex justify-center items-center border-none font-extrabold text-xl bg-green-500 text-[var(--text)] capitalize">
+                      {footer.title[0].toLowerCase()}
+                    </div>
+                    <div className=" flex flex-col justify-center gap-[2px]">
+                      <span className="font-light text-sm text-[var(--text)] z-0">
+                        praveen
+                      </span>
+                      <span className="font-xs text-xs text-[var(--sub-text)] z-0 ">
+                        testdemo@gmail.com
+                      </span>
+                    </div>
+                    <img
+                      onClick={handleShowLogout}
+                      src={theme === "light" ? footer.icon : footer.darkIcon}
+                      alt=""
+                      className=" w-9 p-[10px] rounded-md bg-[var(--button-sec)] hover:bg-[var(--button-primary)] "
+                    />
+                  </section>
               );
             }
           })}
