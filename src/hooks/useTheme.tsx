@@ -64,6 +64,7 @@ const useTheme = (): [
   useEffect(() => {
     dispatch(setSliceTheme(theme));
   }, [theme]);
+
   return [theme, setTheme];
 };
 

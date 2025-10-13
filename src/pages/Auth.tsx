@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import loginBackgruoundImage from "../assets/images/birds-eye.jpg";
 import companyLogoDark from "../assets/svgs/logo-dark.svg";
 import companyLogo from "../assets/svgs/logo.svg";
 import Login from "../components/partials/Login";
 import Register from "../components/partials/Register";
 import useTheme from "../hooks/useTheme";
+import { useDispatch } from "react-redux";
+import type { appDispatch } from "../store/store";
+import { setLogout, setSliceTheme } from "../store/auth_slice";
 
 const Auth = () => {
+  const dispatch = useDispatch<appDispatch>();
   const [accessPage, setAccessPage] = useState("SignUp");
   const [theme, setTheme] = useTheme();
+
+  useEffect(() => {
+    dispatch(setLogout());
+    dispatch(setSliceTheme(localStorage.getItem("metron-theme") || "light"));
+  }, []);
 
   const handleTheme = () => {
     if (theme === "dark") {

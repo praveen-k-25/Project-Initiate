@@ -32,8 +32,13 @@ const Register: FC<registerComponentProps> = (props) => {
       toast.success("Registration Completed");
       setAccessPage("SignUp");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("Email already exist");
+    } catch (error: any) {
+      const { cause, message } = error?.response?.data;
+      if (cause === "email") {
+        toast.error("Email already exist");
+      } else {
+        toast.error(message || "Something went wrong");
+      }
     } finally {
       setLoading(false);
     }
@@ -89,7 +94,7 @@ const Register: FC<registerComponentProps> = (props) => {
           label="Password"
           type="password"
           name="password"
-          id="login_password"
+          id="register_password"
           passwordView={false}
           register={register}
           errors={errors}

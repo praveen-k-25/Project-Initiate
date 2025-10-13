@@ -24,7 +24,7 @@ const config: Config = {
         destructive: "var(--destructive)",
         primary: "var(--primary)",
         background: "var(--background)",
-        "primary-background": "var(--primary-background)",
+        "primary-background": "var(--background)",
         button: "var(--button)",
         "button-primary": "var(--button-primary)",
         "button-sec": "var(--button-sec)",

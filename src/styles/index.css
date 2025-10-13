@@ -51,10 +51,10 @@ icon-dark   -  #fafafa
   --primary: #1447e6;
   --input: #e5e5e5;
   --background: #fff;
-  --primary-background: #ffffff;
+  --primary-background: #f4f1f1a0;
   --button: #fff;
-  --button-primary: #e4e1e18d;
-  --button-sec: #f5f5f5f0;
+  --button-primary: #e4e1e1;
+  --button-sec: #dad9d957;
   --text: #0a0a0a;
   --sub-text: #71717b;
   --border: oklch(93.705% 0.00011 271.152); /* border color */

@@ -52,8 +52,7 @@ const Login: FC<loginComponentProps> = (props) => {
           type: "manual",
           message: "Invalid Password",
         });
-      }
-      if (cause === "email") {
+      } else if (cause === "email") {
         setError("email", {
           type: "manual",
           message: "Invalid Email",
@@ -78,6 +77,7 @@ const Login: FC<loginComponentProps> = (props) => {
         type="email"
         name="email"
         id="login_email"
+        autoFocus={true}
         register={register}
         errors={errors}
         errorMessage={(errors?.email?.message as string) || "invalid email"}
@@ -143,7 +143,7 @@ const Login: FC<loginComponentProps> = (props) => {
       {/* Submit Button */}
       <button
         type="submit"
-        className="relative mt-2 text-white flex justify-center text-sm bg-[var(--primary)] px-2 font-medium rounded-lg cursor-pointer select-none"
+        className={`relative mt-2 text-white flex justify-center text-sm bg-[var(--primary)] px-2 font-medium rounded-lg cursor-pointer select-none ${loading ? "pointer-events-none disabled" : ""}`}
       >
         <img
           src={whiteLoader}

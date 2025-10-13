@@ -35,7 +35,11 @@ export default function App() {
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster
+        position="top-right"
+        containerStyle={{ fontSize: "12px" }}
+        reverseOrder={false}
+      />
     </div>
   );
 }

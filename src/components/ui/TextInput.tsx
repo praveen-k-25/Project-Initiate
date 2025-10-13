@@ -3,6 +3,7 @@ interface TextInputProps {
   type: string;
   name: string;
   id: string;
+  autoFocus?: boolean;
   register: any;
   errors: any;
   errorMessage?: string;
@@ -17,6 +18,7 @@ const TextInput = ({
   type,
   name,
   id,
+  autoFocus = false,
   register,
   errors,
   errorMessage,
@@ -37,6 +39,7 @@ const TextInput = ({
           {...register(name)}
           id={id}
           type={type}
+          autoFocus={autoFocus}
           className={inputClassName}
         />
         <p
