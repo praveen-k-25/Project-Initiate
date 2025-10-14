@@ -37,6 +37,11 @@ const Sidebar: FC = () => {
     setShowLogout(!showLogout);
   };
 
+  const logout = () => {
+    navigate("/");
+    toast.success("Logged Out");
+  };
+
   return (
     <div
       onMouseEnter={handleReEnterDropDown}
@@ -153,9 +158,9 @@ const Sidebar: FC = () => {
           {sidebarFooter.map((footer, index) => {
             if (footer.title === "logout") {
               return (
-                <section
+                <li
                   key={`sidebar-footer-${index}`}
-                  className="relative overflow-hidden rounded-md flex justify-start items-center gap-2 cursor-default p-1"
+                  className="relative rounded-md flex justify-start items-center gap-2 cursor-default"
                 >
                   <div className="sticky left-0 min-w-[34px] min-h-[34px] rounded-full flex justify-center items-center border-none font-extrabold text-xl bg-green-500 text-[var(--text)] capitalize">
                     {footer.title[0].toLowerCase()}
@@ -171,10 +176,17 @@ const Sidebar: FC = () => {
                   <img
                     onClick={handleShowLogout}
                     src={theme === "light" ? footer.icon : footer.darkIcon}
-                    alt=""
-                    className=" w-9 p-[10px] rounded-md bg-[var(--button-sec)] hover:bg-[var(--button-primary)] "
+                    alt="logout"
+                    className="w-9 p-[10px] rounded-md bg-[var(--button-sec)] hover:bg-[var(--button-primary)] "
                   />
-                </section>
+                  <button
+                    ref={logoutRef}
+                    onClick={logout}
+                    className={`absolute -top-[40px] right-[0px] px-3 py-1 w-[90px] text-sm text-[var(--text)] rounded-md z-50 hover:bg-[var(--button-primary)] bg-[var(--button-sec)] transition-all duration-300 ${showLogout ? "opacity-100 translate-0" : "opacity-0 -z-20 translate-y-2"} `}
+                  >
+                    Logout
+                  </button>
+                </li>
               );
             }
             return (
