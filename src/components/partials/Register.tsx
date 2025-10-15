@@ -3,11 +3,12 @@ import { useEffect, useState, type FC } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import whiteLoader from "../../assets/gifs/white-spinner.webp";
-import { registerUser } from "../../handler/api_handler";
+import { registerOtp, registerUser } from "../../handler/api_handler";
 import type { register, registerComponentProps } from "../../typesTs/auth";
 import { register_Schema } from "../../validation/auth_validation";
 import TextInput from "../ui/TextInput";
 import PasswordInput from "../ui/PasswordInput";
+import Otp from "./Otp";
 
 const Register: FC<registerComponentProps> = (props) => {
   const { accessPage, setAccessPage } = props;
@@ -20,18 +21,41 @@ const Register: FC<registerComponentProps> = (props) => {
   } = useForm({
     resolver: yupResolver(register_Schema),
   });
+  const [userInfo, setUserInfo] = useState<register>();
+  // OTP page
+
+  const [otpPageOpen, setOtpPageOpen] = useState<boolean>(false);
 
   useEffect(() => {
     clearErrors();
   }, [accessPage]);
 
-  const onSubmit = async (data: register) => {
+  const handleRegisterUser = async () => {
     try {
       setLoading(true);
-      await registerUser(data);
+      await registerUser(userInfo as register);
       toast.success("Registration Completed");
       setAccessPage("SignUp");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error: any) {
+      const { cause, message } = error?.response?.data;
+      if (cause === "email") {
+        toast.error("Email already exist");
+      } else {
+        toast.error(message || "Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onSubmit = async (data: any) => {
+    setUserInfo(data);
+    try {
+      setLoading(true);
+      const response = await registerOtp({ email: data?.email });
+      toast.success(response.message);
+      setOtpPageOpen(true);
     } catch (error: any) {
       const { cause, message } = error?.response?.data;
       if (cause === "email") {
@@ -154,6 +178,17 @@ const Register: FC<registerComponentProps> = (props) => {
           <span className="p-2">Sign Up</span>
         )}
       </button>
+
+      {/* Otp section */}
+      {userInfo?.email && (
+        <Otp
+          isOpen={otpPageOpen}
+          email={userInfo.email}
+          onClose={() => setOtpPageOpen(false)}
+          userInfo={userInfo}
+          setAccessPage={setAccessPage}
+        />
+      )}
     </form>
   );
 };

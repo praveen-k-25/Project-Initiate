@@ -94,57 +94,59 @@ const Auth = () => {
             </section>
             {/* Sign Up or Register */}
             <section
-              className={`bg-transparent flex flex-col w-full px-3 h-full absolute inset-0 transition-all ${
+              className={`bg-transparent flex flex-col w-full h-full absolute inset-0 transition-all ${
                 accessPage === "SignUp"
                   ? "opacity-0 duration-500 translate-x-full"
                   : "opacity-100 duration-600 z-10"
               }`}
             >
-              <article className="w-full flex gap-2 justify-center items-center p-3 select-none">
-                <>
-                  {theme === "light" ? (
-                    <img
-                      onClick={handleTheme}
-                      src={companyLogo}
-                      alt=""
-                      className={`w-7`}
+              <section className="bg-transparent flex flex-col w-full h-full px-3 relative">
+                <article className="w-full flex gap-2 justify-center items-center p-3 select-none">
+                  <>
+                    {theme === "light" ? (
+                      <img
+                        onClick={handleTheme}
+                        src={companyLogo}
+                        alt=""
+                        className={`w-7`}
+                      />
+                    ) : (
+                      <img
+                        onClick={handleTheme}
+                        src={companyLogoDark}
+                        alt=""
+                        className={`w-7`}
+                      />
+                    )}
+                  </>
+                  <span className="font-semibold text-lg text-[var(--text)]">
+                    Metron
+                  </span>
+                </article>
+                <article className="flex-1 flex flex-col justify-center items-center gap-2 px-1 m-2">
+                  <div className="bg-[var(--primary-background)] px-5 py-6 rounded-[var(--radius)] border border-[var(--border)] flex flex-col justify-center gap-2">
+                    <h2 className="text-2xl text-[var(--text)] text-center">
+                      Create an account
+                    </h2>
+                    <p className="text-sm text-center font-medium text-[var(--sub-text)]">
+                      Enter your email and password to access your account
+                    </p>
+                    <Register
+                      accessPage={accessPage}
+                      setAccessPage={setAccessPage}
                     />
-                  ) : (
-                    <img
-                      onClick={handleTheme}
-                      src={companyLogoDark}
-                      alt=""
-                      className={`w-7`}
-                    />
-                  )}
-                </>
-                <span className="font-semibold text-lg text-[var(--text)]">
-                  Metron
-                </span>
-              </article>
-              <article className="flex-1 flex flex-col justify-center items-center gap-2 px-1 m-2">
-                <div className="bg-[var(--primary-background)] px-5 py-6 rounded-[var(--radius)] border border-[var(--border)] flex flex-col justify-center gap-2">
-                  <h2 className="text-2xl text-[var(--text)] text-center">
-                    Create an account
-                  </h2>
-                  <p className="text-sm text-center font-medium text-[var(--sub-text)]">
-                    Enter your email and password to access your account
-                  </p>
-                  <Register
-                    accessPage={accessPage}
-                    setAccessPage={setAccessPage}
-                  />
-                </div>
-              </article>
-              <article className="text-[var(--sub-text)] font-medium text-sm text-center p-4">
-                Back to{" "}
-                <span
-                  onClick={() => setAccessPage("SignUp")}
-                  className="text-[var(--text)] font-semibold underline cursor-pointer"
-                >
-                  Sign In
-                </span>
-              </article>
+                  </div>
+                </article>
+                <article className="text-[var(--sub-text)] font-medium text-sm text-center p-4">
+                  Back to{" "}
+                  <span
+                    onClick={() => setAccessPage("SignUp")}
+                    className="text-[var(--text)] font-semibold underline cursor-pointer"
+                  >
+                    Sign In
+                  </span>
+                </article>
+              </section>
             </section>
           </div>
         </section>

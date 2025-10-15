@@ -118,15 +118,21 @@ const Login: FC<loginComponentProps> = (props) => {
 
       {/* Remember Me */}
       <section className="flex justify-between mt-3">
-        <div
-          onClick={() => {
-            setRememberMe(!rememberMe);
-          }}
-          className="text-sm flex gap-2"
-        >
+        <div className="text-sm flex gap-2">
           <Checkbox
             color="bg-[var(--primary)] border-[var(--primary)]"
             checked={rememberMe}
+            onClick={() => {
+              setRememberMe(!rememberMe);
+            }}
+          />
+          <input
+            id="remember_me"
+            onChange={() => {
+              setRememberMe(!rememberMe);
+            }}
+            type="checkbox"
+            className="hidden"
           />
           <label
             htmlFor="remember_me"

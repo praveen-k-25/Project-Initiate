@@ -1,5 +1,11 @@
-import axios, {type AxiosRequestConfig} from "axios";
-import type {login, recievedLogin, register} from "../typesTs/auth";
+import axios, { type AxiosRequestConfig } from "axios";
+import type {
+  login,
+  recievedLogin,
+  register,
+  registerOtpData,
+  registerOtpRecieved,
+} from "../typesTs/auth";
 
 /* interface axiosRequestProps {
   url: string;
@@ -35,7 +41,7 @@ async function axiosRequestHandler<T>(
     });
     return response.data as T;
   } catch (error: any) {
-    throw error || {message: "Something went wrong"};
+    throw error || { message: "Something went wrong" };
   }
 }
 
@@ -45,4 +51,10 @@ export const registerUser = async (data: register) => {
 
 export const loginUser = async (data: login): Promise<recievedLogin> => {
   return await axiosRequestHandler("/user/login", "POST", data);
+};
+
+export const registerOtp = async (
+  data: registerOtpData
+): Promise<registerOtpRecieved> => {
+  return await axiosRequestHandler("/user/registerOtp", "POST", data);
 };

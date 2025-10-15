@@ -12,6 +12,7 @@ export interface loginComponentProps {
 export interface register extends login {
   username: string;
   confirmPassword: string;
+  otp: number;
 }
 
 export interface registerComponentProps {
@@ -29,4 +30,23 @@ export interface recievedLogin {
     email: string;
     id: string;
   };
+}
+
+export interface otpProps {
+  email: string;
+  onClose: () => void;
+  isOpen: boolean;
+  userInfo: any;
+  setAccessPage: Dispatch<SetStateAction<string>>;
+}
+
+export interface registerOtpData {
+  email: string;
+}
+
+export interface registerOtpRecieved {
+  success: boolean;
+  message: string;
+  status?: number;
+  cause?: string | null;
 }

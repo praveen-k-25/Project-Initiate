@@ -10,12 +10,28 @@ import { useSelector } from "react-redux";
 
 const Sidebar: FC = () => {
   const { theme } = useSelector((state: any) => state.auth);
-  const logoutRef = useRef<HTMLButtonElement | null>(null);
+  const logoutRef = useRef<HTMLLIElement | null>(null);
   const { pathname } = useLocation();
   const [openDropdown, setOpenDropdown] = useState<string>("");
   const [historyDropdown, setHistoryDropdown] = useState<string>("");
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        logoutRef.current &&
+        !logoutRef.current.contains(event.target as Node)
+      ) {
+        setShowLogout(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   const handleRoute = (path: string) => {
     navigate(path);
@@ -159,6 +175,7 @@ const Sidebar: FC = () => {
             if (footer.title === "logout") {
               return (
                 <li
+                  ref={logoutRef}
                   key={`sidebar-footer-${index}`}
                   className="relative rounded-md flex justify-start items-center gap-2 cursor-default"
                 >
@@ -180,9 +197,8 @@ const Sidebar: FC = () => {
                     className="w-9 p-[10px] rounded-md bg-[var(--button-sec)] hover:bg-[var(--button-primary)] "
                   />
                   <button
-                    ref={logoutRef}
                     onClick={logout}
-                    className={`absolute -top-[40px] right-[0px] px-3 py-1 w-[90px] text-sm text-[var(--text)] rounded-md z-50 hover:bg-[var(--button-primary)] bg-[var(--button-sec)] transition-all duration-300 ${showLogout ? "opacity-100 translate-0" : "opacity-0 -z-20 translate-y-2"} `}
+                    className={`absolute -top-[40px] right-[0px] px-3 py-1 w-[90px] text-sm text-[var(--text)] rounded-md hover:bg-[var(--button-primary)] bg-[var(--button-sec)] transition-all duration-300 ${showLogout ? "opacity-100 translate-0 z-10" : "opacity-0 -z-20 translate-y-2"} `}
                   >
                     Logout
                   </button>
@@ -404,7 +420,7 @@ const MobileSidebar: FC = () => {
               >
                 {footer.title[0].toLowerCase()}
                 <ul
-                  className={`fixed top-[48px] right-[10px] transition-all duration-300 ${showProfileOptions ? "opacity-100 translate-0" : "opacity-0 -z-20 -translate-y-2"} rounded-md bg-[var(--primary-background)] w-[120px] flex flex-col gap-1 p-1`}
+                  className={`fixed top-[48px] right-[10px] transition-all duration-300 ${showProfileOptions ? "opacity-100 translate-0 z-10 " : "opacity-0 -z-20 -translate-y-2"} rounded-md bg-[var(--primary-background)] w-[120px] flex flex-col gap-1 p-1`}
                 >
                   <li className="text-[var(--text)] text-center py-1 rounded-md hover:bg-[var(--button-primary)] bg-[var(--button-sec)] ">
                     Profile

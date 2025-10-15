@@ -49,6 +49,7 @@ icon-dark   -  #fafafa
   --radius: 0.65rem; /* border radius */
   --destructive: oklch(0.577 0.245 27.325);
   --primary: #1447e6;
+  --sub-primary: #1449e679;
   --input: #e5e5e5;
   --background: #fff;
   --primary-background: #f4f1f1a0;
