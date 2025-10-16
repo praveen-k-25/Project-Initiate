@@ -4,6 +4,7 @@ interface TextInputProps {
   name: string;
   id: string;
   autoFocus?: boolean;
+  autoComplete?: string;
   register: any;
   errors: any;
   errorMessage?: string;
@@ -19,6 +20,7 @@ const TextInput = ({
   name,
   id,
   autoFocus = false,
+  autoComplete = "off",
   register,
   errors,
   errorMessage,
@@ -40,6 +42,7 @@ const TextInput = ({
           id={id}
           type={type}
           autoFocus={autoFocus}
+          autoComplete={autoComplete}
           className={inputClassName}
         />
         <p

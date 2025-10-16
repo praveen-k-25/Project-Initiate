@@ -65,6 +65,7 @@ const Register: FC<registerComponentProps> = (props) => {
           label="Username"
           type="text"
           name="username"
+          autoComplete="off"
           id="register_user"
           register={register}
           errors={errors}
@@ -86,6 +87,7 @@ const Register: FC<registerComponentProps> = (props) => {
           type="email"
           name="email"
           id="register_email"
+          autoComplete="off"
           register={register}
           errors={errors}
           errorMessage={

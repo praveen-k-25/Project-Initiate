@@ -41,6 +41,11 @@ export interface otpProps {
   reset: any;
 }
 
+export interface forgotPassword {
+  onClose: () => void;
+  isOpen: boolean;
+}
+
 export interface registerOtpData {
   email: string;
 }
