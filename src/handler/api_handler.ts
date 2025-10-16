@@ -2,7 +2,6 @@ import axios, { type AxiosRequestConfig } from "axios";
 import type {
   login,
   recievedLogin,
-  register,
   registerOtpData,
   registerOtpRecieved,
 } from "../typesTs/auth";
