@@ -6,13 +6,13 @@ import {
   type FC,
   type KeyboardEvent,
 } from "react";
-import type { otpProps, register } from "../../typesTs/auth";
-import { registerUser } from "../../handler/api_handler";
+import type { otpProps } from "../../typesTs/auth";
+import { registerOtp, registerUser } from "../../handler/api_handler";
 import toast from "react-hot-toast";
 import whiteLoader from "../../assets/gifs/white-spinner.webp";
 
 const Otp: FC<otpProps> = (props) => {
-  const { email, onClose, isOpen, userInfo, setAccessPage } = props;
+  const { email, onClose, isOpen, userInfo, setAccessPage, reset } = props;
   const inputRef = useRef<Array<HTMLInputElement | null>>([]);
   const [resend, setResend] = useState(true);
   const [seconds, setSeconds] = useState(30);
@@ -77,14 +77,16 @@ const Otp: FC<otpProps> = (props) => {
   };
 
   const onSubmit = async () => {
-    if (otp.length === 4) {
+    if (otp.length !== 4) {
       setOtpError({ message: "Invalid OTP", error: true });
       return;
     }
     try {
       setLoading(true);
-      await registerUser(userInfo as register);
+      await registerUser({ ...userInfo, otp: otp.join("") });
       toast.success("Registration Completed");
+      reset();
+      handleClose();
       setAccessPage("SignUp");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
@@ -94,9 +96,19 @@ const Otp: FC<otpProps> = (props) => {
     }
   };
 
+  const handleResend = async () => {
+    try {
+      setOtpError({ message: "", error: false });
+      const response = await registerOtp({ email: userInfo?.email });
+      toast.success(response.message);
+    } catch (error) {
+      toast.error("OTP not sent");
+    }
+  };
+
   return (
     <div
-      className={`fixed sm:left-[50%] inset-0 backdrop-blur-xs flex flex-col justify-center items-center text-[var(--text)] p-3 ${isOpen ? " z-10" : "-z-20"}`}
+      className={`fixed md:left-[50%] inset-0 backdrop-blur-sm flex flex-col justify-center items-center text-[var(--text)] p-3 ${isOpen ? " z-10" : "-z-20"}`}
     >
       <div
         className={`w-[370px] p-4 rounded-md bg-[var(--background)] border border-[var(--border)] transition-all ease-in-out duration-300 ${isOpen ? " translate-0 opacity-100" : "translate-y-2 opacity-0"} flex flex-col gap-4`}
@@ -111,29 +123,31 @@ const Otp: FC<otpProps> = (props) => {
           </p>
           <p className="text-sm">Enter it below to continue.</p>
         </div>
-        <section className="flex justify-around items-center gap-3 font-light">
-          {Array.from({ length: 4 }, (_, index) => (
-            <input
-              ref={(el: HTMLInputElement | null) => {
-                inputRef.current[index] = el;
-              }}
-              key={`otp-${index}`}
-              type="text"
-              maxLength={1}
-              value={otp[index]}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleInputChange(e.target.value, index)
-              }
-              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
-                handleKeyDown(e, index)
-              }
-              className={`rounded-md border border-[var(--border)] bg-[var(--primary-background)] text-center text-[var(--text)] w-[40px] h-[40px] ${otpError.error && "border-[var(--destructive)]"}`}
-            />
-          ))}
+        <section className="flex flex-col gap-1 font-light">
+          <section className="flex justify-around items-center gap-3">
+            {Array.from({ length: 4 }, (_, index) => (
+              <input
+                ref={(el: HTMLInputElement | null) => {
+                  inputRef.current[index] = el;
+                }}
+                key={`otp-${index}`}
+                type="text"
+                maxLength={1}
+                value={otp[index]}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleInputChange(e.target.value, index)
+                }
+                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
+                  handleKeyDown(e, index)
+                }
+                className={`rounded-md border border-[var(--border)] bg-[var(--primary-background)] text-center text-[var(--text)] w-[40px] h-[40px] ${otpError.error && "border-[var(--destructive)]"}`}
+              />
+            ))}
+          </section>
           {
             // show error message
             otpError.error && (
-              <span className="text-[var(--destructive)] text-xs">
+              <span className="text-[var(--destructive)] text-xs ml-3">
                 {otpError.message}
               </span>
             )
@@ -146,7 +160,10 @@ const Otp: FC<otpProps> = (props) => {
               `in 00:${seconds < 10 ? `0${seconds}` : seconds} seconds`}
             <span
               onClick={() => {
-                resend && startCountdown();
+                if (resend) {
+                  startCountdown();
+                  handleResend();
+                }
               }}
               className={`${resend ? "text-[var(--primary)]" : "text-[var(--sub-primary)]"} font-semibold tracking-wide cursor-pointer whitespace-nowrap`}
             >
@@ -155,22 +172,23 @@ const Otp: FC<otpProps> = (props) => {
           </p>
         </div>
         <button
+          type="button"
           onClick={onSubmit}
-          className="bg-[var(--primary)] px-3 py-2 rounded-md"
+          className="bg-[var(--primary)] rounded-md cursor-pointer flex justify-center items-center"
         >
           {loading ? (
             <img
               src={whiteLoader}
               alt="loading..."
-              className={`w-9 ${!loading && "opacity-0"}`}
+              className={`w-9 my-[2px] ${!loading && "opacity-0"}`}
             />
           ) : (
-            <span className="p-2">verify</span>
+            <p className=" text-white my-2">verify</p>
           )}
         </button>
         <div
           onClick={handleClose}
-          className="text-[var(--text)] text-sm text-center cursor-pointer"
+          className="text-[var(--text)] text-sm text-center cursor-default"
         >
           Back to Register
         </div>

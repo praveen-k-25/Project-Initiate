@@ -45,7 +45,7 @@ async function axiosRequestHandler<T>(
   }
 }
 
-export const registerUser = async (data: register) => {
+export const registerUser = async (data: any) => {
   return await axiosRequestHandler<any>("/user/register", "POST", data);
 };
 

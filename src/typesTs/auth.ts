@@ -38,6 +38,7 @@ export interface otpProps {
   isOpen: boolean;
   userInfo: any;
   setAccessPage: Dispatch<SetStateAction<string>>;
+  reset: any;
 }
 
 export interface registerOtpData {
