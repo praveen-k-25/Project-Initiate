@@ -1,27 +1,45 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import usertracker from "../features/mqtt";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import L from "leaflet";
+import { LayersControl, MapContainer, TileLayer, useMap } from "react-leaflet";
 
 const Dashboard = () => {
   const { user } = useSelector((state: any) => state.auth);
+  const mapRef = useRef<L.Map | null>(null);
   useEffect(() => {
     usertracker(user);
   }, []);
 
   return (
-    <div className="w-full h-full flex justify-center items-center text-[var(--text)]">
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
+    <div className="flex-1 h-screen bg-[var(--background)] overflow-hidden">
+      <div className="h-full w-full p-2">
+        <MapContainer
+          center={[12.9716, 77.5946]}
+          zoom={13}
+          minZoom={3}
+          scrollWheelZoom={true}
+          className="h-full w-full rounded-lg z-0"
+        >
+          <LayersControl position="topright">
+            <LayersControl.BaseLayer checked name="Dark">
+              <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="Light">
+              <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="Street">
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="street map">
+              <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png" />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="street map2">
+              <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+            </LayersControl.BaseLayer>
+          </LayersControl>
+        </MapContainer>
+      </div>
     </div>
   );
 };

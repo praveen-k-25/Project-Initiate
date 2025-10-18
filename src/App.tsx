@@ -1,4 +1,5 @@
 import "./styles/index.css";
+import "leaflet/dist/leaflet.css";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Auth";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
