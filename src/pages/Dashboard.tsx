@@ -1,25 +1,13 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import usertracker from "../features/mqtt";
-import {
-  MapContainer,
-  Marker,
-  Polyline,
-  Popup,
-  TileLayer,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 const Dashboard = () => {
   const { user } = useSelector((state: any) => state.auth);
   useEffect(() => {
     usertracker(user);
   }, []);
-
-  const center = [51.505, -0.09];
-  const rectangle = [
-    [51.49, -0.08],
-    [51.5, -0.06],
-  ];
 
   return (
     <div className="w-full h-full flex justify-center items-center text-[var(--text)]">
