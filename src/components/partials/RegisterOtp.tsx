@@ -11,7 +11,7 @@ import { registerOtp, registerUser } from "../../handler/api_handler";
 import toast from "react-hot-toast";
 import whiteLoader from "../../assets/gifs/white-spinner.webp";
 
-const Otp: FC<otpProps> = (props) => {
+const RegisterOtp: FC<otpProps> = (props) => {
   const { email, onClose, isOpen, userInfo, setAccessPage, reset } = props;
   const inputRef = useRef<Array<HTMLInputElement | null>>([]);
   const [resend, setResend] = useState(true);
@@ -197,4 +197,4 @@ const Otp: FC<otpProps> = (props) => {
   );
 };
 
-export default Otp;
+export default RegisterOtp;

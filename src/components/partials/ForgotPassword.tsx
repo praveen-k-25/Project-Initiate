@@ -9,9 +9,15 @@ import {
 import toast from "react-hot-toast";
 import whiteLoader from "../../assets/gifs/white-spinner.webp";
 import type { forgotPassword } from "../../typesTs/auth";
+import { resetPassword } from "../../handler/api_handler";
+import TextInput from "../ui/TextInput";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { forgotPasswordSchema } from "../../validation/auth_validation";
+import PasswordInput from "../ui/PasswordInput";
 
 const ForgotPassword: FC<forgotPassword> = (props) => {
-  const { onClose, isOpen } = props;
+  const { onClose, isOpen, email, resendOtp } = props;
   const inputRef = useRef<Array<HTMLInputElement | null>>([]);
   const [resend, setResend] = useState(true);
   const [seconds, setSeconds] = useState(30);
@@ -20,6 +26,15 @@ const ForgotPassword: FC<forgotPassword> = (props) => {
   const [otpError, setOtpError] = useState<{ message: string; error: boolean }>(
     { message: "", error: false }
   );
+  const {
+    formState: { errors },
+    register,
+    reset,
+    handleSubmit,
+  } = useForm({
+    mode: "all",
+    resolver: yupResolver(forgotPasswordSchema),
+  });
 
   useEffect(() => {
     inputRef.current[0]?.focus();
@@ -72,21 +87,24 @@ const ForgotPassword: FC<forgotPassword> = (props) => {
 
   const handleClose = () => {
     onClose();
+    reset();
     setOtp(Array(4).fill(""));
   };
 
-  const onSubmit = async () => {
+  const onForgotPasswordSubmit = async (data: any) => {
     if (otp.length !== 4) {
       setOtpError({ message: "Invalid OTP", error: true });
       return;
     }
     try {
       setLoading(true);
-      /* await registerUser({ ...userInfo, otp: otp.join("") });
-      toast.success("Registration Completed");
-      reset();
+      await resetPassword({
+        email: email,
+        otp: parseInt(otp.join("")),
+        newPassword: data.newPassword,
+      });
+      toast.success("New Password Updated");
       handleClose();
-      setAccessPage("SignUp"); */
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setOtpError({ message: "Invalid OTP", error: true });
@@ -95,32 +113,27 @@ const ForgotPassword: FC<forgotPassword> = (props) => {
     }
   };
 
-  const handleResend = async () => {
-    try {
-      setOtpError({ message: "", error: false });
-      /* const response = await registerOtp({ email: userInfo?.email });
-      toast.success(response.message); */
-    } catch (error) {
-      toast.error("OTP not sent");
-    }
-  };
-
   return (
     <div
       className={`fixed md:left-[50%] inset-0 backdrop-blur-sm flex flex-col justify-center items-center text-[var(--text)] p-3 ${isOpen ? " z-10" : "-z-20"}`}
     >
-      <div
+      <form
+        onSubmit={handleSubmit(onForgotPasswordSubmit)}
         className={`w-[370px] p-4 rounded-md bg-[var(--background)] border border-[var(--border)] transition-all ease-in-out duration-300 ${isOpen ? " translate-0 opacity-100" : "translate-y-2 opacity-0"} flex flex-col gap-4`}
       >
-        <span className=" font-semibold text-2xl">Verify OTP</span>
-        <div className="font-light flex flex-col gap-1">
+        <span id="FP-verify-otp" className=" font-semibold text-2xl">
+          Verify OTP
+        </span>
+        <div id="FP-sent-otp" className="font-light flex flex-col gap-1">
           <p className="text-sm ">
             We sent an OTP to{" "}
-            <span className="font-semibold text-[var(--sub-text)]"></span>{" "}
+            <span className="font-semibold text-[var(--sub-text)]">
+              {email}
+            </span>{" "}
           </p>
           <p className="text-sm">Enter it below to continue.</p>
         </div>
-        <section className="flex flex-col gap-1 font-light">
+        <section id="FP-input-otp" className="flex flex-col gap-1 font-light">
           <section className="flex justify-around items-center gap-3">
             {Array.from({ length: 4 }, (_, index) => (
               <input
@@ -137,7 +150,7 @@ const ForgotPassword: FC<forgotPassword> = (props) => {
                 onKeyDown={(e: KeyboardEvent<HTMLInputElement>) =>
                   handleKeyDown(e, index)
                 }
-                className={`rounded-md border border-[var(--border)] bg-[var(--primary-background)] text-center text-[var(--text)] w-[40px] h-[40px] ${otpError.error && "border-[var(--destructive)]"}`}
+                className={`rounded-md outline-0 border border-[var(--border)] bg-[var(--primary-background)] text-center text-[var(--text)] w-[40px] h-[40px] ${otpError.error && "border-[var(--destructive)]"}`}
               />
             ))}
           </section>
@@ -150,27 +163,51 @@ const ForgotPassword: FC<forgotPassword> = (props) => {
             )
           }
         </section>
-        <div className="font-light text-sm my-1">
+        <div id="FP-resend-otp" className="font-light text-sm my-1">
           <p className="flex justify-between gap-2">
             Resend available{" "}
             {!resend &&
               `in 00:${seconds < 10 ? `0${seconds}` : seconds} seconds`}
-            <span
+            <button
+              disabled={!resend}
               onClick={() => {
                 if (resend) {
                   startCountdown();
-                  handleResend();
+                  resendOtp();
                 }
               }}
-              className={`${resend ? "text-[var(--primary)]" : "text-[var(--sub-primary)]"} font-semibold tracking-wide cursor-pointer whitespace-nowrap`}
+              className={`${resend ? "text-[var(--primary)]" : "text-[var(--sub-primary)] "} font-semibold tracking-wide cursor-pointer whitespace-nowrap`}
             >
               Resend OTP
-            </span>
+            </button>
           </p>
         </div>
+        <PasswordInput
+          label="New Password"
+          type="password"
+          name="newPassword"
+          id="newPassword"
+          passwordView={true}
+          register={register}
+          errors={errors}
+          errorMessage={
+            (errors?.newPassword?.message as string) || "new password required"
+          }
+          componentClassName="flex flex-col gap-1"
+          labelClassName="font-medium text-sm select-none text-[var(--text)]"
+          inputWrapperClassName={`flex rounded-lg border border-[var(--border)] overflow-hidden ${
+            errors?.newPassword
+              ? "border-[var(--destructive)] shadow-[0_0_2px_0_var(--destructive)]"
+              : "focus-within:shadow-[0_0_2px_2px_var(--input)]"
+          }`}
+          inputClassName={`outline-none border-none p-3 text-sm flex-1 text-[var(--text)] caret-[var(--text)] bg-[var(--button)]`}
+          visibleIconClassName="p-2 px-4 border-0 flex justify-center items-center bg-[var(--button)]"
+          errorClassName={`text-xs ml-1 font-medium text-[var(--destructive)] `}
+        />
+
         <button
-          type="button"
-          onClick={onSubmit}
+          id="FP-submit-otp"
+          type="submit"
           className="bg-[var(--primary)] rounded-md cursor-pointer flex justify-center items-center"
         >
           {loading ? (
@@ -184,12 +221,13 @@ const ForgotPassword: FC<forgotPassword> = (props) => {
           )}
         </button>
         <div
+          id="FP-back-to-login"
           onClick={handleClose}
           className="text-[var(--text)] text-sm text-center cursor-default"
         >
-          Back to Register
+          Back to Login
         </div>
-      </div>
+      </form>
     </div>
   );
 };

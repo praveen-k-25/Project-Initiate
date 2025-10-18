@@ -8,7 +8,7 @@ import type { register, registerComponentProps } from "../../typesTs/auth";
 import { register_Schema } from "../../validation/auth_validation";
 import TextInput from "../ui/TextInput";
 import PasswordInput from "../ui/PasswordInput";
-import Otp from "./Otp";
+import RegisterOtp from "./RegisterOtp";
 
 const Register: FC<registerComponentProps> = (props) => {
   const { accessPage, setAccessPage } = props;
@@ -40,14 +40,12 @@ const Register: FC<registerComponentProps> = (props) => {
       toast.success(response.message);
       setOtpPageOpen(true);
     } catch (error: any) {
-      const { cause, message } = error?.response?.data;
+      const { cause } = error;
       if (cause === "email") {
         toast.error("Email already exist");
         setError("email", {
           message: "email already exist",
         });
-      } else {
-        toast.error(message || "Something went wrong");
       }
     } finally {
       setLoading(false);
@@ -84,7 +82,7 @@ const Register: FC<registerComponentProps> = (props) => {
         {/* Email */}
         <TextInput
           label="Email"
-          type="email"
+          type="text"
           name="email"
           id="register_email"
           autoComplete="off"
@@ -172,7 +170,7 @@ const Register: FC<registerComponentProps> = (props) => {
       </form>
       {/* Otp section */}
       {userInfo?.email && (
-        <Otp
+        <RegisterOtp
           isOpen={otpPageOpen}
           email={userInfo.email}
           onClose={() => setOtpPageOpen(false)}

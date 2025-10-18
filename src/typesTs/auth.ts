@@ -44,15 +44,23 @@ export interface otpProps {
 export interface forgotPassword {
   onClose: () => void;
   isOpen: boolean;
+  email: string;
+  resendOtp: () => void;
 }
 
-export interface registerOtpData {
+export interface otpData {
   email: string;
 }
 
-export interface registerOtpRecieved {
+export interface otpRecieved {
   success: boolean;
   message: string;
   status?: number;
   cause?: string | null;
+}
+
+export interface resetPasswordData {
+  email: string;
+  newPassword: string;
+  otp: number;
 }

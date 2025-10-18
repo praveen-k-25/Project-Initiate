@@ -2,16 +2,10 @@ import axios, { type AxiosRequestConfig } from "axios";
 import type {
   login,
   recievedLogin,
-  registerOtpData,
-  registerOtpRecieved,
+  otpData,
+  otpRecieved,
+  resetPasswordData,
 } from "../typesTs/auth";
-
-/* interface axiosRequestProps {
-  url: string;
-  method: AxiosRequestConfig["method"];
-  data?: object | null;
-  formData?: boolean;
-} */
 
 async function axiosRequestHandler<T>(
   url: string,
@@ -38,9 +32,9 @@ async function axiosRequestHandler<T>(
       headers,
       withCredentials: true,
     });
-    return response.data as T;
+    return response?.data as T;
   } catch (error: any) {
-    throw error || { message: "Something went wrong" };
+    throw error?.response?.data || { message: "Something went wrong" };
   }
 }
 
@@ -52,8 +46,18 @@ export const loginUser = async (data: login): Promise<recievedLogin> => {
   return await axiosRequestHandler("/user/login", "POST", data);
 };
 
-export const registerOtp = async (
-  data: registerOtpData
-): Promise<registerOtpRecieved> => {
+export const registerOtp = async (data: otpData): Promise<otpRecieved> => {
   return await axiosRequestHandler("/user/registerOtp", "POST", data);
+};
+
+export const forgotPasswordOtp = async (
+  data: otpData
+): Promise<otpRecieved> => {
+  return await axiosRequestHandler("/user/forgotPasswordOtp", "POST", data);
+};
+
+export const resetPassword = async (
+  data: resetPasswordData
+): Promise<otpRecieved> => {
+  return await axiosRequestHandler("/user/forgotPassword", "POST", data);
 };

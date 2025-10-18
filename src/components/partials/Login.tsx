@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState, type FC } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,7 @@ import { login_Schema } from "../../validation/auth_validation";
 import type { login, loginComponentProps } from "../../typesTs/auth";
 import type { appDispatch } from "../../store/store";
 import { setAuth, setSliceTheme, setUser } from "../../store/auth_slice";
-import { loginUser } from "../../handler/api_handler";
+import { forgotPasswordOtp, loginUser } from "../../handler/api_handler";
 import TextInput from "../ui/TextInput";
 import PasswordInput from "../ui/PasswordInput";
 import Checkbox from "../ui/Checkbox";
@@ -31,6 +31,7 @@ const Login: FC<loginComponentProps> = (props) => {
     handleSubmit,
     formState: { errors },
     clearErrors,
+    watch,
     setError,
   } = useForm({
     resolver: yupResolver(login_Schema),
@@ -39,6 +40,34 @@ const Login: FC<loginComponentProps> = (props) => {
   useEffect(() => {
     clearErrors();
   }, [accessPage]);
+
+  const handleForgotPasswordOpen = async () => {
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(watch("email"))) {
+      clearErrors("email");
+      try {
+        await toast.promise(forgotPasswordOtp({ email: watch("email") }), {
+          loading: "Sending otp...",
+          success: <p>OTP sent</p>,
+          error: <p>OTP not sent.</p>,
+        });
+        setForgotPasswordOpen(true);
+      } catch (err: any) {
+        const { cause, message } = err;
+        console.log(err);
+        if (cause === "email") {
+          setError("email", {
+            type: "manual",
+            message: message,
+          });
+        }
+      }
+    } else {
+      setError("email", {
+        type: "manual",
+        message: "email is required",
+      });
+    }
+  };
 
   const onSubmit = async (data: login) => {
     try {
@@ -51,7 +80,7 @@ const Login: FC<loginComponentProps> = (props) => {
       navigate("/dashboard", { replace: true });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {
-      const { cause, message } = error.response?.data;
+      const { cause } = error;
       if (cause === "password") {
         setError("password", {
           type: "manual",
@@ -63,7 +92,6 @@ const Login: FC<loginComponentProps> = (props) => {
           message: "Invalid Email",
         });
       }
-      toast.error(message || "Something went wrong");
       dispatch(setAuth(false));
     } finally {
       setLoading(false);
@@ -80,9 +108,10 @@ const Login: FC<loginComponentProps> = (props) => {
 
         <TextInput
           label="Email"
-          type="email"
+          type="text"
           name="email"
           id="login_email"
+          autoComplete="email"
           autoFocus={true}
           register={register}
           errors={errors}
@@ -148,7 +177,7 @@ const Login: FC<loginComponentProps> = (props) => {
             </label>
           </div>
           <p
-            onClick={() => setForgotPasswordOpen(true)}
+            onClick={handleForgotPasswordOpen}
             className="text-[var(--text)] capitalize font-medium text-xs text-right cursor-pointer select-none"
           >
             Forgot Password ?
@@ -173,6 +202,8 @@ const Login: FC<loginComponentProps> = (props) => {
       <ForgotPassword
         isOpen={forgotPasswordOpen}
         onClose={() => setForgotPasswordOpen(false)}
+        resendOtp={handleForgotPasswordOpen}
+        email={watch("email")}
       />
     </>
   );

@@ -33,4 +33,12 @@ const register_Schema = yup.object().shape({
     .oneOf([yup.ref("password")], "password does not match"),
 });
 
-export { login_Schema, register_Schema };
+const forgotPasswordSchema = yup.object().shape({
+  newPassword: yup
+    .string()
+    .min(6, "password must be at least 6 characters")
+    .max(20, "password must be at most 20 characters")
+    .required("password is required"),
+});
+
+export { login_Schema, register_Schema, forgotPasswordSchema };
