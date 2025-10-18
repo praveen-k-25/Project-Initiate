@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 import whiteLoader from "../../assets/gifs/white-spinner.webp";
 import type { forgotPassword } from "../../typesTs/auth";
 import { resetPassword } from "../../handler/api_handler";
-import TextInput from "../ui/TextInput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { forgotPasswordSchema } from "../../validation/auth_validation";
