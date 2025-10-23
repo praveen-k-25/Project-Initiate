@@ -1,12 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import usertracker from "../features/mqtt";
-import L from "leaflet";
-import { LayersControl, MapContainer, TileLayer, useMap } from "react-leaflet";
+import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 
 const Dashboard = () => {
   const { user } = useSelector((state: any) => state.auth);
-  const mapRef = useRef<L.Map | null>(null);
   useEffect(() => {
     usertracker(user);
   }, []);
