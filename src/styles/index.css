@@ -94,3 +94,7 @@ select:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px #252525 inset !important; /* dark bg */
   -webkit-text-fill-color: #fff !important; /* light text */
 }
+
+.leaflet-control-layers {
+  display: none !important;
+}

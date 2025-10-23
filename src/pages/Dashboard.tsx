@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import usertracker from "../features/mqtt";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
+import ZoomControl from "../components/partials/ZoomControl";
 
 const Dashboard = () => {
   const { user } = useSelector((state: any) => state.auth);
@@ -11,10 +12,11 @@ const Dashboard = () => {
 
   return (
     <div className="flex-1 h-screen bg-[var(--background)] overflow-hidden">
-      <div className="h-full w-full p-2">
+      <div className="h-full w-full p-2 relative">
         <MapContainer
           center={[12.9716, 77.5946]}
           zoom={13}
+          zoomControl={false}
           minZoom={3}
           scrollWheelZoom={true}
           className="h-full w-full rounded-lg z-0"
@@ -36,6 +38,7 @@ const Dashboard = () => {
               <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
             </LayersControl.BaseLayer>
           </LayersControl>
+          <ZoomControl />
         </MapContainer>
       </div>
     </div>
