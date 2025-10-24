@@ -22,7 +22,7 @@ const ZoomControl: FC = () => {
           className="w-[26px] p-[6px]"
         />
       </section>
-      <section className="w-[10px] border-t border-t-[var(--sub-text)]"></section>
+      <section className="w-[15px] border-t border-t-[#e2e1e1] dark:border-t-[#454545]"></section>
       <section className="cursor-pointer">
         <img
           onClick={handleZoomOut}
