@@ -2,6 +2,7 @@ import mqtt from "mqtt";
 import toast from "react-hot-toast";
 import { store } from "../store/store";
 import { updateVehicleStatus } from "../store/live_data_slice";
+import useDebounce from "./useDebounce";
 
 function getTime() {
   const date = new Date();
@@ -13,15 +14,19 @@ export const client = mqtt.connect(import.meta.env.VITE_MQTT, {
   clean: true,
   //reconnectPeriod: 5000, // auto reconnect every 5s
 });
+
 let locationInterval: any = null;
 
 export default function usertracker(user: any) {
   const ua = navigator.userAgent;
+  let limit = 0;
 
   client.on("connect", () => {
     toast.success("✅ MQTT Connected");
 
     if (ua.includes("Mobile")) {
+      if (locationInterval) clearInterval(locationInterval);
+
       locationInterval = setInterval(() => {
         // Start tracking once connected
         if (navigator.geolocation) {
@@ -37,10 +42,14 @@ export default function usertracker(user: any) {
               };
 
               //("📡 Publishing location", payload);
-              client.publish(
-                `user/location/${user.id}`,
-                JSON.stringify(payload)
-              );
+              if (Date.now() - limit > 4500) {
+                limit = Date.now();
+                toast.success("Location updated");
+                client.publish(
+                  `user/location/${payload.user}`,
+                  JSON.stringify(payload)
+                );
+              }
             },
             (err) => console.error("❌ Geolocation error:", err)
           );
