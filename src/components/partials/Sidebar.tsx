@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState, type FC } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { cleanupMqtt } from "../../features/mqtt";
 
 const Sidebar: FC = () => {
   const { theme } = useSelector((state: any) => state.auth);
@@ -55,6 +56,7 @@ const Sidebar: FC = () => {
 
   const logout = () => {
     navigate("/");
+    cleanupMqtt();
     toast.success("Logged Out");
   };
 
@@ -287,6 +289,7 @@ const MobileSidebar: FC = () => {
 
   const logout = () => {
     navigate("/");
+    cleanupMqtt();
     toast.success("Logged Out");
   };
 
