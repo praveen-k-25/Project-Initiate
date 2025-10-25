@@ -1,8 +1,4 @@
-import {
-  configureStore,
-  createSlice,
-  type PayloadAction,
-} from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface initialState {
   vehicleStatus: {
