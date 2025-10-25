@@ -5,12 +5,14 @@ import usertracker from "../features/mqtt";
 import { LayersControl, MapContainer, TileLayer } from "react-leaflet";
 import ZoomControl from "../components/partials/ZoomControl";
 import MapLayers from "../components/partials/MapLayers";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const { user } = useSelector((state: any) => state.auth);
   const { BaseLayer } = LayersControl;
   const [selectedLayer, setSelectedLayer] = useState("Dark");
   useEffect(() => {
+    toast.success("Welcome");
     usertracker(user);
   }, []);
 
