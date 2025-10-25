@@ -1,5 +1,7 @@
 import mqtt from "mqtt";
 import toast from "react-hot-toast";
+import { store } from "../store/store";
+import { updateVehicleStatus } from "../store/live_data_slice";
 
 function getTime() {
   const date = new Date();
@@ -17,7 +19,7 @@ export default function usertracker(user: any) {
   const ua = navigator.userAgent;
 
   client.on("connect", () => {
-    console.log("✅ MQTT Connected");
+    toast.success("✅ MQTT Connected");
 
     if (ua.includes("Mobile")) {
       locationInterval = setInterval(() => {
@@ -34,18 +36,16 @@ export default function usertracker(user: any) {
                 time: getTime(),
               };
 
-              //console.log("📡 Publishing location", payload);
+              //("📡 Publishing location", payload);
               client.publish(
                 `user/location/${user.id}`,
                 JSON.stringify(payload)
               );
-              toast.success("Location tracking published");
             },
             (err) => console.error("❌ Geolocation error:", err)
           );
         } else {
           toast.error("Location tracking error");
-          console.error("❌ Geolocation not supported.");
         }
       }, 5000);
     } else {
@@ -61,7 +61,8 @@ export default function usertracker(user: any) {
     });
 
     client.on("message", (topic, message) => {
-      console.log(`Received message on topic ${topic}: ${message.toString()}`);
+      topic;
+      store.dispatch(updateVehicleStatus(JSON.parse(message.toString())));
     });
   });
 
