@@ -19,7 +19,7 @@ export default function usertracker(user: any) {
   client.on("connect", () => {
     console.log("✅ MQTT Connected");
 
-    if (!ua.includes("Mobile")) {
+    if (ua.includes("Mobile")) {
       locationInterval = setInterval(() => {
         // Start tracking once connected
         if (navigator.geolocation) {
