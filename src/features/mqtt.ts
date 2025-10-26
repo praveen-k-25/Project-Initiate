@@ -21,7 +21,6 @@ export default function usertracker(user: any) {
   let limit = 0;
 
   client.on("connect", () => {
-    toast.success("✅ MQTT Connected");
 
     if (ua.includes("Mobile")) {
       if (locationInterval) clearInterval(locationInterval);
@@ -43,7 +42,6 @@ export default function usertracker(user: any) {
               //("📡 Publishing location", payload);
               if (Date.now() - limit > 4500) {
                 limit = Date.now();
-                toast.success("Location updated");
                 client.publish(
                   `user/location/${payload.user}`,
                   JSON.stringify(payload)

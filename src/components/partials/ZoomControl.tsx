@@ -13,7 +13,7 @@ const ZoomControl: FC = () => {
   const handleZoomOut = () => map.zoomOut(1);
 
   return (
-    <div className="flex flex-col justify-center items-center gap-[2px] border-1 border-[var(--border)] bg-[var(--button)] absolute top-1 right-1 z-[999] rounded-md">
+    <div className="flex flex-col justify-center items-center gap-[2px] border-1 border-[var(--border)] bg-[var(--button)] absolute top-12 right-2 z-[999] rounded-md">
       <section className="cursor-pointer">
         <img
           onClick={handleZoomIn}

@@ -8,6 +8,7 @@ interface initialState {
     id: string;
   };
   theme: string | null;
+  map: string;
 }
 
 const initialState: initialState = {
@@ -18,6 +19,7 @@ const initialState: initialState = {
     id: "",
   },
   theme: "",
+  map: "street",
 };
 
 const authSlice = createSlice({
@@ -33,6 +35,9 @@ const authSlice = createSlice({
     setSliceTheme: (state, action: PayloadAction<string | null>) => {
       state.theme = action.payload;
     },
+    setMaps: (state, action: PayloadAction<string>) => {
+      state.map = action.payload;
+    },
     setLogout: (state) => {
       state.auth = false;
       state.user = {
@@ -44,5 +49,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setAuth, setUser, setSliceTheme, setLogout } = authSlice.actions;
+export const { setAuth, setUser, setSliceTheme, setMaps, setLogout } =
+  authSlice.actions;
 export default authSlice.reducer;

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { cleanupMqtt } from "../../features/mqtt";
 
 const Sidebar: FC = () => {
-  const { theme } = useSelector((state: any) => state.auth);
+  const { theme, user } = useSelector((state: any) => state.auth);
   const logoutRef = useRef<HTMLLIElement | null>(null);
   const { pathname } = useLocation();
   const [openDropdown, setOpenDropdown] = useState<string>("");
@@ -182,14 +182,14 @@ const Sidebar: FC = () => {
                   className="relative rounded-md flex justify-start items-center gap-2 cursor-default"
                 >
                   <div className="sticky left-0 min-w-[34px] min-h-[34px] rounded-full flex justify-center items-center border-none font-extrabold text-xl bg-green-500 text-[var(--text)] capitalize">
-                    {footer.title[0].toLowerCase()}
+                    {user.username[0].toLowerCase()}
                   </div>
-                  <div className=" flex flex-col justify-center gap-[2px]">
+                  <div className="flex-1 flex flex-col justify-center gap-[2px]">
                     <span className="font-light text-sm text-[var(--text)] z-0">
-                      praveen
+                      {user.username}
                     </span>
-                    <span className="font-xs text-xs text-[var(--sub-text)] z-0 ">
-                      testdemo@gmail.com
+                    <span className="font-xs text-xs text-[var(--sub-text)] z-0">
+                      {user.email.split("@")[0]}
                     </span>
                   </div>
                   <img
