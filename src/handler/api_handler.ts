@@ -5,6 +5,9 @@ import type {
   otpData,
   otpRecieved,
   resetPasswordData,
+  reportRecieved,
+  reportData,
+  proxyData,
 } from "../typesTs/auth";
 
 async function axiosRequestHandler<T>(
@@ -60,4 +63,20 @@ export const resetPassword = async (
   data: resetPasswordData
 ): Promise<otpRecieved> => {
   return await axiosRequestHandler("/user/forgotPassword", "POST", data);
+};
+
+export const movingReport = async (
+  data: reportData
+): Promise<reportRecieved> => {
+  return await axiosRequestHandler("/data/moving", "POST", data);
+};
+
+export const playbackReport = async (
+  data: reportData
+): Promise<reportRecieved> => {
+  return await axiosRequestHandler("/data/playback", "POST", data);
+};
+
+export const orsProxy = async (data: proxyData): Promise<any> => {
+  return await axiosRequestHandler("/data/match", "POST", data);
 };

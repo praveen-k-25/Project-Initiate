@@ -29,16 +29,15 @@ const vehicleStatusDashboard = createSlice({
     setVehicleStatus: (state, action: PayloadAction<any>) => {
       state.vehicleStatus = action.payload;
     },
+    setVehicleStatusUser: (state, action: PayloadAction<any>) => {
+      state.vehicleStatus.user = action.payload;
+    },
     updateVehicleStatus: (state, action: PayloadAction<any>) => {
-      let data = action.payload;
-      let vehicleAvailability = state.vehicleStatus?.user === data.user;
-      if (vehicleAvailability) {
-        state.vehicleStatus = data;
-      }
+      state.vehicleStatus = action.payload;
     },
   },
 });
 
 export default vehicleStatusDashboard.reducer;
-export const { setVehicleStatus, updateVehicleStatus } =
+export const { setVehicleStatus, updateVehicleStatus, setVehicleStatusUser } =
   vehicleStatusDashboard.actions;

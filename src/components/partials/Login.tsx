@@ -8,12 +8,18 @@ import whiteLoader from "../../assets/gifs/white-spinner.webp";
 import { login_Schema } from "../../validation/auth_validation";
 import type { login, loginComponentProps } from "../../typesTs/auth";
 import type { appDispatch } from "../../store/store";
-import { setAuth, setSliceTheme, setUser } from "../../store/auth_slice";
+import {
+  setAuth,
+  setMaps,
+  setSliceTheme,
+  setUser,
+} from "../../store/auth_slice";
 import { forgotPasswordOtp, loginUser } from "../../handler/api_handler";
 import TextInput from "../ui/TextInput";
 import PasswordInput from "../ui/PasswordInput";
 import Checkbox from "../ui/Checkbox";
 import ForgotPassword from "./ForgotPassword";
+import { setVehicleStatusUser } from "../../store/live_data_slice";
 
 const Login: FC<loginComponentProps> = (props) => {
   const { accessPage } = props;
@@ -76,6 +82,8 @@ const Login: FC<loginComponentProps> = (props) => {
       toast.success("Logged In");
       dispatch(setAuth(response.success));
       dispatch(setUser(response.data));
+      dispatch(setMaps("street"));
+      dispatch(setVehicleStatusUser(response.data.id));
       dispatch(setSliceTheme(localStorage?.getItem("metron-theme")));
       navigate("/dashboard", { replace: true });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

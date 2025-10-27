@@ -21,7 +21,6 @@ export default function usertracker(user: any) {
   let limit = 0;
 
   client.on("connect", () => {
-
     if (ua.includes("Mobile")) {
       if (locationInterval) clearInterval(locationInterval);
 
@@ -46,6 +45,7 @@ export default function usertracker(user: any) {
                   `user/location/${payload.user}`,
                   JSON.stringify(payload)
                 );
+                toast.success("Location updated");
               }
             },
             (err) => console.error("❌ Geolocation error:", err)
@@ -69,6 +69,7 @@ export default function usertracker(user: any) {
     client.on("message", (topic, message) => {
       topic;
       store.dispatch(updateVehicleStatus(JSON.parse(message.toString())));
+      console.log(JSON.parse(message.toString()));
     });
   });
 

@@ -64,3 +64,18 @@ export interface resetPasswordData {
   newPassword: string;
   otp: number;
 }
+
+export interface reportData {
+  startDate: string;
+  endDate: string;
+}
+
+export interface reportRecieved {
+  success: boolean;
+  message: string;
+  data: [number, number][][];
+}
+
+export interface proxyData {
+  coordinates: [number, number][];
+}

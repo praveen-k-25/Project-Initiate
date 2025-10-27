@@ -128,7 +128,7 @@ const Register: FC<registerComponentProps> = (props) => {
 
           {/*Confirm Password */}
           <PasswordInput
-            label="Password"
+            label="Confirm Password"
             type="password"
             name="confirmPassword"
             id="register_confirm_password"
