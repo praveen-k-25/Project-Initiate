@@ -14,7 +14,12 @@ import type { rootState } from "../store/store";
 import { useEffect, useRef, useState } from "react";
 import MapRecenter from "../components/partials/MapRecenter";
 import toast from "react-hot-toast";
-import { orsProxy, playbackReport } from "../handler/api_handler";
+import {
+  movingReport,
+  orsProxy,
+  playbackReport,
+  snaps,
+} from "../handler/api_handler";
 
 const Dashboard = () => {
   const { BaseLayer } = LayersControl;
@@ -22,22 +27,32 @@ const Dashboard = () => {
   const { vehicleStatus } = useSelector((state: rootState) => state.live);
   const dispatch = useDispatch();
   const mapRef = useRef<L.Map>(null);
-  const [playbackData, setPlaybackData] = useState<any[]>([]);
+  const [playbackData, setPlaybackData] = useState<any[][]>([]);
+  const [data, setData] = useState<any[][]>([]);
 
   const handleLayers = (layer: string) => {
     dispatch(setMaps(layer));
   };
 
   useEffect(() => {
+    if (vehicleStatus.lat !== 0)
+      setData((item) => [...item, [vehicleStatus.lat, vehicleStatus.lng]]);
+  }, [vehicleStatus]);
+
+  useEffect(() => {
     const fetchData = async () => {
       const payload = {
-        startDate: "2025-10-07 20:12:54",
-        endDate: "2025-10-07 22:00:00",
+        startDate: "2025-10-28 08:36:00",
+        endDate: "2025-10-28 08:50:29",
       };
 
       try {
         const response = await playbackReport(payload);
+        console;
         if (response.success) await getActualRoadData(response.data);
+        setPlaybackData(
+          response.data[0].map((item: any) => [item.lat, item.lng])
+        );
       } catch (err: any) {
         toast.error(err.message);
       }
@@ -47,18 +62,17 @@ const Dashboard = () => {
 
   const getActualRoadData = async (data: any) => {
     try {
-      const response = await orsProxy({
-        coordinates: data[0].map((item: any) => [item.lng, item.lat]),
+      const response = await snaps({
+        points: data[0].map((item: any) => [item.lat, item.lng]),
       });
       if (response.success) {
         const result: any[] = [];
         response.data.forEach((element: any) => {
           if (element !== null) {
-            result.push(element.location);
+            result.push([element.lat, element.lng]);
           }
         });
-        console.log("data : ", result);
-        setPlaybackData(result);
+        setTimeout(() => setPlaybackData(result), 1000);
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -71,7 +85,7 @@ const Dashboard = () => {
       <div className="h-full w-full p-1 relative">
         <MapContainer
           ref={mapRef}
-          center={[77.037472, 11.037564]} //{[12.9716, 77.5946]}
+          center={[11.037062, 77.036487]} //{[12.9716, 77.5946]}
           zoom={15}
           zoomControl={false}
           minZoom={3}
@@ -98,7 +112,7 @@ const Dashboard = () => {
             </BaseLayer>
           </LayersControl>
 
-          {/* <Marker position={[vehicleStatus.lat, vehicleStatus.lng]} /> */}
+          <Marker position={[vehicleStatus.lat, vehicleStatus.lng]} />
 
           {playbackData.length > 0 && (
             <Polyline
@@ -109,10 +123,20 @@ const Dashboard = () => {
               lineCap="round"
             />
           )}
+          {data.length > 0 && (
+            <Polyline
+              positions={data}
+              color="blue"
+              weight={5}
+              opacity={1}
+              lineCap="round"
+            />
+          )}
 
           <ZoomControl />
           <MapLayers handleLayers={handleLayers} />
           <MapRecenter
+            playbackData={playbackData}
             lat={vehicleStatus.lat}
             lng={vehicleStatus.lng}
             timestamp={vehicleStatus.timestamp}

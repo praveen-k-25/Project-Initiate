@@ -80,3 +80,7 @@ export const playbackReport = async (
 export const orsProxy = async (data: proxyData): Promise<any> => {
   return await axiosRequestHandler("/data/match", "POST", data);
 };
+
+export const snaps = async (data: any): Promise<any> => {
+  return await axiosRequestHandler("/data/snap", "POST", data);
+};

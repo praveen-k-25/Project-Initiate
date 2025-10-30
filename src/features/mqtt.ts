@@ -39,7 +39,7 @@ export default function usertracker(user: any) {
               };
 
               //("📡 Publishing location", payload);
-              if (Date.now() - limit > 4500) {
+              if (Date.now() - limit > 2500) {
                 limit = Date.now();
                 client.publish(
                   `user/location/${payload.user}`,
@@ -48,12 +48,19 @@ export default function usertracker(user: any) {
                 toast.success("Location updated");
               }
             },
-            (err) => console.error("❌ Geolocation error:", err)
+            (err) => {
+              console.error("❌ Geolocation error:", err);
+            },
+            {
+              enableHighAccuracy: true, // 🚀 request best accuracy
+              timeout: 10000, // wait up to 10s
+              maximumAge: 0, // don't use cached location
+            }
           );
         } else {
           toast.error("Location tracking error");
         }
-      }, 5000);
+      }, 2000);
     } else {
       toast.error("Please use a mobile device to track your location.");
     }
