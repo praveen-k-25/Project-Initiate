@@ -14,12 +14,7 @@ import type { rootState } from "../store/store";
 import { useEffect, useRef, useState } from "react";
 import MapRecenter from "../components/partials/MapRecenter";
 import toast from "react-hot-toast";
-import {
-  movingReport,
-  orsProxy,
-  playbackReport,
-  snaps,
-} from "../handler/api_handler";
+import { playbackReport, snaps } from "../handler/api_handler";
 
 const Dashboard = () => {
   const { BaseLayer } = LayersControl;
