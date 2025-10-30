@@ -8,11 +8,10 @@ interface props {
   lat: number;
   lng: number;
   timestamp: number;
-  playbackData: any;
 }
 
 const MapRecenter: FC<props> = (props) => {
-  const { lat, lng, timestamp, playbackData } = props;
+  const { lat, lng, timestamp } = props;
   const map = useMap();
   const { theme } = useSelector((state: any) => state.auth);
 
@@ -25,7 +24,7 @@ const MapRecenter: FC<props> = (props) => {
     }
   }, [lat, lng, timestamp, map]);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (playbackData?.length > 1) {
       map.flyToBounds(playbackData, {
         animate: true,
@@ -33,7 +32,7 @@ const MapRecenter: FC<props> = (props) => {
         maxZoom:18
       });
     }
-  }, [playbackData]);
+  }, [playbackData]); */
 
   const handleCenter = () => {
     map.flyTo([lat, lng], 17, {

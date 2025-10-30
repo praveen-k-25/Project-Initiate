@@ -8,85 +8,94 @@ function getTime() {
   return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 }
 
-export const client = mqtt.connect(import.meta.env.VITE_MQTT, {
+/* export const client = mqtt.connect(import.meta.env.VITE_MQTT, {
   clientId: `react_frontend_${Math.random().toString(16).slice(3)}`,
   clean: true,
-  //reconnectPeriod: 5000, // auto reconnect every 5s
-});
+  reconnectPeriod: 5000, // auto reconnect every 5s
+}); */
 
 let locationInterval: any = null;
+let client: mqtt.MqttClient | null = null;
 
-export default function usertracker(user: any) {
+export default function userTracker(user: any) {
   const ua = navigator.userAgent;
   let limit = 0;
+  let isOnline = false; // 🔹 Track connection state
+
+  client = mqtt.connect(import.meta.env.VITE_MQTT, {
+    clientId: `react_frontend_${Math.random().toString(16).slice(3)}`,
+    clean: true,
+    reconnectPeriod: 5000, // auto reconnect every 5s
+  });
+
+  if (!client) return;
 
   client.on("connect", () => {
-    if (ua.includes("Mobile")) {
-      if (locationInterval) clearInterval(locationInterval);
+    isOnline = true;
+    //toast.success("✅ Connected to MQTT broker");
 
-      locationInterval = setInterval(() => {
-        // Start tracking once connected
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (pos) => {
-              const payload = {
-                user: user.id,
-                lat: pos.coords.latitude,
-                lng: pos.coords.longitude,
-                speed: pos.coords.speed || -1,
-                timestamp: Date.now(),
-                time: getTime(),
-              };
-
-              //("📡 Publishing location", payload);
-              if (Date.now() - limit > 2500) {
-                limit = Date.now();
-                client.publish(
-                  `user/location/${payload.user}`,
-                  JSON.stringify(payload)
-                );
-                toast.success("Location updated");
-              }
-            },
-            (err) => {
-              console.error("❌ Geolocation error:", err);
-            },
-            {
-              enableHighAccuracy: true, // 🚀 request best accuracy
-              timeout: 10000, // wait up to 10s
-              maximumAge: 0, // don't use cached location
-            }
-          );
-        } else {
-          toast.error("Location tracking error");
-        }
-      }, 2000);
-    } else {
-      toast.error("Please use a mobile device to track your location.");
-    }
-
-    client.subscribe(`user/location/${user.id}`, (err) => {
-      if (err) {
-        console.log("Subscription error:", err);
-      } else {
-        console.log(`Subscribed to ${user.id}`);
-      }
-    });
-
-    client.on("message", (topic, message) => {
-      topic;
-      store.dispatch(updateVehicleStatus(JSON.parse(message.toString())));
-      console.log(JSON.parse(message.toString()));
+    // Subscribe to user's topic
+    client?.subscribe(`user/processed/${user}`, (err) => {
+      if (err) console.log("Subscription error:", err);
+      else console.log(`📡 Subscribed to ${user}`);
     });
   });
 
-  client.on("close", () => console.log("❌ MQTT Disconnected"));
+  client.on("reconnect", () => {
+    isOnline = false;
+    //toast.error("🔄 Reconnecting to MQTT broker...");
+  });
+
+  client.on("offline", () => {
+    isOnline = false;
+    toast.error("⚠️ Server offline - network issue detected");
+  });
+
   client.on("error", (err) => console.error("❌ MQTT Error:", err));
 
-  // Cleanup function
+  client.on("message", (topic, message) => {
+    if (!topic) return;
+    store.dispatch(updateVehicleStatus(JSON.parse(message.toString())));
+    console.log(JSON.parse(message.toString()));
+  });
+
+  // 🔁 Periodic location publishing
+  if (ua.includes("Mobile")) {
+    if (locationInterval) clearInterval(locationInterval);
+
+    locationInterval = setInterval(() => {
+      if (!isOnline) return; // 🚫 Skip if not connected or reconnecting
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const payload = {
+            user: user,
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+            speed: pos.coords.speed || -1,
+            timestamp: Date.now(),
+            time: getTime(),
+          };
+
+          if (Date.now() - limit > 2500) {
+            limit = Date.now();
+            client?.publish(
+              `user/location/${payload.user}`,
+              JSON.stringify(payload)
+            );
+            toast.success("📡 Location Sent");
+          }
+        },
+        () => toast.error("Please turn on location services"),
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }, 2000);
+  }
+
+  // Cleanup on unmount
   return () => {
-    client.end(true);
-    console.log("🛑 MQTT connection closed");
+    client?.end(true);
+    toast.error("Disconnected from MQTT broker");
   };
 }
 
@@ -98,6 +107,6 @@ export function cleanupMqtt() {
 
   if (client) {
     client.end(true);
-    console.log("🧹 MQTT disconnected and interval cleared");
+    toast.error("Destroyed connection from MQTT broker");
   }
 }

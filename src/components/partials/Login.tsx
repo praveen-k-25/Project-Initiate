@@ -20,6 +20,7 @@ import PasswordInput from "../ui/PasswordInput";
 import Checkbox from "../ui/Checkbox";
 import ForgotPassword from "./ForgotPassword";
 import { setVehicleStatusUser } from "../../store/live_data_slice";
+import userTracker from "../../features/mqtt";
 
 const Login: FC<loginComponentProps> = (props) => {
   const { accessPage } = props;
@@ -85,6 +86,7 @@ const Login: FC<loginComponentProps> = (props) => {
       dispatch(setMaps("street"));
       dispatch(setVehicleStatusUser(response.data.id));
       dispatch(setSliceTheme(localStorage?.getItem("metron-theme")));
+      //userTracker(response.data.id);
       navigate("/dashboard", { replace: true });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {

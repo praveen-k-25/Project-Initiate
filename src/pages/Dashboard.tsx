@@ -13,8 +13,6 @@ import { setMaps } from "../store/auth_slice";
 import type { rootState } from "../store/store";
 import { useEffect, useRef, useState } from "react";
 import MapRecenter from "../components/partials/MapRecenter";
-import toast from "react-hot-toast";
-import { playbackReport, snaps } from "../handler/api_handler";
 
 const Dashboard = () => {
   const { BaseLayer } = LayersControl;
@@ -22,7 +20,6 @@ const Dashboard = () => {
   const { vehicleStatus } = useSelector((state: rootState) => state.live);
   const dispatch = useDispatch();
   const mapRef = useRef<L.Map>(null);
-  const [playbackData, setPlaybackData] = useState<any[][]>([]);
   const [data, setData] = useState<any[][]>([]);
 
   const handleLayers = (layer: string) => {
@@ -33,47 +30,6 @@ const Dashboard = () => {
     if (vehicleStatus.lat !== 0)
       setData((item) => [...item, [vehicleStatus.lat, vehicleStatus.lng]]);
   }, [vehicleStatus]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const payload = {
-        startDate: "2025-10-28 08:36:00",
-        endDate: "2025-10-28 08:50:29",
-      };
-
-      try {
-        const response = await playbackReport(payload);
-        console;
-        if (response.success) await getActualRoadData(response.data);
-        setPlaybackData(
-          response.data[0].map((item: any) => [item.lat, item.lng])
-        );
-      } catch (err: any) {
-        toast.error(err.message);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const getActualRoadData = async (data: any) => {
-    try {
-      const response = await snaps({
-        points: data[0].map((item: any) => [item.lat, item.lng]),
-      });
-      if (response.success) {
-        const result: any[] = [];
-        response.data.forEach((element: any) => {
-          if (element !== null) {
-            result.push([element.lat, element.lng]);
-          }
-        });
-        setTimeout(() => setPlaybackData(result), 1000);
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-      return [];
-    }
-  };
 
   return (
     <div className="flex-1 h-screen bg-[var(--background)] overflow-hidden">
@@ -109,15 +65,6 @@ const Dashboard = () => {
 
           <Marker position={[vehicleStatus.lat, vehicleStatus.lng]} />
 
-          {playbackData.length > 0 && (
-            <Polyline
-              positions={playbackData}
-              color="blue"
-              weight={5}
-              opacity={1}
-              lineCap="round"
-            />
-          )}
           {data.length > 0 && (
             <Polyline
               positions={data}
@@ -131,7 +78,6 @@ const Dashboard = () => {
           <ZoomControl />
           <MapLayers handleLayers={handleLayers} />
           <MapRecenter
-            playbackData={playbackData}
             lat={vehicleStatus.lat}
             lng={vehicleStatus.lng}
             timestamp={vehicleStatus.timestamp}

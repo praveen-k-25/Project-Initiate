@@ -10,7 +10,7 @@ const Layout = () => {
   const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
-    usertracker(user);
+    usertracker(user.id);
   }, []);
 
   return (
