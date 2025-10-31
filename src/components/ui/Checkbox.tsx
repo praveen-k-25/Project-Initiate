@@ -7,7 +7,7 @@ const Checkbox: FC<CheckboxProps> = (props) => {
   return (
     <div
       onClick={onClick}
-      className={`border rounded-sm flex justify-center items-center ${checked ? `${color}` : "border-[var(--border)]"}  `}
+      className={`border rounded-sm flex justify-center items-center ${checked ? `${color}` : "dark:border-[#787878] border-[#9f9e9e]"}  `}
     >
       <img
         src={checkbox_check}

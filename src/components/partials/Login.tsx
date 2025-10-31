@@ -17,14 +17,14 @@ import {
 import { forgotPasswordOtp, loginUser } from "../../handler/api_handler";
 import TextInput from "../ui/TextInput";
 import PasswordInput from "../ui/PasswordInput";
-import Checkbox from "../ui/Checkbox";
+//import Checkbox from "../ui/Checkbox";
 import ForgotPassword from "./ForgotPassword";
 import { setVehicleStatusUser } from "../../store/live_data_slice";
 
 const Login: FC<loginComponentProps> = (props) => {
   const { accessPage } = props;
   const [loading, setLoading] = useState<boolean>(false);
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  //const [rememberMe, setRememberMe] = useState<boolean>(false);
   const dispatch = useDispatch<appDispatch>();
   const navigate = useNavigate();
 
@@ -160,8 +160,8 @@ const Login: FC<loginComponentProps> = (props) => {
         />
 
         {/* Remember Me */}
-        <section className="flex justify-between mt-3">
-          <div className="text-sm flex gap-2">
+        <section className="flex justify-end">
+          {/* <div className="text-sm flex gap-2">
             <Checkbox
               color="bg-[var(--primary)] border-[var(--primary)]"
               checked={rememberMe}
@@ -183,7 +183,7 @@ const Login: FC<loginComponentProps> = (props) => {
             >
               Remember Me
             </label>
-          </div>
+          </div> */}
           <p
             onClick={handleForgotPasswordOpen}
             className="text-[var(--text)] capitalize font-medium text-xs text-right cursor-pointer select-none"

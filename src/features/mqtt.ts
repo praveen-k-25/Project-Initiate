@@ -34,10 +34,12 @@ export default function userTracker(user: any) {
     isOnline = true;
     //toast.success("✅ Connected to MQTT broker");
 
-    // Subscribe to user's topic
-    client?.subscribe(`user/processed/${user}`, (err) => {
-      if (err) console.log("Subscription error:", err);
-      else console.log(`📡 Subscribed to ${user}`);
+    user.vehicles.forEach((vehicle: any) => {
+      // Subscribe to vehicles
+      client?.subscribe(`user/processed/${vehicle}`, (err) => {
+        if (err) console.log("Subscription error:", err);
+        else console.log(`📡 Subscribed to ${vehicle}`);
+      });
     });
   });
 

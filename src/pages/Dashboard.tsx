@@ -1,4 +1,5 @@
 import "leaflet/dist/leaflet.css";
+import { useEffect, useRef, useState } from "react";
 import {
   LayersControl,
   MapContainer,
@@ -6,25 +7,35 @@ import {
   Polyline,
   TileLayer,
 } from "react-leaflet";
-import ZoomControl from "../components/partials/ZoomControl";
-import MapLayers from "../components/partials/MapLayers";
 import { useDispatch, useSelector } from "react-redux";
+import MapLayers from "../components/partials/MapLayers";
+import MapRecenter from "../components/partials/MapRecenter";
+import ZoomControl from "../components/partials/ZoomControl";
 import { setMaps } from "../store/auth_slice";
 import type { rootState } from "../store/store";
-import { useEffect, useRef, useState } from "react";
-import MapRecenter from "../components/partials/MapRecenter";
+import VehicleCard from "../components/partials/VehicleCard";
 
 const Dashboard = () => {
   const { BaseLayer } = LayersControl;
-  const { map } = useSelector((state: rootState) => state.auth);
-  const { vehicleStatus } = useSelector((state: rootState) => state.live);
   const dispatch = useDispatch();
+  const { map, theme } = useSelector((state: rootState) => state.auth);
+  const { vehicleStatus } = useSelector((state: rootState) => state.live);
+
   const mapRef = useRef<L.Map>(null);
   const [data, setData] = useState<any[][]>([]);
+
+  // Vehicle Card States
+  const [isVehicleCardOpen, setIsVehicleCardOpen] = useState(false);
 
   const handleLayers = (layer: string) => {
     dispatch(setMaps(layer));
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsVehicleCardOpen(true);
+    }, 1000);
+  }, []);
 
   useEffect(() => {
     if (vehicleStatus.lat !== 0)
@@ -32,8 +43,13 @@ const Dashboard = () => {
   }, [vehicleStatus]);
 
   return (
-    <div className="flex-1 h-screen bg-[var(--background)] overflow-hidden">
-      <div className="h-full w-full p-1 relative">
+    <div className="flex-1 h-screen bg-[var(--background)]">
+      <div className="h-full w-full p-1 relative flex ">
+        <VehicleCard
+          isOpen={isVehicleCardOpen}
+          theme={theme || "light"}
+          changeOpen={() => setIsVehicleCardOpen(!isVehicleCardOpen)}
+        />
         <MapContainer
           ref={mapRef}
           center={[11.037062, 77.036487]} //{[12.9716, 77.5946]}
@@ -43,7 +59,7 @@ const Dashboard = () => {
           maxZoom={18}
           scrollWheelZoom={true}
           attributionControl={false}
-          className="h-full w-full rounded-lg z-0 relative"
+          className="h-full flex-1 rounded-md relative overflow-hidden"
         >
           <LayersControl position="topright">
             <BaseLayer checked={map === "osm"} name="OSM">
