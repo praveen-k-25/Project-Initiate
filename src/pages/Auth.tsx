@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import loginBackgruoundImage from "../assets/images/birds-eye.jpg";
 import companyLogoDark from "../assets/svgs/logo-dark.svg";
 import companyLogo from "../assets/svgs/logo.svg";
@@ -19,13 +19,13 @@ const Auth = () => {
     dispatch(setSliceTheme(localStorage.getItem("metron-theme") || "light"));
   }, []);
 
-  const handleTheme = () => {
+  const handleTheme = useCallback(() => {
     if (theme === "dark") {
       setTheme("light");
     } else {
       setTheme("dark");
     }
-  };
+  }, []);
 
   return (
     <div className="relative w-screen h-screen">

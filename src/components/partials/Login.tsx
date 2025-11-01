@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState, type FC } from "react";
+import { useCallback, useEffect, useState, type FC } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -47,7 +47,7 @@ const Login: FC<loginComponentProps> = (props) => {
     clearErrors();
   }, [accessPage]);
 
-  const handleForgotPasswordOpen = async () => {
+  const handleForgotPasswordOpen = useCallback(async () => {
     if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(watch("email"))) {
       clearErrors("email");
       try {
@@ -73,7 +73,7 @@ const Login: FC<loginComponentProps> = (props) => {
         message: "email is required",
       });
     }
-  };
+  }, [watch("email")]);
 
   const onSubmit = async (data: login) => {
     try {
