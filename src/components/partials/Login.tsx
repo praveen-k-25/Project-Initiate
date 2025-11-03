@@ -83,7 +83,7 @@ const Login: FC<loginComponentProps> = (props) => {
       dispatch(setAuth(response.success));
       dispatch(setUser(response.data));
       dispatch(setMaps("street"));
-      dispatch(setVehicleStatusUser(response.data.id));
+      dispatch(setVehicleStatusUser(response.data.vehicles));
       dispatch(setSliceTheme(localStorage?.getItem("metron-theme")));
       navigate("/dashboard", { replace: true });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

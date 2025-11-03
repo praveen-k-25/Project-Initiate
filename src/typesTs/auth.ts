@@ -29,6 +29,7 @@ export interface recievedLogin {
     username: string;
     email: string;
     id: string;
+    vehicles: string[];
   };
 }
 

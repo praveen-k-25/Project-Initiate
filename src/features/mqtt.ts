@@ -35,11 +35,13 @@ export default function userTracker(user: any) {
     //toast.success("✅ Connected to MQTT broker");
 
     user.vehicles.forEach((vehicle: any) => {
-      console.log(vehicle);
       // Subscribe to vehicles
       client?.subscribe(`user/processed/${vehicle}`, (err) => {
         if (err) console.log("Subscription error:", err);
         else console.log(`📡 Subscribed to ${vehicle}`);
+      });
+      toast.success(`📡 Subscribed to ${vehicle}`, {
+        position: "bottom-center",
       });
     });
   });
