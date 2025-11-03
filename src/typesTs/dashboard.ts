@@ -7,3 +7,13 @@ export interface vehicleCardProps {
   theme: string;
   changeOpen: () => void;
 }
+
+export interface vehicleData {
+  user: string;
+  timestamp: number;
+  time: string;
+  lat: number;
+  lng: number;
+  speed: number;
+  status: string;
+}

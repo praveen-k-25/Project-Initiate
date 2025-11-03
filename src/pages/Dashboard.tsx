@@ -14,15 +14,21 @@ import ZoomControl from "../components/partials/ZoomControl";
 import { setMaps } from "../store/auth_slice";
 import type { rootState } from "../store/store";
 import VehicleCard from "../components/partials/VehicleCard";
+import type { vehicleData } from "../typesTs/dashboard";
+import { dashboardVehicles } from "../handler/api_handler";
 
 const Dashboard = () => {
   const { BaseLayer } = LayersControl;
   const dispatch = useDispatch();
-  const { map, theme } = useSelector((state: rootState) => state.auth);
-  const { vehicleStatus } = useSelector((state: rootState) => state.live);
-
   const mapRef = useRef<L.Map>(null);
-  const [data, setData] = useState<any[][]>([]);
+  const { map, theme, user } = useSelector((state: rootState) => state.auth);
+  const { vehicleStatus } = useSelector((state: rootState) => state.live);
+  const [selectedVehicle, setSelectedVehicle] = useState<vehicleData | null>(
+    null
+  );
+  const [selectedvehiclePolyline, setSelectedvehiclePolyline] = useState<
+    [number, number][]
+  >([]); //
 
   // Vehicle Card States
   const [isVehicleCardOpen, setIsVehicleCardOpen] = useState(false);
@@ -35,12 +41,31 @@ const Dashboard = () => {
     setTimeout(() => {
       setIsVehicleCardOpen(true);
     }, 1000);
+    handleDashboardData();
   }, []);
 
   useEffect(() => {
-    if (vehicleStatus.lat !== 0)
-      setData((item) => [...item, [vehicleStatus.lat, vehicleStatus.lng]]);
-  }, [vehicleStatus]);
+    if (selectedVehicle) {
+      setSelectedvehiclePolyline((prev) => [
+        [selectedVehicle.lat, selectedVehicle.lng],
+        ...prev,
+      ]);
+    } else {
+      setSelectedvehiclePolyline([]);
+    }
+  }, [selectedVehicle]);
+
+  const handleDashboardData = async () => {
+    const payload = {
+      user: user.id,
+    };
+    try {
+      const response = await dashboardVehicles(payload);
+      console.log(response);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="flex-1 h-screen bg-[var(--background)]">
@@ -79,11 +104,27 @@ const Dashboard = () => {
             </BaseLayer>
           </LayersControl>
 
-          <Marker position={[vehicleStatus.lat, vehicleStatus.lng]} />
+          {selectedVehicle ? (
+            <Marker position={[selectedVehicle.lat, selectedVehicle.lng]} />
+          ) : (
+            vehicleStatus.map((item) => (
+              <Marker
+                key={item.user}
+                position={[item.lat, item.lng]}
+                eventHandlers={{
+                  click: () => {
+                    !selectedVehicle
+                      ? setSelectedVehicle(item)
+                      : setSelectedVehicle(null);
+                  },
+                }}
+              />
+            ))
+          )}
 
-          {data.length > 0 && (
+          {selectedVehicle && (
             <Polyline
-              positions={data}
+              positions={selectedvehiclePolyline}
               color="blue"
               weight={5}
               opacity={1}
@@ -93,11 +134,15 @@ const Dashboard = () => {
 
           <ZoomControl />
           <MapLayers handleLayers={handleLayers} />
-          <MapRecenter
-            lat={vehicleStatus.lat}
-            lng={vehicleStatus.lng}
-            timestamp={vehicleStatus.timestamp}
-          />
+
+          {selectedVehicle ? (
+            <MapRecenter
+              vehicleStatus={null}
+              selectedVehicle={selectedVehicle}
+            />
+          ) : (
+            <MapRecenter selectedVehicle={null} vehicleStatus={vehicleStatus} />
+          )}
         </MapContainer>
       </div>
     </div>

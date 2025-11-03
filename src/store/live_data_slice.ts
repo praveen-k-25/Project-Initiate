@@ -35,6 +35,7 @@ const vehicleStatusDashboard = createSlice({
     },
 
     updateVehicleStatus: (state, action: PayloadAction<any>) => {
+      console.log(initialState.vehicleStatus);
       if (state.vehicleStatus.length > 0) {
         let data = state.vehicleStatus.map((item: any) => {
           if (item.user === action.payload.user) {

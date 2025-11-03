@@ -7,7 +7,6 @@ import type {
   resetPasswordData,
   reportRecieved,
   reportData,
-  proxyData,
 } from "../typesTs/auth";
 
 async function axiosRequestHandler<T>(
@@ -65,6 +64,10 @@ export const resetPassword = async (
   return await axiosRequestHandler("/user/forgotPassword", "POST", data);
 };
 
+export const dashboardVehicles = async (data: any): Promise<any> => {
+  return await axiosRequestHandler("/data/dashboardVehicle", "POST", data);
+};
+
 export const movingReport = async (
   data: reportData
 ): Promise<reportRecieved> => {
@@ -75,12 +78,4 @@ export const playbackReport = async (
   data: reportData
 ): Promise<reportRecieved> => {
   return await axiosRequestHandler("/data/playback", "POST", data);
-};
-
-export const orsProxy = async (data: proxyData): Promise<any> => {
-  return await axiosRequestHandler("/data/match", "POST", data);
-};
-
-export const snaps = async (data: any): Promise<any> => {
-  return await axiosRequestHandler("/data/snap", "POST", data);
 };

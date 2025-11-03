@@ -61,7 +61,7 @@ export default function userTracker(user: any) {
   client.on("message", (topic, message) => {
     if (!topic) return;
     store.dispatch(updateVehicleStatus(JSON.parse(message.toString())));
-    console.log(JSON.parse(message.toString()));
+    //console.log(JSON.parse(message.toString()));
   });
 
   // 🔁 Periodic location publishing
@@ -74,7 +74,7 @@ export default function userTracker(user: any) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const payload = {
-            user: user,
+            user: user.id,
             lat: pos.coords.latitude,
             lng: pos.coords.longitude,
             speed: pos.coords.speed || -1,
