@@ -35,6 +35,7 @@ export default function userTracker(user: any) {
     //toast.success("✅ Connected to MQTT broker");
 
     user.vehicles.forEach((vehicle: any) => {
+      console.log(vehicle);
       // Subscribe to vehicles
       client?.subscribe(`user/processed/${vehicle}`, (err) => {
         if (err) console.log("Subscription error:", err);
@@ -85,7 +86,9 @@ export default function userTracker(user: any) {
               `user/location/${payload.user}`,
               JSON.stringify(payload)
             );
-            toast.success("📡 Location Sent");
+            toast.success("📡 Location Sent", {
+              position: "bottom-right",
+            });
           }
         },
         () => toast.error("Please turn on location services"),
