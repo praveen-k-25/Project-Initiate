@@ -43,7 +43,7 @@ const MapRecenter: FC<props> = (props) => {
 
   useEffect(() => {
     handleCenter();
-  }, [selectedVehicle]);
+  }, [selectedVehicle, vehicleStatus]);
 
   return (
     <section className="bg-[var(--button)] rounded-md p-[3px] cursor-pointer absolute top-[115px] right-3 z-[999]">

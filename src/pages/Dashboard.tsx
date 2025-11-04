@@ -16,6 +16,7 @@ import type { rootState } from "../store/store";
 import VehicleCard from "../components/partials/VehicleCard";
 import type { vehicleData } from "../typesTs/dashboard";
 import { dashboardVehicles } from "../handler/api_handler";
+import { setVehicleStatusUser } from "../store/live_data_slice";
 
 const Dashboard = () => {
   const { BaseLayer } = LayersControl;
@@ -28,7 +29,7 @@ const Dashboard = () => {
   );
   const [selectedvehiclePolyline, setSelectedvehiclePolyline] = useState<
     [number, number][]
-  >([]); //
+  >([]);
 
   // Vehicle Card States
   const [isVehicleCardOpen, setIsVehicleCardOpen] = useState(false);
@@ -61,7 +62,7 @@ const Dashboard = () => {
     };
     try {
       const response = await dashboardVehicles(payload);
-      console.log(response);
+      dispatch(setVehicleStatusUser(response.data));
     } catch (error: any) {
       console.log(error.message);
     }
@@ -84,7 +85,7 @@ const Dashboard = () => {
           maxZoom={18}
           scrollWheelZoom={true}
           attributionControl={false}
-          className="h-full flex-1 rounded-md relative overflow-hidden"
+          className="h-full flex-1 rounded-md relative"
         >
           <LayersControl position="topright">
             <BaseLayer checked={map === "osm"} name="OSM">
@@ -105,7 +106,12 @@ const Dashboard = () => {
           </LayersControl>
 
           {selectedVehicle ? (
-            <Marker position={[selectedVehicle.lat, selectedVehicle.lng]} />
+            <Marker
+              position={[selectedVehicle.lat, selectedVehicle.lng]}
+              eventHandlers={{
+                click: () => setSelectedVehicle(null),
+              }}
+            />
           ) : (
             vehicleStatus.map((item) => (
               <Marker
@@ -135,14 +141,10 @@ const Dashboard = () => {
           <ZoomControl />
           <MapLayers handleLayers={handleLayers} />
 
-          {selectedVehicle ? (
-            <MapRecenter
-              vehicleStatus={null}
-              selectedVehicle={selectedVehicle}
-            />
-          ) : (
-            <MapRecenter selectedVehicle={null} vehicleStatus={vehicleStatus} />
-          )}
+          <MapRecenter
+            vehicleStatus={vehicleStatus}
+            selectedVehicle={selectedVehicle}
+          />
         </MapContainer>
       </div>
     </div>

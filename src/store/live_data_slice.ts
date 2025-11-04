@@ -23,19 +23,18 @@ const vehicleStatusDashboard = createSlice({
   initialState,
   reducers: {
     setVehicleStatusUser: (state, action: PayloadAction<any>) => {
-      state.vehicleStatus = action.payload.map((item: string) => ({
-        user: item,
-        timestamp: 0,
-        time: 0,
-        lat: 0,
-        lng: 0,
-        speed: 0,
-        status: "",
+      state.vehicleStatus = action.payload.map((item: any) => ({
+        user: item.user,
+        timestamp: item.timestamp,
+        time: item.time,
+        lat: item.lat,
+        lng: item.lng,
+        speed: item.speed,
+        status: item.status,
       }));
     },
 
     updateVehicleStatus: (state, action: PayloadAction<any>) => {
-      console.log(initialState.vehicleStatus);
       if (state.vehicleStatus.length > 0) {
         let data = state.vehicleStatus.map((item: any) => {
           if (item.user === action.payload.user) {

@@ -334,7 +334,7 @@ const MobileSidebar: FC = () => {
                   />
                 </span>
                 <ul
-                  className={`absolute top-[44px] w-[170px] h-[188px] flex flex-col justify-start items-start overflow-y-auto right-0 overflow-hidden ml-1 p-1 rounded-md bg-[var(--primary-background)] transition-all duration-300 ${showPageNavOptions ? "opacity-100 z-10 translate-0" : "opacity-0 -z-20 translate-y-2"}`}
+                  className={`absolute top-[44px] w-[170px] h-[188px] flex flex-col justify-start items-start overflow-y-auto right-0 overflow-hidden ml-1 p-1 rounded-md bg-[var(--primary-background)] transition-all duration-300 ${showPageNavOptions ? "opacity-100 z-[999] translate-0" : "opacity-0 -z-20 translate-y-2"}`}
                 >
                   {sidebarMain.map((menu, index) => {
                     if (!menu.submenu) {
@@ -423,7 +423,7 @@ const MobileSidebar: FC = () => {
               >
                 {footer.title[0].toLowerCase()}
                 <ul
-                  className={`fixed top-[48px] right-[10px] transition-all duration-300 ${showProfileOptions ? "opacity-100 translate-0 z-10 " : "opacity-0 -z-20 -translate-y-2"} rounded-md bg-[var(--primary-background)] w-[120px] flex flex-col gap-1 p-1`}
+                  className={`fixed top-[48px] right-[10px] transition-all duration-300 ${showProfileOptions ? "opacity-100 translate-0 z-[9999] " : "opacity-0 -z-20 -translate-y-2"} rounded-md bg-[var(--primary-background)] w-[120px] flex flex-col gap-1 p-1`}
                 >
                   <li className="text-[var(--text)] text-center py-1 rounded-md hover:bg-[var(--button-primary)] bg-[var(--button-sec)] ">
                     Profile
