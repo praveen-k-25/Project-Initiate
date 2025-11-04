@@ -2,6 +2,7 @@ import mqtt from "mqtt";
 import toast from "react-hot-toast";
 import { store } from "../store/store";
 import { updateVehicleStatus } from "../store/live_data_slice";
+import { calculateBearing } from "./haversineDistance";
 
 function getTime() {
   const date = new Date();
@@ -15,6 +16,7 @@ function getTime() {
 }); */
 
 let locationInterval: any = null;
+let previousLocation: any = null;
 let client: mqtt.MqttClient | null = null;
 
 export default function userTracker(user: any) {
@@ -60,12 +62,24 @@ export default function userTracker(user: any) {
 
   client.on("message", (topic, message) => {
     if (!topic) return;
+    let deg = 0;
+    let data = JSON.parse(message.toString());
+    if (!previousLocation) {
+      previousLocation = JSON.parse(message.toString());
+    } else {
+      deg = calculateBearing(
+        data.lat,
+        data.lng,
+        previousLocation.lat,
+        previousLocation.lng
+      );
+      data.deg = deg;
+    }
     store.dispatch(updateVehicleStatus(JSON.parse(message.toString())));
-    //console.log(JSON.parse(message.toString()));
   });
 
   // 🔁 Periodic location publishing
-  if (ua.includes("Mobile")) {
+  if (ua.includes("Mobile") && user.email !== "master@gmail.com") {
     if (locationInterval) clearInterval(locationInterval);
 
     locationInterval = setInterval(() => {

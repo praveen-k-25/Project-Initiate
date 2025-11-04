@@ -16,4 +16,5 @@ export interface vehicleData {
   lng: number;
   speed: number;
   status: string;
+  deg: number;
 }

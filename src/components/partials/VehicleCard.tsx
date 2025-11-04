@@ -8,10 +8,10 @@ const VehicleCard: FC<vehicleCardProps> = (props) => {
   const { isOpen, changeOpen, theme } = props;
   return (
     <div
-      className={`relative h-full transition-[width] duration-300 ease-in-out ${isOpen ? "mr-[2px] w-[290px] sm:w-[320px]" : "w-0"} flex justify-center items-center bg-[var(--button-sec)] rounded-md`}
+      className={`relative h-full transition-[width] duration-300 ease-in-out ${isOpen ? "mr-[2px] w-[290px] sm:w-[320px]" : "w-0"} flex flex-col justify-center items-center bg-[var(--button-sec)] rounded-md`}
     >
       <button
-        className={`rounded-md p-[7px] w-[30px] h-[40px] bg-[var(--button)] border-[var(--border)] flex justify-center items-center absolute top-2 right-2 transition-all duration-300 ease-in-out ${!isOpen && "translate-x-[42px] -translate-y-1"} z-[9999] shadow-[0_0_3px_0_#7F7F7F]`}
+        className={`rounded-md p-[7px] w-[30px] h-[40px] bg-[var(--button)] border-[var(--border)] flex justify-center items-center absolute top-2 right-2 transition-all duration-300 ease-in-out ${!isOpen && "translate-x-[42px] -translate-y-1"} z-[9990] shadow-[0_0_3px_0_#7F7F7F]`}
         type="button"
         onClick={changeOpen}
       >

@@ -8,6 +8,7 @@ interface vehicleStatus {
   lng: number;
   speed: number;
   status: string;
+  deg: number;
 }
 
 interface initialState {
