@@ -1,13 +1,7 @@
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef, useState } from "react";
-import {
-  LayersControl,
-  MapContainer,
-  Marker,
-  Polyline,
-  TileLayer,
-} from "react-leaflet";
+import { LayersControl, MapContainer, Marker, TileLayer } from "react-leaflet";
 import { useDispatch, useSelector } from "react-redux";
 import MapLayers from "../components/partials/MapLayers";
 import MapRecenter from "../components/partials/MapRecenter";
