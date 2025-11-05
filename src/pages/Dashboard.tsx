@@ -27,6 +27,7 @@ const Dashboard = () => {
   const { BaseLayer } = LayersControl;
   const dispatch = useDispatch();
   const mapRef = useRef<L.Map>(null);
+  const polylineRef = useRef<L.Polyline>(null);
   const { map, theme, user } = useSelector((state: rootState) => state.auth);
   const { vehicleStatus } = useSelector((state: rootState) => state.live);
   const [selectedVehicle, setSelectedVehicle] = useState<selectedVehicle>(null);
@@ -43,20 +44,68 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    if (!mapRef.current) return;
+
+    // Initialize polyline once
+    if (!polylineRef.current) {
+      polylineRef.current = L.polyline([], {
+        color: "blue",
+        weight: 4,
+        opacity: 1,
+        lineCap: "round",
+        smoothFactor: 1,
+      }).addTo(mapRef.current);
+    }
+
+    // Only update when a vehicle is selected
     if (selectedVehicle) {
-      setSelectedPolyline((prev) => [
-        [selectedVehicle.lat, selectedVehicle.lng],
-        ...prev,
-      ]);
+      selectedPolyline;
+      const newPoint: [number, number] = [
+        selectedVehicle.lat,
+        selectedVehicle.lng,
+      ];
+
+      // Append point only if it's new (avoid duplicate redraws)
+      setSelectedPolyline((prev) => {
+        const last = prev[prev.length - 1];
+        if (
+          !last ||
+          last[0] !== newPoint[0] ||
+          last[1] !== newPoint[1] ||
+          selectedVehicle.status === "inactive"
+        ) {
+          polylineRef.current?.addLatLng(newPoint);
+          return [...prev, newPoint];
+        }
+        return prev;
+      });
     } else {
+      // Reset when no vehicle selected
+      polylineRef.current?.setLatLngs([]);
       setSelectedPolyline([]);
     }
   }, [selectedVehicle]);
 
-  const handleLayers = (layer: string) => dispatch(setMaps(layer));
+  useEffect(() => {
+    if (selectedVehicle) {
+      let vehicle = vehicleStatus.find(
+        (item: any) => item.user === selectedVehicle.user
+      );
+
+      if (vehicle) {
+        setSelectedVehicle(vehicle);
+      }
+    }
+  }, [vehicleStatus]);
 
   const handleDashboardData = async () => {
-    const payload = {
+    /*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Fetches vehicle status data from the backend and updates the redux store.
+     *
+     * @throws {Error} - If there is an error while fetching the data.
+     */
+    /*******  233656fa-16e5-4c2d-8d11-f68db97a2c52  *******/ const payload = {
       user: user.id,
     };
     try {
@@ -67,32 +116,8 @@ const Dashboard = () => {
     }
   };
 
-  /*   const VehicleMarker = (status: string, direction: number) => {
-    const icon = L.divIcon({
-      className: "plane-icon",
-      html: `<div style="
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:60px;
-      height:60px;
-      border-radius:100%;
-      background-color:${status === "moving" ? "#0000ff1a" : status === "idle" ? "#fff7001a" : "#5b5b5b1c"};
-      transform: rotate(${direction}deg);
-    ">
-      <svg fill="${status === "moving" ? "#0000FF" : status === "idle" ? "#FFBB00" : "#5B5B5B"}"
-        viewBox="0 0 256 256" width="24" height="24">
-        <path d="M230.251,103.83008A15.76842,15.76842,0,0,1,218.96,118.8457l-76.55664,23.55567-23.55566,76.55468a15.76424,15.76424,0,0,1-15.01465,11.292c-.09863.00195-.19922.00293-.29785.00293a15.75666,15.75666,0,0,1-15.09961-10.76563L29.83105,50.18164A15.99955,15.99955,0,0,1,50.18457,29.82812L219.4873,88.43359A15.76429,15.76429,0,0,1,230.251,103.83008Z"/>
-      </svg>
-    </div>`,
-      iconSize: [60, 60],
-      iconAnchor: [30, 30], // ⬅️ Centers the marker perfectly
-    });
-
-    return icon;
-  }; */
-
   const handleSelectedVehicle = () => setSelectedVehicle(null);
+  const handleLayers = (layer: string) => dispatch(setMaps(layer));
 
   return (
     <div className="flex-1 h-screen bg-[var(--background)]">
@@ -150,16 +175,6 @@ const Dashboard = () => {
                 }}
               />
             ))
-          )}
-
-          {selectedVehicle && (
-            <Polyline
-              positions={selectedPolyline}
-              color="blue"
-              weight={5}
-              opacity={1}
-              lineCap="round"
-            />
           )}
 
           <ZoomControl />

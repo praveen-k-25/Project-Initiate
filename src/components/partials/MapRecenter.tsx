@@ -13,6 +13,7 @@ const MapRecenter: FC<props> = (props) => {
   const { vehicleStatus, selectedVehicle } = props;
   const map = useMap();
   const { theme } = useSelector((state: any) => state.auth);
+  let firstTime = 0;
 
   /*   useEffect(() => {
     if (playbackData?.length > 1) {
@@ -26,7 +27,6 @@ const MapRecenter: FC<props> = (props) => {
 
   const handleCenter = () => {
     if (selectedVehicle) {
-      console.log("selectedVehicle", selectedVehicle);
       map.flyTo([selectedVehicle.lat, selectedVehicle.lng], 17, {
         animate: true,
         duration: 1.0,
@@ -43,7 +43,14 @@ const MapRecenter: FC<props> = (props) => {
 
   useEffect(() => {
     handleCenter();
-  }, [selectedVehicle, vehicleStatus]);
+  }, [selectedVehicle]);
+
+  useEffect(() => {
+    if (firstTime === 0) {
+      handleCenter();
+      firstTime++;
+    }
+  }, [vehicleStatus]);
 
   return (
     <section className="bg-[var(--button)] rounded-md p-[3px] cursor-pointer absolute top-[115px] right-3 z-[999]">
