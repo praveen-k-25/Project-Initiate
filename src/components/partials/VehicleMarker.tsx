@@ -1,11 +1,11 @@
 import { Marker, useMap } from "react-leaflet";
 import { useEffect, useState, type FC } from "react";
 import L from "leaflet";
-import type { vehicleData } from "../../typesTs/dashboard";
+import type { vehicleStatusData } from "../../typesTs/dashboard";
 
 interface vehiclemarker {
-  selectedVehicle: vehicleData;
-  handleSelectedVehicle: () => void;
+  selectedVehicle: vehicleStatusData;
+  handleSelectedVehicle: (data: vehicleStatusData | null) => void;
 }
 
 const VehicleMarker: FC<vehiclemarker> = (props) => {
@@ -32,9 +32,9 @@ const VehicleMarker: FC<vehiclemarker> = (props) => {
       width:${size}px;height:${size}px;
       border-radius:50%;
       background-color:${
-        selectedVehicle.status === "moving"
+        selectedVehicle.status === 1
           ? "#0000FF"
-          : selectedVehicle.status === "idle"
+          : selectedVehicle.status === 2
             ? "#FFBB00"
             : "#5B5B5B"
       };
@@ -48,18 +48,18 @@ const VehicleMarker: FC<vehiclemarker> = (props) => {
       width:${size}px;height:${size}px;
       border-radius:100%;
       background-color:${
-        selectedVehicle.status === "moving"
+        selectedVehicle.status === 1
           ? "#0000ff1a"
-          : selectedVehicle.status === "idle"
+          : selectedVehicle.status === 2
             ? "#fff7001a"
             : "#5b5b5b1c"
       };
     ">
-      <svg style="transform: rotate(${selectedVehicle.deg}deg); transition: transform 0.3s ease;"
+      <svg style="transform: rotate(0deg); transition: transform 0.3s ease;"
         fill="${
-          selectedVehicle.status === "moving"
+          selectedVehicle.status === 1
             ? "#0000FF"
-            : selectedVehicle.status === "idle"
+            : selectedVehicle.status === 2
               ? "#FFBB00"
               : "#5B5B5B"
         }"
@@ -75,7 +75,7 @@ const VehicleMarker: FC<vehiclemarker> = (props) => {
   return (
     <Marker
       eventHandlers={{
-        click: handleSelectedVehicle,
+        click: () => handleSelectedVehicle(null),
       }}
       position={[selectedVehicle.lat, selectedVehicle.lng]}
       icon={icon}

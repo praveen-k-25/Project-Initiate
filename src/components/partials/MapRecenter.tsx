@@ -27,9 +27,9 @@ const MapRecenter: FC<props> = (props) => {
 
   const handleCenter = () => {
     if (selectedVehicle) {
-      map.flyTo([selectedVehicle.lat, selectedVehicle.lng], 17, {
+      map.flyTo([selectedVehicle.lat, selectedVehicle.lng], 18, {
         animate: true,
-        duration: 1.0,
+        duration: 2.0,
       });
     } else {
       let data = vehicleStatus.map((item: any) => [item.lat, item.lng]);

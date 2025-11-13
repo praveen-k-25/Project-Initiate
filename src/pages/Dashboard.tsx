@@ -11,11 +11,11 @@ import { dashboardVehicles } from "../handler/api_handler";
 import { setMaps } from "../store/auth_slice";
 import { setVehicleStatusUser } from "../store/live_data_slice";
 import type { rootState } from "../store/store";
-import type { vehicleData } from "../typesTs/dashboard";
+import type { vehicleStatusData } from "../typesTs/dashboard";
 import VehicleMarker from "../components/partials/VehicleMarker";
 
 type polylineData = [number, number][];
-type selectedVehicle = vehicleData | null;
+type selectedVehicle = vehicleStatusData | null;
 
 const Dashboard = () => {
   const { BaseLayer } = LayersControl;
@@ -66,7 +66,7 @@ const Dashboard = () => {
           !last ||
           last[0] !== newPoint[0] ||
           last[1] !== newPoint[1] ||
-          selectedVehicle.status === "inactive"
+          selectedVehicle.status === 3
         ) {
           polylineRef.current?.addLatLng(newPoint);
           return [...prev, newPoint];
@@ -93,13 +93,7 @@ const Dashboard = () => {
   }, [vehicleStatus]);
 
   const handleDashboardData = async () => {
-    /*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Fetches vehicle status data from the backend and updates the redux store.
-     *
-     * @throws {Error} - If there is an error while fetching the data.
-     */
-    /*******  233656fa-16e5-4c2d-8d11-f68db97a2c52  *******/ const payload = {
+    const payload = {
       user: user.id,
     };
     try {
@@ -110,7 +104,8 @@ const Dashboard = () => {
     }
   };
 
-  const handleSelectedVehicle = () => setSelectedVehicle(null);
+  const handleSelectedVehicle = (data: selectedVehicle) =>
+    setSelectedVehicle(data);
   const handleLayers = (layer: string) => dispatch(setMaps(layer));
 
   return (
@@ -120,6 +115,8 @@ const Dashboard = () => {
           isOpen={isVehicleCardOpen}
           theme={theme || "light"}
           changeOpen={() => setIsVehicleCardOpen(!isVehicleCardOpen)}
+          handleSelectedVehicle={handleSelectedVehicle}
+          selectedVehicle={selectedVehicle}
         />
         <MapContainer
           ref={mapRef}

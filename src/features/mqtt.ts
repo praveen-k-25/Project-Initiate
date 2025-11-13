@@ -9,12 +9,6 @@ function getTime() {
   return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 }
 
-/* export const client = mqtt.connect(import.meta.env.VITE_MQTT, {
-  clientId: `react_frontend_${Math.random().toString(16).slice(3)}`,
-  clean: true,
-  reconnectPeriod: 5000, // auto reconnect every 5s
-}); */
-
 let locationInterval: any = null;
 let previousLocation: any = null;
 let client: mqtt.MqttClient | null = null;
@@ -27,7 +21,7 @@ export default function userTracker(user: any) {
   client = mqtt.connect(import.meta.env.VITE_MQTT, {
     clientId: `react_frontend_${Math.random().toString(16).slice(3)}`,
     clean: true,
-    reconnectPeriod: 5000, // auto reconnect every 5s
+    //reconnectPeriod: 5000, // auto reconnect every 5s
   });
 
   if (!client) return;
@@ -36,9 +30,9 @@ export default function userTracker(user: any) {
     isOnline = true;
     //toast.success("✅ Connected to MQTT broker");
 
-    user.vehicles.forEach((vehicle: any) => {
+    user.vehicles.forEach((vehicle: { id: string; username: string }) => {
       // Subscribe to vehicles
-      client?.subscribe(`user/processed/${vehicle}`, (err) => {
+      client?.subscribe(`user/processed/${vehicle.id}`, (err) => {
         if (err) console.log("Subscription error:", err);
         else console.log(`📡 Subscribed to ${vehicle}`);
       });

@@ -6,15 +6,16 @@ export interface vehicleCardProps {
   isOpen: boolean;
   theme: string;
   changeOpen: () => void;
+  handleSelectedVehicle: (data: vehicleStatusData | null) => void;
+  selectedVehicle: vehicleStatusData | null;
 }
 
-export interface vehicleData {
-  user: string;
-  timestamp: number;
+export interface vehicleStatusData {
   time: string;
+  user: string;
+  username: string;
   lat: number;
   lng: number;
   speed: number;
-  status: string;
-  deg: number;
+  status: number;
 }

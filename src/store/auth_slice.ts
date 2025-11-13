@@ -6,6 +6,7 @@ interface initialState {
     email: string;
     username: string;
     id: string;
+    vehicles: { id: string; username: string }[];
   };
   theme: string | null;
   map: string;
@@ -17,6 +18,7 @@ const initialState: initialState = {
     email: "",
     username: "",
     id: "",
+    vehicles: [],
   },
   theme: "",
   map: "street",
@@ -44,6 +46,7 @@ const authSlice = createSlice({
         email: "",
         username: "",
         id: "",
+        vehicles: [],
       };
     },
   },

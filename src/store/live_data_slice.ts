@@ -1,18 +1,8 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
-interface vehicleStatus {
-  user: string;
-  timestamp: number;
-  time: string;
-  lat: number;
-  lng: number;
-  speed: number;
-  status: string;
-  deg: number;
-}
+import type { vehicleStatusData } from "../typesTs/dashboard";
 
 interface initialState {
-  vehicleStatus: vehicleStatus[];
+  vehicleStatus: vehicleStatusData[];
 }
 
 const initialState: initialState = {
@@ -24,9 +14,10 @@ const vehicleStatusDashboard = createSlice({
   initialState,
   reducers: {
     setVehicleStatusUser: (state, action: PayloadAction<any>) => {
+      console.log(action.payload);
       state.vehicleStatus = action.payload.map((item: any) => ({
         user: item.user,
-        timestamp: item.timestamp,
+        username: item.username,
         time: item.time,
         lat: item.lat,
         lng: item.lng,
@@ -41,7 +32,6 @@ const vehicleStatusDashboard = createSlice({
           if (item.user === action.payload.user) {
             return {
               ...item,
-              timestamp: action.payload.timestamp,
               time: action.payload.time,
               lat: action.payload.lat,
               lng: action.payload.lng,
