@@ -20,6 +20,8 @@ export default function userTracker(user: any) {
 
   client = mqtt.connect(import.meta.env.VITE_MQTT, {
     clientId: `react_frontend_${Math.random().toString(16).slice(3)}`,
+    username: import.meta.env.VITE_MQTT_USERNAME,
+    password: import.meta.env.VITE_MQTT_PASSWORD,
     clean: true,
     //reconnectPeriod: 5000, // auto reconnect every 5s
   });
