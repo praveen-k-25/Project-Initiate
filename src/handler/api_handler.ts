@@ -33,6 +33,7 @@ async function axiosRequestHandler<T>(
       data,
       headers,
       withCredentials: true,
+      timeout: 10000,
     });
     return response?.data as T;
   } catch (error: any) {

@@ -128,9 +128,9 @@ const Auth = () => {
                     <h2 className="text-2xl text-[var(--text)] text-center">
                       Create an account
                     </h2>
-                    <p className="text-sm text-center font-medium text-[var(--sub-text)]">
+                    {/* <p className="text-sm text-center font-medium text-[var(--sub-text)]">
                       Enter your email and password to access your account
-                    </p>
+                    </p> */}
                     <Register
                       accessPage={accessPage}
                       setAccessPage={setAccessPage}

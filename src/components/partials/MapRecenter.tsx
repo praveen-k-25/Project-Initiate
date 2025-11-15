@@ -15,29 +15,21 @@ const MapRecenter: FC<props> = (props) => {
   const { theme } = useSelector((state: any) => state.auth);
   let firstTime = 0;
 
-  /*   useEffect(() => {
-    if (playbackData?.length > 1) {
-      map.flyToBounds(playbackData, {
-        animate: true,
-        duration: 1.0,
-        maxZoom: 18,
-      });
-    }
-  }, [playbackData]); */
-
   const handleCenter = () => {
     if (selectedVehicle) {
       map.flyTo([selectedVehicle.lat, selectedVehicle.lng], 18, {
         animate: true,
-        duration: 2.0,
+        duration: 1.0,
       });
     } else {
       let data = vehicleStatus.map((item: any) => [item.lat, item.lng]);
-      data.length > 0 &&
+      if (data.length > 0) {
         map.flyToBounds(data, {
           animate: true,
           duration: 1.0,
+          maxZoom: 16,
         });
+      }
     }
   };
 

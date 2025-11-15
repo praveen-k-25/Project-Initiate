@@ -294,7 +294,7 @@ const MobileSidebar: FC = () => {
   };
 
   return (
-    <div className="w-full flex flex-row justify-between items-center bg-[var(--background)] px-2 py-1">
+    <div className="w-full flex flex-row justify-between items-center bg-[var(--background)] px-2 py-1 border-b-2 border-[var(--border)]">
       <section className="relative flex justify-center items-center my-1 overflow-hidden">
         {theme === "light" ? (
           <img

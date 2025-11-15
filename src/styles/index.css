@@ -48,17 +48,19 @@ icon-dark   -  #fafafa
   --icon-gray: rgb(123, 127, 131);
   --radius: 0.65rem; /* border radius */
   --destructive: oklch(0.577 0.245 27.325);
-  --primary: #1447e6;
+  --primary: oklch(48.78% 0.24331 264.421);
   --sub-primary: #1449e679;
   --input: #e5e5e5;
   --background: #fff;
   --primary-background: #ebe9e9;
+  --sec-background: #cacdf35a;
   --button: #fff;
   --button-primary: #e4e1e1;
   --button-sec: #dad9d957;
   --text: #0a0a0a;
   --sub-text: #71717b;
   --border: oklch(93.705% 0.00011 271.152); /* border color */
+  --box-shadow: #403f3fce;
 }
 
 .dark {
@@ -68,12 +70,14 @@ icon-dark   -  #fafafa
   --input: #aaa6a6;
   --background: #0a0a0a;
   --primary-background: #171717;
+  --sec-background: #cad2f35a;
   --button: #252525;
   --button-primary: #3c3c3c9a;
   --button-sec: #3c3c3c2c;
   --text: #fafafa;
   --sub-text: #71717b;
   --border: #252525;
+  --box-shadow: #bcbcbc86;
 }
 
 input:-webkit-autofill,

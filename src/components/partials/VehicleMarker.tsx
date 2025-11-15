@@ -1,19 +1,24 @@
 import { Marker, useMap } from "react-leaflet";
-import { useEffect, useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import L from "leaflet";
 import type { vehicleStatusData } from "../../typesTs/dashboard";
+import "leaflet.marker.slideto";
 
 interface vehiclemarker {
   selectedVehicle: vehicleStatusData;
   handleSelectedVehicle: (data: vehicleStatusData | null) => void;
 }
 
+type layLng = { lat: number; lng: number };
+
 const VehicleMarker: FC<vehiclemarker> = (props) => {
   const { selectedVehicle, handleSelectedVehicle } = props;
+  const [positions, setpositions] = useState<layLng | null>(null);
   const map = useMap();
   const [zoomLevel, setZoomLevel] = useState(map.getZoom());
   const scale = Math.max(0.2, Math.min(1, (zoomLevel - 8) / 4)); // 0.2–1 scale range
   const size = 60 * scale;
+  const markerRef = useRef<L.Marker & { slideTo?: Function }>(null);
 
   useEffect(() => {
     const handleZoom = () => setZoomLevel(map.getZoom());
@@ -55,7 +60,7 @@ const VehicleMarker: FC<vehiclemarker> = (props) => {
             : "#5b5b5b1c"
       };
     ">
-      <svg style="transform: rotate(0deg); transition: transform 0.3s ease;"
+      <svg
         fill="${
           selectedVehicle.status === 1
             ? "#0000FF"
@@ -72,12 +77,28 @@ const VehicleMarker: FC<vehiclemarker> = (props) => {
     iconAnchor: [size / 2, size / 2],
   });
 
+  useEffect(() => {
+    if (selectedVehicle) {
+      if (positions === null) {
+        setpositions({ lat: selectedVehicle.lat, lng: selectedVehicle.lng });
+      } else if (markerRef.current) {
+        markerRef?.current?.slideTo?.(
+          [selectedVehicle.lat, selectedVehicle.lng],
+          { duration: 1000 } // time in ms
+        );
+      }
+    } else {
+      setpositions(null);
+    }
+  }, [selectedVehicle]);
+
   return (
     <Marker
+      ref={markerRef}
       eventHandlers={{
         click: () => handleSelectedVehicle(null),
       }}
-      position={[selectedVehicle.lat, selectedVehicle.lng]}
+      position={[positions?.lat || 0, positions?.lng || 0]}
       icon={icon}
     />
   );

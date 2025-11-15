@@ -109,7 +109,7 @@ const Dashboard = () => {
   const handleLayers = (layer: string) => dispatch(setMaps(layer));
 
   return (
-    <div className="flex-1 h-screen bg-[var(--background)]">
+    <div className="flex-1 h-full bg-[var(--background)]">
       <div className="h-full w-full p-1 relative flex ">
         <VehicleCard
           isOpen={isVehicleCardOpen}

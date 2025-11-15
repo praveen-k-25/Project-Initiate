@@ -21,7 +21,7 @@ const Layout = () => {
       <div className="block sm:hidden relative">
         <MobileSidebar />
       </div>
-      <div className="flex-1 h-screen bg-[var(--background)] relative">
+      <div className="w-[100vw] h-[100vh] bg-[var(--background)] relative">
         <Outlet />
       </div>
     </div>
