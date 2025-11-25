@@ -72,7 +72,7 @@ const Auth = () => {
                 </span>
               </article>
               <article className="flex-1 flex flex-col justify-center items-center gap-2 m-2">
-                <div className="bg-[var(--primary-background)] px-5 py-6 rounded-[var(--radius)] border border-[var(--border)] flex flex-col justify-center gap-2">
+                <div className="bg-[var(--primary-background)] px-5 py-6 rounded-[var(--radius)] shadow-[0_0_4px_0_#818181] border border-[var(--border)] flex flex-col justify-center gap-2">
                   <h2 className="text-2xl text-center select-none text-[var(--text)]">
                     Welcome
                   </h2>
