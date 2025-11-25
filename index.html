@@ -19,10 +19,10 @@
         favicon.href = theme === "dark" ? darkIcon : lightIcon;
       }
 
-      const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
-      setFavicon(matchMedia.matches ? "dark" : "light");
+      const matchQuerry = window.matchMedia("(prefers-color-scheme: dark)");
+      setFavicon(matchQuerry.matches ? "dark" : "light");
 
-      matchMedia.addEventListener("change", (e) =>
+      matchQuerry.addEventListener("change", (e) =>
         setFavicon(e.matches ? "dark" : "light")
       );
     </script>
