@@ -1,50 +1,58 @@
-
 /* Geist font-face declarations */
 
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-Thin.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-Thin.woff2") format("woff2");
   font-weight: 100;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-ExtraLight.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-ExtraLight.woff2") format("woff2");
   font-weight: 200;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-Light.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-Light.woff2") format("woff2");
   font-weight: 300;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-Regular.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-Regular.woff2") format("woff2");
   font-weight: 400;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-Medium.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-Medium.woff2") format("woff2");
   font-weight: 500;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-SemiBold.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-SemiBold.woff2") format("woff2");
   font-weight: 600;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-Bold.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-Bold.woff2") format("woff2");
   font-weight: 700;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-ExtraBold.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-ExtraBold.woff2") format("woff2");
   font-weight: 800;
+  font-display: swap;
 }
 @font-face {
   font-family: "Geist Sans";
-  src: url("../assets/fonts/geist/Geist-Black.ttf") format("truetype");
+  src: url("../assets/fonts/geist/Geist-Black.woff2") format("woff2");
   font-weight: 900;
+  font-display: swap;
 }
 
 /* Apply Geist globally using Tailwind v4 base layer */
