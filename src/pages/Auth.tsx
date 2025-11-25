@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import loginBackgruoundImage from "../assets/images/birds-eye.jpg";
+import loginBackgruoundImage from "../assets/images/birds-eye.webp";
 import companyLogoDark from "../assets/svgs/logo-dark.svg";
 import companyLogo from "../assets/svgs/logo.svg";
 import Login from "../components/partials/Login";
