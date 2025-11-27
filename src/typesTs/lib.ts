@@ -3,3 +3,5 @@ export interface CheckboxProps {
   color?: string;
   onClick?: () => void;
 }
+
+export interface ReportFormProps {}
