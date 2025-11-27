@@ -4,19 +4,30 @@ import dropdown from "../../assets/svgs/dropdown.svg";
 import dropdown_dark from "../../assets/svgs/dropdown-dark.svg";
 import { sidebarFooter, sidebarMain } from "../../lib/sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState, type FC } from "react";
+import { useCallback, useEffect, useRef, useState, type FC } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { cleanupMqtt } from "../../features/mqtt";
+import ThemeSwitch from "../ui/ThemeSwitch";
+import useTheme from "../../hooks/useTheme";
 
 const Sidebar: FC = () => {
-  const { theme, user } = useSelector((state: any) => state.auth);
+  const { user } = useSelector((state: any) => state.auth);
+  const [theme, setTheme] = useTheme();
   const logoutRef = useRef<HTMLLIElement | null>(null);
   const { pathname } = useLocation();
   const [openDropdown, setOpenDropdown] = useState<string>("");
   const [historyDropdown, setHistoryDropdown] = useState<string>("");
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const handleTheme = useCallback(() => {
+    if (theme === "dark") {
+      setTheme("light");
+    } else {
+      setTheme("dark");
+    }
+  }, [theme, setTheme]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -67,7 +78,7 @@ const Sidebar: FC = () => {
         setOpenDropdown("");
         setShowLogout(false);
       }}
-      className={`h-full flex flex-col transition-[width] w-[55px] hover:w-[230px] ease-in-out duration-300 p-2 bg-[var(--background)] relative border-r border-[var(--border)]`}
+      className={`h-full flex flex-col transition-[width] w-[55px] hover:w-[230px] ease-in-out duration-300 p-2 bg-[var(--background)] relative border-r border-[var(--border)] group/sidebar`}
     >
       <div className="flex flex-col gap-3 h-full overflow-hidden">
         <header className="relative flex justify-center items-center gap-2 my-1 overflow-hidden">
@@ -126,7 +137,7 @@ const Sidebar: FC = () => {
                   className={`relative overflow-hidden rounded-md flex justify-start items-center gap-2 my-1 p-1 cursor-default transition-colors duration-150 ${
                     menu.activeList.includes(pathname)
                       ? "bg-[var(--button-primary)]"
-                      : "bg hover:bg-[var(--button-sec)]"
+                      : "hover:bg-[var(--button-sec)]"
                   }`}
                 >
                   <img
@@ -160,7 +171,7 @@ const Sidebar: FC = () => {
                         className={`p-2 pl-3 rounded-md my-1 cursor-default text-[var(--text)] text-sm font-normal capitalize transition-colors duration-150 ${
                           pathname === submenu.path
                             ? "bg-[var(--button-primary)]"
-                            : "bg hover:bg-[var(--button-sec)]"
+                            : "hover:bg-[var(--button-sec)]"
                         }`}
                       >
                         {submenu.title}{" "}
@@ -173,6 +184,22 @@ const Sidebar: FC = () => {
           })}
         </ul>
         <ul className="relative flex-1 flex flex-col gap-2 justify-end ml-1 my-1 bg-[var(--background)]">
+          <div
+            onClick={handleTheme}
+            className={`relative flex justify-start items-center gap-2 overflow-hidden whitespace-nowrap transition-[padding] ease-in-out duration-200 cursor-pointer p-0 rounded-md hover:bg-[var(--button-sec)] group-hover/sidebar:p-2 `}
+          >
+            <ThemeSwitch />
+            {theme === "light" ? (
+              <span className="font-semibold capitalize text-sm text-[var(--text)] z-0">
+                Light Mode
+              </span>
+            ) : (
+              <span className="font-semibold capitalize text-sm text-[var(--text)] z-0">
+                Dark Mode
+              </span>
+            )}
+            <div className="absolute inset-0 z-10"></div>
+          </div>
           {sidebarFooter.map((footer, index) => {
             if (footer.title === "logout") {
               return (
@@ -234,7 +261,6 @@ const Sidebar: FC = () => {
 };
 
 const MobileSidebar: FC = () => {
-  const { theme } = useSelector((state: any) => state.auth);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const profile = useRef<HTMLDivElement | null>(null);
@@ -242,6 +268,15 @@ const MobileSidebar: FC = () => {
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const [showPageNavOptions, setShowPageNavOptions] = useState(false);
   const [openDropdown, setOpenDropdown] = useState("");
+  const [theme, setTheme] = useTheme();
+
+  const handleTheme = useCallback(() => {
+    if (theme === "dark") {
+      setTheme("light");
+    } else {
+      setTheme("dark");
+    }
+  }, [theme, setTheme]);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -415,6 +450,13 @@ const MobileSidebar: FC = () => {
                     );
                   })}
                 </ul>
+              </div>
+              <div className="relative overflow-hidden">
+                <ThemeSwitch />
+                <div
+                  onClick={handleTheme}
+                  className="absolute z-10 inset-0 cursor-pointer"
+                ></div>
               </div>
               <div
                 ref={profile}

@@ -95,9 +95,9 @@ const VehiclesList: FC<vehicleCardList> = React.memo(
     return (
       <div
         onClick={handleClick}
-        className={`flex flex-col gap-2 p-3 rounded-lg text-[var(--text)] text-xs bg-[var(--button)] border-[var(--border)] ${selectedVehicle?.user === vehicle.user && "shadow-[0_0_4px_0_#515151] dark:shadow-[0_0_4px_0_#EEEEEE]"}`}
+        className={`min-w-full overflow-hidden flex flex-col gap-2 p-3 rounded-lg text-[var(--text)] text-xs bg-[var(--button)] border-[var(--border)] ${selectedVehicle?.user === vehicle.user ? "shadow-[0_0_4px_0_#515151] dark:shadow-[0_0_4px_0_#EEEEEE]" : "shadow-[0_0_2px_0_#515151] dark:shadow-[0_0_2px_0_#EEEEEE]"}`}
       >
-        <section className="w-full flex justify-between items-center">
+        <section className="w-full flex justify-between items-center whitespace-nowrap">
           <fieldset className="flex gap-5 items-center">
             {vehicle.status === 1 ? (
               <Navigation
@@ -145,7 +145,7 @@ const VehiclesList: FC<vehicleCardList> = React.memo(
                 : "Inactive"}
           </p>
         </section>
-        <section className="text-[10px] flex justify-between items-center">
+        <section className="text-[10px] flex justify-between items-center whitespace-nowrap">
           <fieldset className="">
             <p className="">Last Update :</p>
             <p className="">{vehicle.time}</p>
@@ -166,7 +166,7 @@ const VehiclesList: FC<vehicleCardList> = React.memo(
             </fieldset>
           </div>
         </section>
-        <section className="flex flex-row justify-between items-center gap-2">
+        <section className="flex flex-row justify-between items-center whitespace-nowrap gap-2 ">
           <fieldset className="w-[55px] flex flex-col items-start justify-start">
             <p className="text-[11px]">Speed :</p>
             <p className="">

@@ -25,7 +25,7 @@ const Auth = () => {
     } else {
       setTheme("dark");
     }
-  }, []);
+  }, [theme, setTheme]);
 
   return (
     <div className="relative w-screen h-screen">
