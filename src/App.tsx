@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import Parking from "./pages/reports/Parking";
 import Playback from "./pages/reports/Playback";
 import Inactive from "./pages/reports/Inactive";
+import ImageUploadS3 from "./pages/Test/ImageUploadS3";
 
 export default function App() {
   console.log(window.matchMedia("(prefers-colr-scheme: dark)"));
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/parking" element={<Parking />} />
             <Route path="/playback" element={<Playback />} />
             <Route path="/inactive" element={<Inactive />} />
+            <Route path="/demoImageUpload" element={<ImageUploadS3 />} />
             <Route
               path="/call"
               element={
