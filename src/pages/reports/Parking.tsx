@@ -1,4 +1,3 @@
-import { DataTable } from "../../components/partials/DataTable";
 import ReportForm from "../../components/ui/ReportForm";
 import { userColumns, type User } from "../../functions/columns";
 
@@ -11,7 +10,7 @@ const Parking = () => {
   }));
 
   return (
-    <div className="w-full h-full p-4 flex flex-col gap-3 justify-start items-start text-[var(--text)] relative overflow-y-auto overflow-x-hidden">
+    <div className="w-full h-full p-8 flex flex-col gap-3 justify-start items-start text-[var(--text)] relative overflow-y-auto overflow-x-hidden">
       <p className="font-semibold text-lg ">Travel Report</p>
       <ReportForm />
       {/* <DataTable<User>
