@@ -13,7 +13,7 @@ async function axiosRequestHandler<T>(
   url: string,
   method: AxiosRequestConfig["method"],
   data?: object | null,
-  formData?: boolean
+  formData?: boolean,
 ): Promise<T> {
   try {
     let headers = {};
@@ -54,13 +54,13 @@ export const registerOtp = async (data: otpData): Promise<otpRecieved> => {
 };
 
 export const forgotPasswordOtp = async (
-  data: otpData
+  data: otpData,
 ): Promise<otpRecieved> => {
   return await axiosRequestHandler("/user/forgotPasswordOtp", "POST", data);
 };
 
 export const resetPassword = async (
-  data: resetPasswordData
+  data: resetPasswordData,
 ): Promise<otpRecieved> => {
   return await axiosRequestHandler("/user/forgotPassword", "POST", data);
 };
@@ -70,13 +70,13 @@ export const dashboardVehicles = async (data: any): Promise<any> => {
 };
 
 export const movingReport = async (
-  data: reportData
+  data: reportData,
 ): Promise<reportRecieved> => {
   return await axiosRequestHandler("/data/moving", "POST", data);
 };
 
 export const playbackReport = async (
-  data: reportData
+  data: reportData,
 ): Promise<reportRecieved> => {
   return await axiosRequestHandler("/data/playback", "POST", data);
 };

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { MobileSidebar, Sidebar } from "../components/partials/Sidebar";
 import useTheme from "../hooks/useTheme";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import usertracker from "../features/mqtt";
 import { useSelector } from "react-redux";
 
@@ -22,7 +22,15 @@ const Layout = () => {
         <MobileSidebar />
       </div>
       <div className="w-[100vw] h-[100vh] bg-[var(--background)] relative">
-        <Outlet />
+        <Suspense
+          fallback={
+            <div className="w-full h-full flex justify-center items-center">
+              Loading...
+            </div>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </div>
     </div>
   );

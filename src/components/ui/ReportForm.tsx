@@ -6,8 +6,6 @@ import type { ReportFormProps } from "../../typesTs/lib";
 import pdfImage from "../../assets/svgs/pdf.svg";
 import excelImage from "../../assets/svgs/xls.svg";
 
-let visibleDownloadList = false;
-
 const ReportForm: FC<ReportFormProps> = (props) => {
   const {} = props;
   const isMulti = false;
