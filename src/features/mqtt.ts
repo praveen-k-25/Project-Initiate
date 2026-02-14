@@ -4,11 +4,6 @@ import { store } from "../store/store";
 import { updateVehicleStatus } from "../store/live_data_slice";
 import { calculateBearing } from "./haversineDistance";
 
-/* function getTime() {
-  const date = new Date();
-  return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-} */
-
 let locationInterval: any = null;
 let previousLocation: any = null;
 let client: mqtt.MqttClient | null = null;

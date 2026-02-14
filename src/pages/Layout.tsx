@@ -14,7 +14,7 @@ const Layout = () => {
   }, []);
 
   return (
-    <div className="w-screen h-screen flex flex-col sm:flex-row bg-[--background] overflow-y-auto">
+    <div className="w-[100dvw] h-[100dvh] md:w-screen md:h-screen flex flex-col sm:flex-row bg-[--background] overflow-y-auto">
       <div className="hidden sm:block sticky top-0 h-full">
         <Sidebar />
       </div>
