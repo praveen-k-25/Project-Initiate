@@ -89,7 +89,7 @@ export default function userTracker(user: any) {
             speed: pos.coords.speed || -1,
             /* timestamp: Date.now(),
             time: getTime(), */
-            timestamp: new Date(),
+            /* timestamp: new Date(), */
           };
 
           if (Date.now() - limit > 2500) {
