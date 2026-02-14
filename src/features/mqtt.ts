@@ -36,11 +36,10 @@ export default function userTracker(user: any) {
       // Subscribe to vehicles
       client?.subscribe(`user/processed/${vehicle.id}`, (err) => {
         if (err) console.log("Subscription error:", err);
-        else console.log(`📡 Subscribed to ${vehicle.id}`);
       });
-      toast.success(`📡 Subscribed to ${vehicle.id}`, {
+      /* toast.success(`📡 Subscribed to ${vehicle.id}`, {
         position: "bottom-center",
-      });
+      }); */
     });
   });
 
@@ -67,7 +66,7 @@ export default function userTracker(user: any) {
         data.lat,
         data.lng,
         previousLocation.lat,
-        previousLocation.lng
+        previousLocation.lng,
       );
       data.deg = deg;
     }
@@ -88,15 +87,16 @@ export default function userTracker(user: any) {
             lat: pos.coords.latitude,
             lng: pos.coords.longitude,
             speed: pos.coords.speed || -1,
-            timestamp: Date.now(),
-            time: getTime(),
+            /* timestamp: Date.now(),
+            time: getTime(), */
+            timestamp: new Date(),
           };
 
           if (Date.now() - limit > 2500) {
             limit = Date.now();
             client?.publish(
               `user/location/${payload.user}`,
-              JSON.stringify(payload)
+              JSON.stringify(payload),
             );
             toast.success("📡 Location Sent", {
               position: "bottom-right",
@@ -104,7 +104,7 @@ export default function userTracker(user: any) {
           }
         },
         () => toast.error("Please turn on location services"),
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
       );
     }, 2000);
   }

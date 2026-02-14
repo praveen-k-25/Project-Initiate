@@ -22,9 +22,9 @@
       const matchQuerry = window.matchMedia("(prefers-color-scheme: dark)");
       setFavicon(matchQuerry.matches ? "dark" : "light");
 
-      matchQuerry.addEventListener("change", (e) =>
-        setFavicon(e.matches ? "dark" : "light")
-      );
+      matchQuerry.addEventListener("change", (e) => {
+        setFavicon(e.matches ? "dark" : "light");
+      });
     </script>
   </body>
 </html>
