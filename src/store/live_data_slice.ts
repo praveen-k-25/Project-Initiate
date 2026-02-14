@@ -9,12 +9,16 @@ const initialState: initialState = {
   vehicleStatus: [],
 };
 
+function getTime(d: string) {
+  const date = new Date(d);
+  return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+}
+
 const vehicleStatusDashboard = createSlice({
   name: "live",
   initialState,
   reducers: {
     setVehicleStatusUser: (state, action: PayloadAction<any>) => {
-      console.log(action.payload);
       state.vehicleStatus = action.payload.map((item: any) => ({
         user: item.user,
         username: item.username,
@@ -32,7 +36,7 @@ const vehicleStatusDashboard = createSlice({
           if (item.user === action.payload.user) {
             return {
               ...item,
-              time: action.payload.time,
+              time: getTime(action.payload.timestamp),
               lat: action.payload.lat,
               lng: action.payload.lng,
               speed: action.payload.speed,

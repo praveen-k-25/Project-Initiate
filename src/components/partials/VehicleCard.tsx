@@ -211,7 +211,7 @@ const VehiclesList: FC<vehicleCardList> = React.memo(
         </section>
       </div>
     );
-  }
+  },
 );
 
 export default VehicleCard;
